@@ -1,6 +1,6 @@
 # Geolocating the point cloud from EXIF
 
-Status: idea, not implemented (written 2026-10-14). Nothing in the demo reads EXIF today except `ImageOps.exif_transpose` (orientation only).
+Status: idea (written 2026-10-14). Step 1 of the prototype below is done: the demo uses the EXIF 35 mm-equivalent focal length for the camera model (`exif_fov_deg` in `demo.py`). GPS and heading are still ignored.
 
 ## Question
 
