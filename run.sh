@@ -21,4 +21,5 @@ exec "$VENV/bin/python" "$REPO_DIR/demo.py" \
   --host "${HOST}" \
   --port "${PORT}" \
   --model-dir "${MODEL_DIR}" \
-  --process-res "${PROCESS_RES}"
+  --process-res "${PROCESS_RES}" \
+  --depth-model "${DEPTH_MODEL:-da3}"

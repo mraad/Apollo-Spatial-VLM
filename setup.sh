@@ -25,7 +25,7 @@ uv pip install --python "$VENV" --torch-backend "$TORCH_BACKEND" \
   "uvicorn[standard]" \
   python-multipart \
   pillow \
-  "numpy<2" \
+  numpy \
   opencv-python \
   huggingface_hub \
   einops \
@@ -49,6 +49,11 @@ if ! uv pip install --python "$VENV" pycolmap; then
 fi
 
 uv pip install --python "$VENV" --no-deps -e "$REPO_DIR/Depth-Anything-3"
+
+# Optional MoGe-3 depth models (Linux + NVIDIA only: FlexGEMM needs Triton). Pinned to the commit tested on the RTX PRO 6000 server.
+if [ "${WITH_MOGE:-0}" = "1" ]; then
+  uv pip install --python "$VENV" "git+https://github.com/microsoft/MoGe.git@74fbce054ebed49800de42d0ad0e83495065719a"
+fi
 
 cat <<EOF
 

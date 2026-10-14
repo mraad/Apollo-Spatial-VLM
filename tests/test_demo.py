@@ -1,12 +1,23 @@
 import asyncio
 import base64
 import io
+import json
 import unittest
 
 import numpy as np
 from PIL import ExifTags, Image
 
-from demo import MAX_INFER_BODY_BYTES, build_app, exif_fov_deg, float32_base64, parse_vlm_targets
+from demo import (
+    MAX_INFER_BODY_BYTES,
+    DemoRuntime,
+    build_app,
+    exif_fov_deg,
+    float32_base64,
+    parse_molmo_points,
+    parse_vlm_models,
+    parse_vlm_targets,
+    split_target_phrases,
+)
 
 
 class ParseVlmTargetsTest(unittest.TestCase):
@@ -102,6 +113,51 @@ class ExifFovTest(unittest.TestCase):
         # Malformed size tags must not raise (that would turn the upload into a 400).
         malformed = jpeg_with_exif((300, 400), FocalLengthIn35mmFilm=26, ExifImageWidth="wide", ExifImageHeight=3024)
         self.assertIsNone(exif_fov_deg(malformed))
+
+
+class ModelChoiceTest(unittest.TestCase):
+    def test_vlm_models_from_env_or_single_default(self):
+        models = parse_vlm_models("a=http://h:1/v1, molmo2-8b=http://h:2/v1", "u", "m")
+        self.assertEqual(models, {"a": "http://h:1/v1/chat/completions", "molmo2-8b": "http://h:2/v1/chat/completions"})
+        self.assertEqual(parse_vlm_models(None, "http://h:3/v1", "m"), {"m": "http://h:3/v1/chat/completions"})
+        with self.assertRaises(ValueError):
+            parse_vlm_models("no-url", "u", "m")
+
+    def test_molmo_prompt_split_and_points(self):
+        self.assertEqual(
+            split_target_phrases("select the opera house, the harbour bridge and the red buoy"),
+            ["opera house", "harbour bridge", "red buoy"],
+        )
+        self.assertEqual(split_target_phrases("Find a chair, a table, and the door."), ["chair", "table", "door"])
+        # vLLM prefixes the image index; a long list can hit max_tokens before the closing quote.
+        self.assertEqual(parse_molmo_points('<points coords="1 1 018 652 2 048 667 3 058'), [(18.0, 652.0), (48.0, 667.0)])
+        self.assertEqual(parse_molmo_points('<points coords="1 770 483">x</points>'), [(770.0, 483.0)])
+        self.assertEqual(parse_molmo_points("There are none."), [])
+
+    def test_models_endpoint_lists_only_runnable_depth_models(self):
+        runtime = DemoRuntime(model_dir="depth-anything/DA3METRIC-LARGE", device="cpu", process_res=504)
+        self.assertEqual(runtime.depth_models, ["da3"])  # MoGe-3 needs CUDA
+        with self.assertRaises(ValueError):
+            DemoRuntime(model_dir="x", device="cpu", process_res=504, default_depth_model="moge3-l")
+        app = build_app(runtime)
+        sent = []
+
+        async def receive():
+            return {"type": "http.request", "body": b"", "more_body": False}
+
+        async def send(message):
+            sent.append(message)
+
+        scope = {
+            "type": "http", "asgi": {"version": "3.0"}, "http_version": "1.1", "method": "GET",
+            "scheme": "http", "path": "/api/models", "raw_path": b"/api/models", "query_string": b"",
+            "root_path": "", "server": ("test", 80), "client": ("test", 1), "headers": [],
+        }
+        asyncio.run(app(scope, receive, send))
+        body = json.loads(b"".join(m.get("body", b"") for m in sent if m["type"] == "http.response.body"))
+        self.assertEqual([m["id"] for m in body["depth"]], ["da3"])
+        self.assertEqual(body["default_depth"], "da3")
+        self.assertEqual(len(body["vlm"]), 1)
 
 
 if __name__ == "__main__":

@@ -90,6 +90,7 @@
       }
 
       input,
+      select,
       textarea,
       button {
         width: 100%;
@@ -106,6 +107,10 @@
         border-color: #314153;
         color: var(--accent);
         font-weight: 600;
+      }
+
+      .spaced {
+        margin-top: 12px;
       }
 
       .toggle {
@@ -303,6 +308,13 @@
           <div class="panel">
             <label for="prompt">Prompt</label>
             <textarea id="prompt" name="prompt" placeholder="Example: select the chair I could sit on, the monitor on the desk, and the nearest door"></textarea>
+          </div>
+
+          <div class="panel">
+            <label for="depth-model">Depth model</label>
+            <select id="depth-model" name="depth_model"></select>
+            <label for="vlm" class="spaced">VLM</label>
+            <select id="vlm" name="vlm"></select>
           </div>
 
           <label class="toggle"><input id="splats" type="checkbox" checked /> Gaussian splats (built in the browser)</label>

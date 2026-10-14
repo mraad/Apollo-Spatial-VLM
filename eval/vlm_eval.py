@@ -22,11 +22,9 @@ from PIL import Image
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
-from demo import custom_prompt_template, image_base64, normalize_vlm_url, parse_vlm_targets  # noqa: E402
+from demo import custom_prompt_template, image_base64, normalize_vlm_url, parse_molmo_points, parse_vlm_targets  # noqa: E402
 
 DATA = REPO / "eval" / "data"
-# No closing quote required: a long list of points can hit max_tokens mid-attribute, and only the first is used.
-MOLMO_COORDS = re.compile(r'coords="([^"]+)')
 QWEN_BOX = re.compile(r'"bbox(?:_2d)?"\s*:\s*\[\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*\]')
 
 
@@ -73,16 +71,8 @@ def point_qwen_native(raw: str) -> tuple[float, float] | None:
 
 
 def point_molmo(raw: str) -> tuple[float, float] | None:
-    match = MOLMO_COORDS.search(raw)
-    if not match:
-        return None
-    values = match.group(1).split()
-    # Triples "index x y ...", optionally after a 1-based image index (vLLM returns "1 1 770 483"): first point.
-    # Coordinates are zero-padded ("018"), so a leading "1 1" can only be image 1, point 1.
-    start = 1 if values[:2] == ["1", "1"] else 0
-    if len(values) < start + 3:
-        return None
-    return float(values[start + 1]), float(values[start + 2])
+    points = parse_molmo_points(raw)
+    return points[0] if points else None
 
 
 def main() -> None:
