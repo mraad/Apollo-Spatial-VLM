@@ -567,7 +567,8 @@ const SPLAT_MAX_STRETCH = 10;
       updateMarkers(targets);
       updateCameraContext(targets);
       setStatus(
-        `Rendered ${result.meta.point_count} points, ${splatNote} and ${result.meta.target_count || 0} prompt targets.`
+        `Rendered ${result.meta.point_count} points, ${splatNote} and ${result.meta.target_count || 0} prompt targets. ` +
+          `Field of view ${Math.round(result.meta.fov_deg)}° (${result.meta.fov_source === "exif" ? "from EXIF" : "assumed"}).`
       );
     } catch (error) {
       setStatus(String(error));

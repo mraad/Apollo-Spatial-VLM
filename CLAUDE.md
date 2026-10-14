@@ -17,7 +17,7 @@ Endpoints: `GET /` and `/index.js` (served no-cache), `GET /healthz` (device, VL
 
 ## Pipeline in `DemoRuntime.infer_image`
 
-- DA3 inference at `process_res` (upper-bound resize). Depth is rescaled to "metric" with an assumed camera: fixed `DEFAULT_FOV_DEG = 60`, `focal = estimate_focal_px(...)`, `metric = raw_depth * focal / 300`. No real intrinsics are used, so absolute distances are only plausible for ~60° FOV photos.
+- DA3 inference at `process_res` (upper-bound resize). Depth is rescaled to "metric" with `focal = estimate_focal_px(...)`, `metric = raw_depth * focal / 300`. The field of view comes from EXIF when the upload has `FocalLengthIn35mmFilm` (`exif_fov_deg`, read before `exif_transpose`, converted through the image diagonal; skipped when the pixel aspect differs from `ExifImageWidth/Height`, i.e. a crop); otherwise `DEFAULT_FOV_DEG = 60`. `meta.fov_source` is `"exif"` or `"assumed"`. Focal length changes distances along the view axis only: lateral/vertical offsets cancel it.
 - Point cloud: sky mask and 1st/99th depth percentile removed, uniformly subsampled to `DEFAULT_MAX_POINTS = 50000`. Camera frame is Three.js-style: x right, y up, z = -depth.
 - VLM: image downscaled to max 384 px, prompt from `custom_prompt_template` demands strict JSON `{"targets":[{label,x,y,confidence}]}` with **x/y normalized 0–1000** (Qwen3-VL's native grounding convention). `parse_vlm_targets` strips `<think>` blocks and code fences, drops `SKIP_LABELS` (floor, wall, sky…), caps at 8.
 - Colors: `parse_vlm_targets` assigns each target a `color` (fixed per known label, else palette by index). The 2D overlay, 3D markers and target list all use that field; the frontend has no color logic.
