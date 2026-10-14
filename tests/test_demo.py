@@ -57,7 +57,7 @@ class InferBodyLimitTest(unittest.TestCase):
             "type": "http", "asgi": {"version": "3.0"}, "http_version": "1.1", "method": "POST",
             "scheme": "http", "path": "/api/infer", "raw_path": b"/api/infer", "query_string": b"",
             "root_path": "", "server": ("test", 80), "client": ("test", 1),
-            "headers": [(k.encode(), v.encode()) for k, v in headers.items()],
+            "headers": [(k.encode(), v.encode("latin-1")) for k, v in headers.items()],
         }
         asyncio.run(app(scope, receive, send))
         return sent[0]["status"]
@@ -65,6 +65,7 @@ class InferBodyLimitTest(unittest.TestCase):
     def test_rejects_oversized_and_unsized_bodies_before_reading(self):
         self.assertEqual(self.status({"content-length": str(MAX_INFER_BODY_BYTES + 1)}), 413)
         self.assertEqual(self.status({"content-length": "abc"}), 413)
+        self.assertEqual(self.status({"content-length": "\u00b2"}), 413)
         self.assertEqual(self.status({"transfer-encoding": "chunked"}), 411)
 
 

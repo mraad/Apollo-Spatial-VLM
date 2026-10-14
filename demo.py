@@ -439,7 +439,7 @@ def build_app(runtime: DemoRuntime) -> FastAPI:
             length = request.headers.get("content-length")
             if length is None:
                 return JSONResponse({"detail": "Content-Length required."}, status_code=411)
-            if not length.isdigit() or int(length) > MAX_INFER_BODY_BYTES:
+            if not (length.isascii() and length.isdigit()) or int(length) > MAX_INFER_BODY_BYTES:
                 return JSONResponse(
                     {"detail": f"Image larger than {MAX_UPLOAD_BYTES // (1024 * 1024)} MB."}, status_code=413
                 )
