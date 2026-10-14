@@ -99,6 +99,9 @@ class ExifFovTest(unittest.TestCase):
         self.assertIsNone(exif_fov_deg(jpeg_with_exif((300, 400), FocalLengthIn35mmFilm=0)))
         cropped = jpeg_with_exif((400, 400), FocalLengthIn35mmFilm=26, ExifImageWidth=4032, ExifImageHeight=3024)
         self.assertIsNone(exif_fov_deg(cropped))
+        # Malformed size tags must not raise (that would turn the upload into a 400).
+        malformed = jpeg_with_exif((300, 400), FocalLengthIn35mmFilm=26, ExifImageWidth="wide", ExifImageHeight=3024)
+        self.assertIsNone(exif_fov_deg(malformed))
 
 
 if __name__ == "__main__":

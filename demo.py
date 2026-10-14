@@ -73,10 +73,16 @@ def exif_fov_deg(image: Image.Image) -> float | None:
         return None
     width, height = image.size
     # A resize keeps the equivalence, a crop doesn't: skip when the pixels' aspect differs from the original's.
-    exif_w = exif.get(ExifTags.Base.ExifImageWidth)
-    exif_h = exif.get(ExifTags.Base.ExifImageHeight)
-    if exif_w and exif_h and abs(max(exif_w, exif_h) / min(exif_w, exif_h) - max(width, height) / min(width, height)) > 0.02:
-        return None
+    exif_size = (exif.get(ExifTags.Base.ExifImageWidth), exif.get(ExifTags.Base.ExifImageHeight))
+    if any(v is not None for v in exif_size):
+        try:
+            exif_w, exif_h = (float(v) for v in exif_size)  # type: ignore[arg-type]
+        except (TypeError, ValueError):
+            return None  # malformed EXIF: can't tell a crop from a resize, so don't trust the focal length
+        if exif_w > 0 and exif_h > 0 and abs(
+            max(exif_w, exif_h) / min(exif_w, exif_h) - max(width, height) / min(width, height)
+        ) > 0.02:
+            return None
     # The 35 mm equivalence is defined on the diagonal (36x24 mm), so it holds for any aspect ratio or orientation.
     focal_px = focal_35mm * math.hypot(width, height) / math.hypot(36.0, 24.0)
     return math.degrees(2.0 * math.atan(max(width, height) / 2.0 / focal_px))
