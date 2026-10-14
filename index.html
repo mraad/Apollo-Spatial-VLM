@@ -7,7 +7,9 @@
     <script type="importmap">
       {
         "imports": {
-          "three": "https://unpkg.com/three@0.165.0/build/three.module.js"
+          "three": "https://unpkg.com/three@0.186.1/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.186.1/examples/jsm/",
+          "@sparkjsdev/spark": "https://unpkg.com/@sparkjsdev/spark@2.3.1/dist/spark.module.js"
         }
       }
     </script>
@@ -104,6 +106,19 @@
         border-color: #314153;
         color: var(--accent);
         font-weight: 600;
+      }
+
+      .toggle {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        font-size: 13px;
+        color: var(--text);
+        margin: 0;
+      }
+
+      .toggle input {
+        width: auto;
       }
 
       textarea {
@@ -225,6 +240,8 @@
             <label for="prompt">Prompt</label>
             <textarea id="prompt" name="prompt" placeholder="Example: select the chair I could sit on, the monitor on the desk, and the nearest door"></textarea>
           </div>
+
+          <label class="toggle"><input id="splats" type="checkbox" checked /> Gaussian splats (built in the browser)</label>
 
           <button id="submit" type="submit">Run Demo</button>
         </form>

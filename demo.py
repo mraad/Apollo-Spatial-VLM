@@ -91,9 +91,9 @@ def float32_base64(values: np.ndarray) -> str:
     return base64.b64encode(np.ascontiguousarray(values, dtype="<f4").tobytes()).decode("ascii")
 
 
-def image_base64(image: Image.Image) -> str:
+def image_base64(image: Image.Image, format: str = "PNG") -> str:
     with io.BytesIO() as buffer:
-        image.save(buffer, format="PNG")
+        image.save(buffer, format=format, quality=92)
         return base64.b64encode(buffer.getvalue()).decode("ascii")
 
 
@@ -122,21 +122,10 @@ def make_point_cloud(
     cx: float,
     cy: float,
     max_points: int,
-    sky_mask: np.ndarray | None = None,
-) -> tuple[np.ndarray, np.ndarray, dict[str, float]]:
+    valid: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray]:
     h, w = depth_m.shape
     yy, xx = np.indices((h, w), dtype=np.float32)
-
-    valid = np.isfinite(depth_m) & (depth_m > 0.0)
-    if sky_mask is not None:
-        valid &= ~sky_mask.astype(bool)
-
-    if not np.any(valid):
-        raise ValueError("No valid depth pixels remained after filtering.")
-
-    near, far = np.percentile(depth_m[valid], [1.0, 99.0])
-    valid &= depth_m >= near
-    valid &= depth_m <= far
 
     valid_indices = np.flatnonzero(valid.reshape(-1))
     if valid_indices.size == 0:
@@ -156,13 +145,22 @@ def make_point_cloud(
 
     points = np.stack([x, y, z], axis=1).astype(np.float32)
     colors = (rgb.reshape(-1, 3)[valid_indices].astype(np.float32) / 255.0).astype(np.float32)
+    return points, colors
 
-    bounds = {
-        "depth_near_m": float(near),
-        "depth_far_m": float(far),
-        "point_count": int(points.shape[0]),
-    }
-    return points, colors, bounds
+
+def valid_depth_mask(depth_m: np.ndarray, sky_mask: np.ndarray | None = None) -> tuple[np.ndarray, float, float]:
+    """Finite, positive, non-sky depth inside the 1st-99th percentile; returns (mask, near, far)."""
+    valid = np.isfinite(depth_m) & (depth_m > 0.0)
+    if sky_mask is not None:
+        valid &= ~sky_mask.astype(bool)
+
+    if not np.any(valid):
+        raise ValueError("No valid depth pixels remained after filtering.")
+
+    near, far = np.percentile(depth_m[valid], [1.0, 99.0])
+    valid &= depth_m >= near
+    valid &= depth_m <= far
+    return valid, float(near), float(far)
 
 
 def custom_prompt_template(user_prompt: str) -> str:
@@ -338,7 +336,8 @@ class DemoRuntime:
         cx = width * 0.5
         cy = height * 0.5
 
-        points, colors, stats = make_point_cloud(
+        valid, near, far = valid_depth_mask(metric_depth_m, sky)
+        points, colors = make_point_cloud(
             rgb=rgb,
             depth_m=metric_depth_m,
             fx=fx,
@@ -346,7 +345,7 @@ class DemoRuntime:
             cx=cx,
             cy=cy,
             max_points=DEFAULT_MAX_POINTS,
-            sky_mask=sky,
+            valid=valid,
         )
 
         preview_mask = np.isfinite(metric_depth_m) & (metric_depth_m > 0.0)
@@ -374,6 +373,9 @@ class DemoRuntime:
         return {
             "points": float32_base64(points),
             "colors": float32_base64(colors),
+            # Full-resolution grid for client-side splats: depth (0 = invalid) and the image it was predicted on.
+            "depth": float32_base64(np.where(valid, metric_depth_m, 0.0)),
+            "rgb": image_base64(Image.fromarray(rgb, mode="RGB"), "JPEG"),
             "depth_preview": depth_preview_base64(metric_depth_m, preview_mask),
             "annotated_preview": overlay_base64,
             "targets_2d": targets_2d,
@@ -389,7 +391,10 @@ class DemoRuntime:
                 "is_metric_model_output": True,
                 "prompt_used": prompt.strip() if prompt else None,
                 "target_count": len(targets_3d),
-                **stats,
+                "depth_near_m": near,
+                "depth_far_m": far,
+                "point_count": int(points.shape[0]),
+                "splat_count": int(valid.sum()),
             },
         }
 
