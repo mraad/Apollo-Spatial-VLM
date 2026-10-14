@@ -59,7 +59,7 @@ Start the VLM server (Linux, runs in a tmux session):
 
 vLLM runs with CUDA graphs: on an RTX PRO 6000 server that made requests 26–27% faster for the cost of a longer first start (~166 s, then ~65 s once kernels are cached). On a Jetson the gain is ~2% and startup doubles, so set `ENFORCE_EAGER=1` in `.env.vlm` there.
 
-The default VLM is `Qwen/Qwen3-VL-8B-Instruct`, which fits on a Jetson AGX Orin. On a GPU with room for about 56 GB of weights, set `VLM_MODEL=Qwen/Qwen3.6-27B` in `.env.vlm`: it follows the demo's output format far more reliably (see [`eval/README.md`](eval/README.md)).
+The default VLM is `Qwen/Qwen3-VL-8B-Instruct`, which fits on a Jetson AGX Orin. On a GPU with room for about 56 GB of weights, set `VLM_MODEL=Qwen/Qwen3.6-27B` in `.env.vlm`: it follows the demo's output format far more reliably (see [`eval/README.md`](eval/README.md)). On GPUs with native FP8 (Hopper, Blackwell) use `VLM_MODEL=Qwen/Qwen3.6-27B-FP8` instead: same accuracy, ~40% faster, 31 GB of weights. On a Jetson it runs (weight-only FP8) but slowly.
 
 On macOS, serve the VLM with [Ollama](https://ollama.com) instead and point the demo at it:
 
@@ -79,7 +79,8 @@ What runs where (measured on the Sydney sample with a three-target prompt):
 
 | Machine | Depth | VLM | Time per request |
 |---|---|---|---|
-| 4 × RTX PRO 6000 | any | Qwen3.6-27B / Qwen3-VL-32B / Molmo2-8B | ~4 s Qwen, ~1.5 s Molmo2 |
+| 4 × RTX PRO 6000 | any | Qwen3.6-27B-FP8 | 1.7 s (BF16: 2.9 s) |
+| 4 × RTX PRO 6000 | any | Qwen3-VL-32B / Molmo2-8B | ~4 s Qwen, ~1.5 s Molmo2 |
 | Jetson AGX Orin 64 GB | DA3 / MoGe-3 L | Molmo2-8B (`--gpu-memory-utilization 0.5`) | 5 s (DA3), 9 s (MoGe-3 L) |
 | Jetson AGX Orin 64 GB | DA3 | Qwen3.6-27B-FP8 (`0.7`, emulated FP8) | 16 s |
 | Mac (Apple silicon) | DA3 | Ollama `qwen3-vl:8b-instruct` | ~1.5–10 s |

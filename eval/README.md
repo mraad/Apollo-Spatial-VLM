@@ -79,6 +79,17 @@ Findings:
 
 The full demo request (three targets, 77 output tokens) went from 3.85 to 2.85 s. vLLM's first start compiles kernels (166 s vs 55 s eager), and later starts take ~65 s. On a Jetson AGX Orin the gain was only 7.35 → 7.17 s per request, while startup doubled (110 → 221 s), so Orin keeps eager mode.
 
+## FP8 weights (2026-10-14)
+
+`Qwen/Qwen3.6-27B-FP8` on the RTX PRO 6000 server (CUDA graphs; vLLM picked native `CutlassFp8BlockScaledMMKernel`), demo prompt, 384 px:
+
+| Weights | Accuracy | Unparsed answers | Median latency | Demo request (3 targets) |
+|---|---|---|---|---|
+| BF16 (`vlm-qwen3.6-27b-graphs-384.json`) | 0.860 | 6 | 1.13 s | 2.85 s |
+| FP8 (`vlm-qwen3.6-27b-fp8-384.json`) | 0.870 | 6 | **0.72 s** | **1.73 s** |
+
+No accuracy cost at this sample size (±4%), 31 GB of weights instead of 56 GB. On a Jetson AGX Orin (no native FP8) vLLM falls back to Marlin weight-only FP8: ~16 s per demo request, so Molmo2-8B is the better VLM there.
+
 ## Recommendations
 
 1. **VLM:** switch the demo to Qwen3.6-27B (smallest change: send `enable_thinking: false`). Or adopt each model's native output format, which also fixes Qwen3-VL-32B. For speed, Molmo2-8B, with its own prompt and parser path.
