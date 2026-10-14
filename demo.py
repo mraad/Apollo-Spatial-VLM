@@ -455,10 +455,6 @@ class DemoRuntime:
         )
 
         height, width = metric_depth_m.shape
-        fx = focal_px
-        fy = focal_px
-        cx = width * 0.5
-        cy = height * 0.5
 
         valid, near, far = valid_depth_mask(metric_depth_m, invalid)
 
@@ -474,10 +470,10 @@ class DemoRuntime:
                 projected = project_target_to_3d(
                     target=target,
                     depth_map=metric_depth_m,
-                    fx=fx,
-                    fy=fy,
-                    cx=cx,
-                    cy=cy,
+                    fx=focal_px,
+                    fy=focal_px,
+                    cx=width * 0.5,
+                    cy=height * 0.5,
                 )
                 if projected is not None:
                     targets_3d.append(projected)
@@ -506,7 +502,6 @@ class DemoRuntime:
                 "target_count": len(targets_3d),
                 "depth_near_m": near,
                 "depth_far_m": far,
-                "splat_count": int(valid.sum()),
             },
         }
 
