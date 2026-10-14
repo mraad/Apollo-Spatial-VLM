@@ -108,12 +108,15 @@ const SPLAT_MAX_STRETCH = 10;
     renderer.setSize(width, height);
   }
 
+  function resetSplats() {
+    if (!splatMesh) return;
+    scene.remove(splatMesh);
+    splatMesh.dispose();
+    splatMesh = null;
+  }
+
   function resetPointCloud() {
-    if (splatMesh) {
-      scene.remove(splatMesh);
-      splatMesh.dispose();
-      splatMesh = null;
-    }
+    resetSplats();
     if (!pointsObject) {
       resetMarkers();
       return;
@@ -526,13 +529,21 @@ const SPLAT_MAX_STRETCH = 10;
       const targets = result.targets_3d || [];
       renderTargetList(targets);
       loadPointCloud(result.points, result.colors);
-      const started = performance.now();
-      const splatCount = await loadSplats(result.depth, result.rgb, result.meta);
-      const splatMs = Math.round(performance.now() - started);
+      let splatNote;
+      try {
+        const started = performance.now();
+        const splatCount = await loadSplats(result.depth, result.rgb, result.meta);
+        splatNote = `${splatCount} splats (built in ${Math.round(performance.now() - started)} ms)`;
+      } catch (error) {
+        // Splats are optional: keep the point cloud and markers when they fail.
+        resetSplats();
+        showSplats();
+        splatNote = `no splats (${error.message || error})`;
+      }
       updateMarkers(targets);
       updateCameraContext(targets);
       setStatus(
-        `Rendered ${result.meta.point_count} points, ${splatCount} splats (built in ${splatMs} ms) and ${result.meta.target_count || 0} prompt targets.`
+        `Rendered ${result.meta.point_count} points, ${splatNote} and ${result.meta.target_count || 0} prompt targets.`
       );
     } catch (error) {
       setStatus(String(error));
