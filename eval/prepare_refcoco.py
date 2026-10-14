@@ -37,8 +37,9 @@ def main() -> None:
         info = json.loads(row["raw_image_info"])
         x, y, w, h = json.loads(row["raw_anns"])["bbox"]
         x0, y0, x1, y1 = (float(v) for v in row["bbox"])
-        # The parquet box is xyxy; COCO's own annotation is xywh.
-        assert abs(x0 - x) < 0.5 and abs(x1 - (x + w)) < 0.5 and abs(y1 - (y + h)) < 0.5, row["ref_id"]
+        # The parquet box is xyxy; COCO's own annotation is xywh. A mismatch would corrupt the scoring.
+        if max(abs(x0 - x), abs(y0 - y), abs(x1 - (x + w)), abs(y1 - (y + h))) >= 0.5:
+            raise ValueError(f"ref {row['ref_id']}: parquet box {row['bbox']} disagrees with COCO bbox {[x, y, w, h]}")
         path = images / info["file_name"]
         if not path.exists():
             urllib.request.urlretrieve(COCO_URL.format(info["file_name"]), path)

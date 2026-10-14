@@ -102,14 +102,16 @@ def main() -> None:
     parser.add_argument("--limit", type=int, default=0, help="first N frames only (smoke test)")
     args = parser.parse_args()
 
+    frames = sorted((DATA / "val").glob("*/*/*/*_depth.npy"))
+    if not frames:
+        sys.exit(f"No DIODE frames under {DATA / 'val'}; download and extract val.tar.gz there (see eval/README.md).")
+    if args.limit:
+        frames = frames[:: max(1, len(frames) // args.limit)][: args.limit]
+
     if args.model.startswith("da3"):
         model = DA3(gt_focal=args.model == "da3-gt-focal")
     else:
         model = MoGe3(args.model[-1])
-
-    frames = sorted((DATA / "val").glob("*/*/*/*_depth.npy"))
-    if args.limit:
-        frames = frames[:: max(1, len(frames) // args.limit)][: args.limit]
     crops = [float(c) for c in args.crops.split(",")]
 
     rows, latencies = [], []

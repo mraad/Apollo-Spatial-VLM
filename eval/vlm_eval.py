@@ -140,7 +140,7 @@ def main() -> None:
         "prompt": args.prompt if args.kind == "qwen" else "molmo",
         "max_dim": args.max_dim,
         "n": len(records),
-        "accuracy": round(sum(r["hit"] for r in records) / len(records), 4),
+        "accuracy": round(sum(r["hit"] for r in records) / max(1, len(records)), 4),
         "no_point": sum(r["point_0_1000"] is None for r in records),
         "parsed_accuracy": round(sum(r["hit"] for r in records) / max(1, sum(r["point_0_1000"] is not None for r in records)), 4),
         "errors": sum(r["error"] is not None for r in records),
