@@ -5,7 +5,8 @@ would show. Molmo2 is asked natively ("Point to ...") and answers with <points c
 
 Usage (repo root, demo venv):
   .venv/bin/python eval/vlm_eval.py --url http://127.0.0.1:8012/v1 --model <served name> --name qwen3-vl-32b
-  add --kind molmo for Molmo2, --no-think for Qwen3.5/3.6 (thinking is on by default there)
+  add --kind molmo for Molmo2, --no-think for Qwen3.5/3.6 (thinking is on by default there),
+  --prompt native to ask Qwen for its own grounding format (a bbox_2d box; the centre is scored)
 """
 
 import argparse
@@ -24,7 +25,9 @@ sys.path.insert(0, str(REPO))
 from demo import custom_prompt_template, image_base64, normalize_vlm_url, parse_vlm_targets  # noqa: E402
 
 DATA = REPO / "eval" / "data"
-MOLMO_COORDS = re.compile(r'coords="([^"]+)"')
+# No closing quote required: a long list of points can hit max_tokens mid-attribute, and only the first is used.
+MOLMO_COORDS = re.compile(r'coords="([^"]+)')
+QWEN_BOX = re.compile(r'"bbox_2d"\s*:\s*\[\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*\]')
 
 
 def resize(image: Image.Image, max_dim: int) -> Image.Image:
@@ -61,6 +64,14 @@ def point_qwen(raw: str) -> tuple[float, float] | None:
     return best["x"], best["y"]
 
 
+def point_qwen_native(raw: str) -> tuple[float, float] | None:
+    match = QWEN_BOX.search(raw)
+    if not match:
+        return None
+    x0, y0, x1, y1 = (float(v) for v in match.groups())
+    return (x0 + x1) / 2, (y0 + y1) / 2
+
+
 def point_molmo(raw: str) -> tuple[float, float] | None:
     match = MOLMO_COORDS.search(raw)
     if not match:
@@ -80,6 +91,7 @@ def main() -> None:
     parser.add_argument("--name", required=True, help="short name for the results file")
     parser.add_argument("--kind", choices=["qwen", "molmo"], default="qwen")
     parser.add_argument("--no-think", action="store_true")
+    parser.add_argument("--prompt", choices=["demo", "native"], default="demo", help="qwen only")
     parser.add_argument("--max-dim", type=int, default=384, help="384 = what the demo sends")
     parser.add_argument("--limit", type=int, default=0, help="first N samples only (smoke test)")
     args = parser.parse_args()
@@ -94,6 +106,10 @@ def main() -> None:
         image = resize(Image.open(DATA / s["image"]).convert("RGB"), args.max_dim)
         if args.kind == "molmo":
             text, to_point = f"Point to the {s['expression']}.", point_molmo
+        elif args.prompt == "native":
+            # Qwen-VL's documented grounding request: a JSON bbox_2d box on the 0-1000 grid.
+            text = f'Locate "{s["expression"]}" in the image. Output its bbox coordinates in JSON format.'
+            to_point = point_qwen_native
         else:
             text, to_point = custom_prompt_template(s["expression"]), point_qwen
         started = time.perf_counter()
@@ -120,10 +136,12 @@ def main() -> None:
         "model": args.model,
         "kind": args.kind,
         "no_think": args.no_think,
+        "prompt": args.prompt if args.kind == "qwen" else "molmo",
         "max_dim": args.max_dim,
         "n": len(records),
         "accuracy": round(sum(r["hit"] for r in records) / len(records), 4),
         "no_point": sum(r["point_0_1000"] is None for r in records),
+        "parsed_accuracy": round(sum(r["hit"] for r in records) / max(1, sum(r["point_0_1000"] is not None for r in records)), 4),
         "errors": sum(r["error"] is not None for r in records),
         "latency_median_s": round(statistics.median(latencies), 3) if latencies else None,
         "latency_p90_s": round(statistics.quantiles(latencies, n=10)[-1], 3) if len(latencies) >= 10 else None,
