@@ -12,7 +12,7 @@ from demo import (
     DemoRuntime,
     build_app,
     exif_fov_deg,
-    float32_base64,
+    float16_base64,
     parse_molmo_points,
     parse_vlm_models,
     parse_vlm_targets,
@@ -54,11 +54,12 @@ class ParseVlmTargetsTest(unittest.TestCase):
         self.assertEqual([t["label"] for t in parse_vlm_targets(raw)], ["bowl"])
 
 
-class Float32Base64Test(unittest.TestCase):
-    def test_round_trips_little_endian_float32(self):
-        points = np.arange(6, dtype=np.float64).reshape(2, 3) / 3
-        decoded = np.frombuffer(base64.b64decode(float32_base64(points)), dtype="<f4")
-        np.testing.assert_allclose(decoded, points.ravel(), rtol=1e-6)
+class Float16Base64Test(unittest.TestCase):
+    def test_round_trips_little_endian_float16_within_half_precision(self):
+        depth = np.array([[0.0, 0.31, 4.82], [18.48, 540.0, 2731.5]], dtype=np.float32)
+        decoded = np.frombuffer(base64.b64decode(float16_base64(depth)), dtype="<f2").astype(np.float32)
+        np.testing.assert_allclose(decoded, depth.ravel(), rtol=1e-3)
+        self.assertEqual(decoded[0], 0.0)  # invalid pixels stay exactly 0
 
 
 class InferBodyLimitTest(unittest.TestCase):
