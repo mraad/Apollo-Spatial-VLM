@@ -15,7 +15,6 @@ import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/cont
 
   let previewUrl = null;
   let pointsObject = null;
-  let markerData = [];
   let markerSpheres = [];
   let cameraGroup = null;
 
@@ -47,45 +46,11 @@ import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/cont
   const markerGroup = new THREE.Group();
   scene.add(markerGroup);
 
-  const MARKER_COLORS = {
-    chair: 0xff4444,
-    table: 0x44ff44,
-    door: 0x4444ff,
-    person: 0xff8800,
-    plant: 0x00cc44,
-    monitor: 0x00ccff,
-    lamp: 0xffff00,
-    window: 0x88ccff,
-    couch: 0xcc44cc,
-    bed: 0xff6688,
-    sink: 0x44cccc,
-    toilet: 0xcccc44,
-    tv: 0x0088ff,
-    book: 0xcc8844,
-    bottle: 0x44ccaa,
-    cup: 0xffaa44,
-    keyboard: 0xaaaaaa,
-    phone: 0x88ff88,
-    shelf: 0x886644,
-    box: 0xff44aa,
-    cabinet: 0x668844,
-  };
-  const TARGET_PALETTE = [
-    0xff4444,
-    0x44ff44,
-    0x4444ff,
-    0xff8800,
-    0x00ccff,
-    0xcc44cc,
-    0xffff00,
-    0x44cccc,
-  ];
-
   const tooltip = document.createElement("div");
   tooltip.style.cssText =
     "position:fixed;padding:8px 12px;background:rgba(0,0,0,0.85);color:#fff;" +
     "border-radius:6px;font-size:12px;pointer-events:none;display:none;z-index:999;" +
-    "font-family:monospace;border:1px solid rgba(255,255,255,0.2);max-width:250px;";
+    "font-family:monospace;border:1px solid rgba(255,255,255,0.2);max-width:250px;white-space:pre-line;";
   document.body.appendChild(tooltip);
 
   const raycaster = new THREE.Raycaster();
@@ -100,18 +65,20 @@ import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/cont
       metaEl.textContent = "No targets yet.";
       return;
     }
-    metaEl.innerHTML = targets
-      .map((target) => {
-        const color = `#${getMarkerColor(target.label, target.colorIndex).toString(16).padStart(6, "0")}`;
+    metaEl.replaceChildren(
+      ...targets.map((target) => {
         const coords = `${target.position.x.toFixed(2)}, ${target.position.y.toFixed(2)}, ${target.position.z.toFixed(2)}`;
-        return `
-          <div class="target-item">
-            <span class="target-swatch" style="background:${color}"></span>
-            <span>${target.label}  (${coords})</span>
-          </div>
-        `;
+        const item = document.createElement("div");
+        item.className = "target-item";
+        const swatch = document.createElement("span");
+        swatch.className = "target-swatch";
+        swatch.style.background = target.color;
+        const text = document.createElement("span");
+        text.textContent = `${target.label}  (${coords})`;
+        item.append(swatch, text);
+        return item;
       })
-      .join("");
+    );
   }
 
   function animate() {
@@ -141,11 +108,6 @@ import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/cont
     resetCameraContext();
   }
 
-  function getMarkerColor(label, colorIndex = 0) {
-    const base = label.replace(/_\d+$/, "").replace(/ \d+$/, "");
-    return MARKER_COLORS[base] || TARGET_PALETTE[colorIndex % TARGET_PALETTE.length];
-  }
-
   function createTextSprite(text, color, subtitle) {
     const canvas = document.createElement("canvas");
     const width = 256;
@@ -159,8 +121,7 @@ import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/cont
     ctx.roundRect(4, 4, width - 8, height - 8, 10);
     ctx.fill();
 
-    const hex = `#${color.toString(16).padStart(6, "0")}`;
-    ctx.strokeStyle = hex;
+    ctx.strokeStyle = color;
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.roundRect(4, 4, width - 8, height - 8, 10);
@@ -191,7 +152,6 @@ import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/cont
   }
 
   function resetMarkers() {
-    markerData = [];
     markerSpheres = [];
     while (markerGroup.children.length) {
       const child = markerGroup.children[0];
@@ -214,14 +174,6 @@ import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/cont
       cameraGroup.remove(child);
       if (child.geometry) child.geometry.dispose();
       if (child.material) child.material.dispose();
-      if (child.line) {
-        child.line.geometry.dispose();
-        child.line.material.dispose();
-      }
-      if (child.cone) {
-        child.cone.geometry.dispose();
-        child.cone.material.dispose();
-      }
     }
     scene.remove(cameraGroup);
     cameraGroup = null;
@@ -256,7 +208,7 @@ import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/cont
     const radius = pointsObject?.geometry?.boundingSphere?.radius || 1;
     const defaultArrowLength = Math.max(0.1, radius * 0.06);
     for (const marker of markers) {
-      const color = getMarkerColor(marker.label, marker.colorIndex);
+      const color = marker.color;
       const target = new THREE.Vector3(
         marker.position.x,
         marker.position.y,
@@ -317,11 +269,10 @@ import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/cont
 
   function updateMarkers(markers) {
     resetMarkers();
-    markerData = markers;
 
     for (const marker of markers) {
       const { x, y, z } = marker.position;
-      const color = getMarkerColor(marker.label, marker.colorIndex);
+      const color = marker.color;
       const coords = `(${x.toFixed(2)}, ${y.toFixed(2)}, ${z.toFixed(2)})`;
 
       const sphere = new THREE.Mesh(
@@ -352,17 +303,21 @@ import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/cont
     }
   }
 
+  function decodeFloat32(base64) {
+    return new Float32Array(Uint8Array.from(atob(base64), (c) => c.charCodeAt(0)).buffer);
+  }
+
   function loadPointCloud(points, colors) {
     resetPointCloud();
 
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute(
       "position",
-      new THREE.Float32BufferAttribute(points.flat(), 3)
+      new THREE.Float32BufferAttribute(decodeFloat32(points), 3)
     );
     geometry.setAttribute(
       "color",
-      new THREE.Float32BufferAttribute(colors.flat(), 3)
+      new THREE.Float32BufferAttribute(decodeFloat32(colors), 3)
     );
 
     const material = new THREE.PointsMaterial({
@@ -435,13 +390,12 @@ import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/cont
       }
 
       depthPreview.src = `data:image/png;base64,${result.depth_preview}`;
-      annotatedPreview.src = result.annotated_preview
-        ? `data:image/png;base64,${result.annotated_preview}`
-        : "";
-      const targets = (result.targets_3d || []).map((target, index) => ({
-        ...target,
-        colorIndex: index,
-      }));
+      if (result.annotated_preview) {
+        annotatedPreview.src = `data:image/png;base64,${result.annotated_preview}`;
+      } else {
+        annotatedPreview.removeAttribute("src");
+      }
+      const targets = result.targets_3d || [];
       renderTargetList(targets);
       loadPointCloud(result.points, result.colors);
       updateMarkers(targets);
@@ -452,7 +406,7 @@ import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/cont
     } catch (error) {
       setStatus(String(error));
       metaEl.textContent = "No targets yet.";
-      annotatedPreview.src = "";
+      annotatedPreview.removeAttribute("src");
       resetPointCloud();
     } finally {
       submitButton.disabled = false;
@@ -473,11 +427,12 @@ import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/cont
     }
 
     const { marker, coords } = hits[0].object.userData;
-    tooltip.innerHTML =
-      `<b>${marker.label.toUpperCase()}</b><br>` +
-      `Position: ${coords}<br>` +
-      `Confidence: ${(marker.confidence * 100).toFixed(0)}%<br>` +
-      `Pixel: (${marker.pixel.x}, ${marker.pixel.y})`;
+    const title = document.createElement("b");
+    title.textContent = marker.label.toUpperCase();
+    tooltip.replaceChildren(
+      title,
+      `\nPosition: ${coords}\nConfidence: ${(marker.confidence * 100).toFixed(0)}%\nPixel: (${marker.pixel.x}, ${marker.pixel.y})`
+    );
     tooltip.style.display = "block";
     tooltip.style.left = `${event.clientX + 14}px`;
     tooltip.style.top = `${event.clientY + 14}px`;

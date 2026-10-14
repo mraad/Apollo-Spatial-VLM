@@ -136,6 +136,24 @@
         margin-top: 12px;
       }
 
+      img:not([src]) {
+        display: none;
+      }
+
+      .placeholder {
+        display: none;
+        place-items: center;
+        padding: 12px;
+        border-style: dashed;
+        color: var(--muted);
+        font-size: 13px;
+        text-align: center;
+      }
+
+      img:not([src]) + .placeholder {
+        display: grid;
+      }
+
       .viewer-wrap {
         display: grid;
         gap: 14px;
@@ -200,6 +218,7 @@
             <label for="image">Image</label>
             <input id="image" name="image" type="file" accept="image/*" required />
             <img id="upload-preview" class="upload-thumb" alt="Upload preview" />
+            <div class="upload-thumb placeholder">No image selected</div>
           </div>
 
           <div class="panel">
@@ -214,10 +233,12 @@
           <div class="panel">
             <label>Depth Preview</label>
             <img id="depth-preview" class="preview" alt="Depth preview" />
+            <div class="preview placeholder">The depth map appears here after a run</div>
           </div>
           <div class="panel">
             <label>Prompt Targets</label>
             <img id="annotated-preview" class="preview" alt="Annotated preview" />
+            <div class="preview placeholder">Prompt targets appear here after a run with a prompt</div>
           </div>
           <div class="panel">
             <label>Status</label>
@@ -235,6 +256,6 @@
       </main>
     </div>
 
-    <script type="module" src="/index.js?v=3"></script>
+    <script type="module" src="/index.js"></script>
   </body>
 </html>

@@ -54,8 +54,10 @@ MARKER_COLORS = {
     "box": "#ff44aa",
     "cabinet": "#668844",
 }
+TARGET_PALETTE = ["#ff4444", "#44ff44", "#4444ff", "#ff8800", "#00ccff", "#cc44cc", "#ffff00", "#44cccc"]
 DEFAULT_FOV_DEG = 60.0
 DEFAULT_MAX_POINTS = 15000
+MAX_UPLOAD_BYTES = 20 * 1024 * 1024
 
 
 def estimate_focal_px(width: int, height: int, fov_deg: float) -> float:
@@ -83,6 +85,10 @@ def depth_preview_base64(depth_m: np.ndarray, valid_mask: np.ndarray) -> str:
         return base64.b64encode(buffer.getvalue()).decode("ascii")
 
 
+def float32_base64(values: np.ndarray) -> str:
+    return base64.b64encode(np.ascontiguousarray(values, dtype="<f4").tobytes()).decode("ascii")
+
+
 def image_base64(image: Image.Image) -> str:
     with io.BytesIO() as buffer:
         image.save(buffer, format="PNG")
@@ -93,8 +99,8 @@ def base_marker_label(label: str) -> str:
     return re.sub(r"[_ ]\d+$", "", label.strip().lower())
 
 
-def marker_color_hex(label: str) -> str:
-    return MARKER_COLORS.get(base_marker_label(label), "#ff00ff")
+def marker_color_hex(label: str, index: int) -> str:
+    return MARKER_COLORS.get(base_marker_label(label), TARGET_PALETTE[index % len(TARGET_PALETTE)])
 
 
 def normalize_vlm_url(url: str) -> str:
@@ -188,7 +194,7 @@ def parse_vlm_targets(raw: str) -> list[dict]:
         if brace >= 0:
             cleaned = cleaned[brace:]
 
-    data = json.loads(cleaned)
+    data, _ = json.JSONDecoder().raw_decode(cleaned)
     targets = data.get("targets", [])
     valid = []
     for obj in targets:
@@ -205,7 +211,10 @@ def parse_vlm_targets(raw: str) -> list[dict]:
                 "confidence": float(obj.get("confidence", 0.7)),
             }
         )
-    return valid[:8]
+    valid = valid[:8]
+    for index, target in enumerate(valid):
+        target["color"] = marker_color_hex(target["label"], index)
+    return valid
 
 
 def annotate_targets(rgb: np.ndarray, targets: list[dict]) -> str:
@@ -216,7 +225,7 @@ def annotate_targets(rgb: np.ndarray, targets: list[dict]) -> str:
     for target in targets:
         px = int(np.clip(target["x"] / 1000.0 * w, 0, w - 1))
         py = int(np.clip(target["y"] / 1000.0 * h, 0, h - 1))
-        color = marker_color_hex(target["label"])
+        color = target["color"]
         r = max(6, min(w, h) // 60)
         draw.ellipse((px - r, py - r, px + r, py + r), outline=color, width=3)
         draw.line((px, py, px, py - (r * 3)), fill=color, width=3)
@@ -245,7 +254,7 @@ def project_target_to_3d(
     y0, y1 = max(0, py - r), min(img_h, py + r + 1)
     x0, x1 = max(0, px - r), min(img_w, px + r + 1)
     patch = depth_map[y0:y1, x0:x1]
-    valid = patch[np.isfinite(patch) & (patch > 0.15) & (patch < 25.0)]
+    valid = patch[np.isfinite(patch) & (patch > 0.15)]
     if valid.size == 0:
         return None
 
@@ -255,6 +264,7 @@ def project_target_to_3d(
     z_cam = -depth_m
     return {
         "label": target["label"],
+        "color": target["color"],
         "confidence": float(target["confidence"]),
         "pixel": {"x": int(px), "y": int(py)},
         "position": {
@@ -305,11 +315,13 @@ class DemoRuntime:
         model = self.load_model()
         np_image = np.asarray(image.convert("RGB"))
 
-        prediction = model.inference(
-            [np_image],
-            process_res=self.process_res,
-            process_res_method="upper_bound_resize",
-        )
+        # One GPU forward at a time keeps memory bounded; the slow VLM call below stays concurrent.
+        with self._lock:
+            prediction = model.inference(
+                [np_image],
+                process_res=self.process_res,
+                process_res_method="upper_bound_resize",
+            )
 
         rgb = prediction.processed_images[0]
         raw_depth = prediction.depth[0].astype(np.float32)
@@ -358,8 +370,8 @@ class DemoRuntime:
                     targets_3d.append(projected)
 
         return {
-            "points": np.round(points, 4).tolist(),
-            "colors": np.round(colors, 4).tolist(),
+            "points": float32_base64(points),
+            "colors": float32_base64(colors),
             "depth_preview": depth_preview_base64(metric_depth_m, preview_mask),
             "annotated_preview": overlay_base64,
             "targets_2d": targets_2d,
@@ -442,12 +454,14 @@ def build_app(runtime: DemoRuntime) -> FastAPI:
         }
 
     @app.post("/api/infer")
-    async def infer(
+    def infer(
         image: UploadFile = File(...),
         prompt: str | None = Form(default=None),
     ) -> dict:
+        if image.size is not None and image.size > MAX_UPLOAD_BYTES:
+            raise HTTPException(status_code=413, detail=f"Image larger than {MAX_UPLOAD_BYTES // (1024 * 1024)} MB.")
         try:
-            payload = await image.read()
+            payload = image.file.read()
             pil_image = Image.open(io.BytesIO(payload))
             pil_image = ImageOps.exif_transpose(pil_image).convert("RGB")
         except Exception as exc:
@@ -464,13 +478,19 @@ def build_app(runtime: DemoRuntime) -> FastAPI:
     return app
 
 
+def default_device() -> str:
+    if torch.cuda.is_available():
+        return "cuda"
+    return "mps" if torch.backends.mps.is_available() else "cpu"
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Depth Anything 3 metric point-cloud demo server.")
     parser.add_argument("--host", default="0.0.0.0")
     parser.add_argument("--port", type=int, default=8080)
     parser.add_argument("--model-dir", default="depth-anything/DA3METRIC-LARGE")
     parser.add_argument("--process-res", type=int, default=504)
-    parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
+    parser.add_argument("--device", default=default_device())
     return parser.parse_args()
 
 

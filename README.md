@@ -11,44 +11,57 @@ Or follow the setup on this repo for custom deployment
 
 ## Setup
 
-This repo is currently set up primarily for Linux.
-
-If you clone this as a git repo, prefer pulling the external DA3 dependency as a submodule:
+Requires [uv](https://docs.astral.sh/uv/getting-started/installation/). No conda needed. Supported: Linux with an NVIDIA GPU (including Jetson), and macOS on Apple Silicon (depth on MPS, VLM via Ollama).
 
 ```bash
 git clone --recurse-submodules https://github.com/MercuriusTech/Odyseus-Spatial-VLM.git
-cd spatial-vlm
+cd Odyseus-Spatial-VLM
 ```
 
-If you already cloned without submodules:
+`Depth-Anything-3/` tracks the upstream project as a submodule; `./setup.sh` fetches it if you cloned without `--recurse-submodules`.
 
-```bash
-git submodule update --init --recursive
-```
-
-If you are packaging this repo yourself, `Depth-Anything-3/` is intended to track the upstream project as a submodule.
-
-Set up the VLM environment:
-
-```bash
-./setup-vlm.sh
-```
-
-Set up the depth demo environment:
+Set up the depth demo environment (`.venv`):
 
 ```bash
 ./setup.sh
 ```
 
+`TORCH_BACKEND=auto` (default) picks the PyTorch build that matches your NVIDIA driver, or the CPU/MPS build. Override with e.g. `TORCH_BACKEND=cu128 ./setup.sh`.
+
+Set up the VLM environment (`.venv-vlm`, Linux + NVIDIA only):
+
+```bash
+./setup-vlm.sh
+```
+
+This installs vLLM and writes `.env.vlm` (VLM URL, model, GPU memory share, context length).
+
+### Linux aarch64 (Jetson)
+
+`pycolmap` (needed by Depth-Anything-3) has no wheel for Linux aarch64. Build [COLMAP](https://github.com/colmap/colmap) from source with CUDA and GUI off, install it, then install pycolmap from the COLMAP repo root and re-run `./setup.sh`:
+
+```bash
+CMAKE_PREFIX_PATH=<colmap install prefix> uv pip install --python .venv <path to colmap repo>
+```
+
+On Jetson the GPU shares memory with the CPU, so lower `GPU_UTIL` in `.env.vlm` (0.5 works on a 64 GB AGX Orin).
+
 ## Run
 
-Start the VLM server:
+Start the VLM server (Linux, runs in a tmux session):
 
 ```bash
 ./run-vlm.sh
 ```
 
-Start the depth demo:
+On macOS, serve the VLM with [Ollama](https://ollama.com) instead and point the demo at it:
+
+```bash
+ollama pull qwen3-vl:8b-instruct
+export QWEN_URL=http://127.0.0.1:11434/v1 VLM_MODEL=qwen3-vl:8b-instruct
+```
+
+Start the depth demo (uses CUDA, then MPS, then CPU, whichever is available):
 
 ```bash
 ./run.sh
@@ -91,5 +104,5 @@ flowchart LR
 
 ## Notes
 
-- Linux is the best-supported path right now.
+- Runs on Linux + NVIDIA (tested on Jetson AGX Orin) and macOS on Apple Silicon.
 - PowerShell / Windows setup help is welcome. Contributions for improving `setup-vlm.ps1` or adding fuller Windows support are encouraged.
