@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A single-page demo: user uploads an image and a prompt, a VLM picks 2D targets, Depth Anything 3 (DA3) produces metric depth, and targets are lifted to 3D and shown in a Three.js point-cloud viewer. All app code is three files: `demo.py` (FastAPI backend), `index.html` + `index.js` (frontend, no build step; Three.js 0.165.0 loaded from unpkg via import map).
+A single-page demo: user uploads an image and a prompt, a VLM picks 2D targets, Depth Anything 3 (DA3) produces metric depth, and targets are lifted to 3D and shown in a Three.js point-cloud viewer. All app code is three files: `demo.py` (FastAPI backend), `index.html` + `index.js` (frontend, no build step; Three.js 0.186.1 and Spark 2.3.1 loaded from unpkg via import map; Spark needs Three.js >= 0.180).
 
 `Depth-Anything-3/` is a git submodule of upstream ByteDance-Seed/Depth-Anything-3. Don't edit it; `demo.py` puts `Depth-Anything-3/src` on `sys.path` and imports `depth_anything_3.api.DepthAnything3`. After cloning: `git submodule update --init --recursive`.
 
@@ -22,7 +22,8 @@ Endpoints: `GET /` and `/index.js` (served no-cache), `GET /healthz` (device, VL
 - VLM: image downscaled to max 384 px, prompt from `custom_prompt_template` demands strict JSON `{"targets":[{label,x,y,confidence}]}` with **x/y normalized 0–1000** (Qwen3-VL's native grounding convention). `parse_vlm_targets` strips `<think>` blocks and code fences, drops `SKIP_LABELS` (floor, wall, sky…), caps at 8.
 - Colors: `parse_vlm_targets` assigns each target a `color` (fixed per known label, else palette by index). The 2D overlay, 3D markers and target list all use that field; the frontend has no color logic.
 - 3D lift: `project_target_to_3d` takes the median depth of an 11×11 patch (> 0.15 m); a target with no valid depth there is dropped from `targets_3d`.
-- Response: `points`/`colors` are base64 little-endian float32 (N×3), plus base64 PNGs (depth preview, annotated overlay). `index.js` decodes these by field name; change both sides together.
+- Response: `points`/`colors` are base64 little-endian float32 (N×3), plus base64 PNGs (depth preview, annotated overlay). `depth` is the full-resolution metric depth grid (float32, `processed_size` H×W, 0 = invalid, same mask as the points) and `rgb` the processed image as JPEG. `index.js` decodes these by field name; change both sides together.
+- Splats (`loadSplats` in `index.js`): the browser builds one flat Gaussian per valid depth pixel with Spark, using the same camera model as `demo.py`. Splats are oriented from neighbouring depths and fall back to camera-facing discs across depth edges (`SPLAT_EDGE`) and past `SPLAT_MAX_STRETCH` footprints. The "Gaussian splats" checkbox toggles between splats and points.
 - `/api/infer` is a sync handler on purpose (FastAPI threadpool), so a slow VLM call doesn't block other requests; the DA3 forward pass is serialized by `DemoRuntime._lock`. Uploads over `MAX_UPLOAD_BYTES` (20 MB) get 413.
 - Frontend renders VLM labels only via `textContent` (labels are model output, steerable by prompt/image text). Images without `src` are hidden by CSS and a sibling `.placeholder` shows instead; reset an image with `removeAttribute("src")`, never `src = ""`.
 

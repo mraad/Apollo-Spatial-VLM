@@ -5,9 +5,9 @@ import { SparkRenderer, SplatMesh } from "@sparkjsdev/spark";
 // Splat sigma as a fraction of the pixel footprint: neighbours overlap so surfaces look solid.
 const SPLAT_SIGMA = 0.6;
 // A neighbour whose depth differs by more than this fraction is across an edge, not on the same surface.
-const SPLAT_EDGE = 0.06;
+const SPLAT_EDGE = 0.12;
 // Grazing surfaces stretch splats; past this many pixel footprints fall back to a camera-facing disc.
-const SPLAT_MAX_STRETCH = 4;
+const SPLAT_MAX_STRETCH = 10;
 
 (function () {
   const form = document.getElementById("demo-form");
