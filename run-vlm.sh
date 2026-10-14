@@ -26,6 +26,8 @@ VLLM_PORT="$(printf '%s' "$QWEN_URL" | grep -oE ':[0-9]+' | head -n 1 | tr -d ':
 VLLM_PORT="${VLLM_PORT:-8012}"
 GPU_UTIL_VALUE="${GPU_UTIL:-0.7}"
 MAX_MODEL_LEN_VALUE="${MAX_MODEL_LEN:-16384}"
+# The demo sends one request at a time; vLLM's default (1024) can't fit hybrid models such as Qwen3.6.
+MAX_NUM_SEQS_VALUE="${MAX_NUM_SEQS:-32}"
 
 if [ ! -x "$VENV/bin/python" ]; then
   echo "No vLLM environment at $VENV. Run ./setup-vlm.sh first." >&2
@@ -47,6 +49,7 @@ tmux new-session -d -s "$SESSION_NAME" "bash -c '
     --dtype bfloat16 \
     --max-model-len \"$MAX_MODEL_LEN_VALUE\" \
     --gpu-memory-utilization \"$GPU_UTIL_VALUE\" \
+    --max-num-seqs \"$MAX_NUM_SEQS_VALUE\" \
     --enforce-eager 2>&1 | tee \"$LOG_FILE\"
 '"
 

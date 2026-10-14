@@ -57,6 +57,8 @@ Start the VLM server (Linux, runs in a tmux session):
 ./run-vlm.sh
 ```
 
+The default VLM is `Qwen/Qwen3-VL-8B-Instruct`, which fits on a Jetson AGX Orin. On a GPU with room for about 56 GB of weights, set `VLM_MODEL=Qwen/Qwen3.6-27B` in `.env.vlm`: it follows the demo's output format far more reliably (see [`eval/README.md`](eval/README.md)).
+
 On macOS, serve the VLM with [Ollama](https://ollama.com) instead and point the demo at it:
 
 ```bash

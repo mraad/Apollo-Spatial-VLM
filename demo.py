@@ -454,6 +454,8 @@ class DemoRuntime:
             ],
             "max_tokens": 400,
             "temperature": 0,
+            # Qwen3.5/3.6 think by default, which only adds latency here; models without the switch ignore it.
+            "chat_template_kwargs": {"enable_thinking": False},
         }
         response = requests.post(self.vlm_url, json=payload, timeout=45)
         response.raise_for_status()
