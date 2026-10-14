@@ -56,7 +56,7 @@ MARKER_COLORS = {
 }
 TARGET_PALETTE = ["#ff4444", "#44ff44", "#4444ff", "#ff8800", "#00ccff", "#cc44cc", "#ffff00", "#44cccc"]
 DEFAULT_FOV_DEG = 60.0
-DEFAULT_MAX_POINTS = 15000
+DEFAULT_MAX_POINTS = 50000
 MAX_UPLOAD_BYTES = 20 * 1024 * 1024
 # Multipart boundaries, headers and the prompt field on top of the image.
 MAX_INFER_BODY_BYTES = MAX_UPLOAD_BYTES + 1024 * 1024

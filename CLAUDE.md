@@ -18,7 +18,7 @@ Endpoints: `GET /` and `/index.js` (served no-cache), `GET /healthz` (device, VL
 ## Pipeline in `DemoRuntime.infer_image`
 
 - DA3 inference at `process_res` (upper-bound resize). Depth is rescaled to "metric" with an assumed camera: fixed `DEFAULT_FOV_DEG = 60`, `focal = estimate_focal_px(...)`, `metric = raw_depth * focal / 300`. No real intrinsics are used, so absolute distances are only plausible for ~60° FOV photos.
-- Point cloud: sky mask and 1st/99th depth percentile removed, uniformly subsampled to `DEFAULT_MAX_POINTS = 15000`. Camera frame is Three.js-style: x right, y up, z = -depth.
+- Point cloud: sky mask and 1st/99th depth percentile removed, uniformly subsampled to `DEFAULT_MAX_POINTS = 50000`. Camera frame is Three.js-style: x right, y up, z = -depth.
 - VLM: image downscaled to max 384 px, prompt from `custom_prompt_template` demands strict JSON `{"targets":[{label,x,y,confidence}]}` with **x/y normalized 0–1000** (Qwen3-VL's native grounding convention). `parse_vlm_targets` strips `<think>` blocks and code fences, drops `SKIP_LABELS` (floor, wall, sky…), caps at 8.
 - Colors: `parse_vlm_targets` assigns each target a `color` (fixed per known label, else palette by index). The 2D overlay, 3D markers and target list all use that field; the frontend has no color logic.
 - 3D lift: `project_target_to_3d` takes the median depth of an 11×11 patch (> 0.15 m); a target with no valid depth there is dropped from `targets_3d`.
