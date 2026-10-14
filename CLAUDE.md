@@ -42,6 +42,6 @@ Platform facts (verified):
 
 ## Verifying changes
 
-Unit tests (parser, colors, float32 encoding; imports `demo`, so run from the repo root with the venv): `.venv/bin/python -m unittest discover -s tests -v`. Single test: add `-k test_name`. No linter config. End to end: `curl localhost:8080/healthz`, then
+Unit tests (parser, colors, float16 encoding, EXIF FOV, model choice; imports `demo`, so run from the repo root with the venv): `.venv/bin/python -m unittest discover -s tests -v`. Single test: add `-k test_name`. No linter config. End to end: `curl localhost:8080/healthz`, then
 `curl -X POST localhost:8080/api/infer -F image=@Depth-Anything-3/assets/examples/SOH/000.png -F "prompt=select the opera house, the harbour bridge and the red buoy"`
 and check `targets_2d`/`targets_3d` and the decoded `annotated_preview`.
