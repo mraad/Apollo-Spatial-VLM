@@ -121,6 +121,60 @@
         width: auto;
       }
 
+      button:disabled {
+        cursor: progress;
+        opacity: 0.7;
+      }
+
+      .spinner {
+        width: 16px;
+        height: 16px;
+        border: 2px solid var(--accent);
+        border-right-color: transparent;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .spinner {
+          animation-duration: 2.4s;
+        }
+      }
+
+      .busy {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: rgba(9, 11, 15, 0.55);
+        z-index: 1;
+      }
+
+      .busy[hidden] {
+        display: none;
+      }
+
+      .busy-card {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        padding: 12px 16px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: var(--panel);
+      }
+
+      .busy-elapsed {
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+      }
+
       textarea {
         min-height: 84px;
         resize: vertical;
@@ -173,9 +227,14 @@
         display: grid;
         gap: 14px;
         background: radial-gradient(circle at top, #161d26 0%, #0d0f12 55%);
+        /* Fit the window and stay put while the sidebar scrolls, so the scene and busy overlay are centred on screen. */
+        position: sticky;
+        top: 0;
+        height: 100vh;
       }
 
       #viewer {
+        position: relative;
         min-height: 62vh;
         border-radius: 16px;
         border: 1px solid var(--border);
@@ -219,6 +278,11 @@
           border-right: 0;
           border-bottom: 1px solid var(--border);
         }
+
+        .viewer-wrap {
+          position: static;
+          height: auto;
+        }
       }
     </style>
   </head>
@@ -244,6 +308,11 @@
           <label class="toggle"><input id="splats" type="checkbox" checked /> Gaussian splats (built in the browser)</label>
 
           <button id="submit" type="submit">Run Demo</button>
+
+          <div class="panel">
+            <label>Status</label>
+            <pre id="status">Idle.</pre>
+          </div>
         </form>
 
         <div class="stack">
@@ -258,10 +327,6 @@
             <div class="preview placeholder">Prompt targets appear here after a run with a prompt</div>
           </div>
           <div class="panel">
-            <label>Status</label>
-            <pre id="status">Idle.</pre>
-          </div>
-          <div class="panel">
             <label>Targets</label>
             <div id="meta" class="target-list">No targets yet.</div>
           </div>
@@ -269,7 +334,15 @@
       </aside>
 
       <main class="viewer-wrap">
-        <div id="viewer"></div>
+        <div id="viewer">
+          <div id="busy" class="busy" hidden>
+            <div class="busy-card" role="status">
+              <span class="spinner" aria-hidden="true"></span>
+              <span id="busy-text">Running</span>
+              <span id="busy-elapsed" class="busy-elapsed" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
       </main>
     </div>
 
