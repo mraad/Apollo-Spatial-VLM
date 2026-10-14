@@ -27,7 +27,7 @@ from demo import custom_prompt_template, image_base64, normalize_vlm_url, parse_
 DATA = REPO / "eval" / "data"
 # No closing quote required: a long list of points can hit max_tokens mid-attribute, and only the first is used.
 MOLMO_COORDS = re.compile(r'coords="([^"]+)')
-QWEN_BOX = re.compile(r'"bbox_2d"\s*:\s*\[\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*\]')
+QWEN_BOX = re.compile(r'"bbox(?:_2d)?"\s*:\s*\[\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*\]')
 
 
 def resize(image: Image.Image, max_dim: int) -> Image.Image:
