@@ -37,7 +37,7 @@ Platform facts (verified):
 - NumPy 2: MoGe requires it and DA3 declares `numpy<2`, but DA3 is installed `--no-deps` and its depth on NumPy 2 matched NumPy 1 except on pixels that already vary run to run (RTX PRO 6000 server, 7 images). `setup.sh` no longer pins NumPy; `WITH_MOGE=1` adds MoGe at a pinned commit.
 - `xformers` is optional (DA3 falls back in `swiglu_ffn.py`); don't add it unpinned, it drags torch to a newer build.
 - macOS: vLLM doesn't run; use Ollama (`QWEN_URL=http://127.0.0.1:11434/v1`, `VLM_MODEL=qwen3-vl:8b-instruct`). `run.sh` sets `PYTORCH_ENABLE_MPS_FALLBACK=1`.
-- Jetson AGX Orin, JetPack 7 / CUDA 13 (sm_87): jetson-ai-lab `sbsa/cu130` wheels only ship sm_110/sm_121 ("no kernel image"). PyPI vLLM (0.31) has sm_87 kernels; PyPI torch runs DA3 correctly via sm_80 binaries (depth matched MPS to ~0.3% median). Unified memory: use `GPU_UTIL=0.5`.
+- Jetson AGX Orin, JetPack 7 / CUDA 13 (sm_87): jetson-ai-lab `sbsa/cu130` wheels only ship sm_110/sm_121 ("no kernel image"). PyPI vLLM (0.31) has sm_87 kernels; PyPI torch runs DA3 correctly via sm_80 binaries (depth matched MPS to ~0.3% median). Unified memory: use `GPU_UTIL=0.5`. Verified 2026-10-14 on the dropdown branch: `WITH_MOGE=1 ./setup.sh` works (FlexGEMM builds from source, Triton 3.8 aarch64); MoGe-3 ViT-L takes 2.8 s fp32 / 1.25 s fp16 per image (DA3: 0.2 s). `Qwen/Qwen3.6-27B-FP8` serves via Marlin weight-only FP8 (no native FP8 on sm_87) at `--gpu-memory-utilization 0.7 --max-model-len 8192`, but takes ~16 s per demo request (~5 tok/s); the demo then uses 51 of 61 GB. The root eMMC has ~8 GB free, so keep HF downloads on the NVMe (`HF_HUB_CACHE=/data/hf-hub`).
 
 ## Verifying changes
 
