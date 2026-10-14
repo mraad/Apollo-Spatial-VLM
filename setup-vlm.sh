@@ -21,7 +21,8 @@ fi
 
 # Separate venv: vLLM pins its own torch, which can differ from the demo's.
 uv venv --allow-existing --python "$PYTHON_VERSION" "$VENV"
-uv pip install --python "$VENV" --torch-backend "$TORCH_BACKEND" "vllm==${VLLM_VERSION}"
+# ninja: vLLM compiles kernels for CUDA graphs (run-vlm.sh without ENFORCE_EAGER=1).
+uv pip install --python "$VENV" --torch-backend "$TORCH_BACKEND" "vllm==${VLLM_VERSION}" ninja
 
 if [ ! -f "$ENV_FILE" ]; then
   cat > "$ENV_FILE" <<'EOF'

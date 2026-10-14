@@ -28,6 +28,11 @@ GPU_UTIL_VALUE="${GPU_UTIL:-0.7}"
 MAX_MODEL_LEN_VALUE="${MAX_MODEL_LEN:-16384}"
 # The demo sends one request at a time; vLLM's default (1024) can't fit hybrid models such as Qwen3.6.
 MAX_NUM_SEQS_VALUE="${MAX_NUM_SEQS:-32}"
+# CUDA graphs speed up decoding; ENFORCE_EAGER=1 turns them off (less memory, faster start).
+EAGER_FLAG=""
+if [ "${ENFORCE_EAGER:-0}" = "1" ]; then
+  EAGER_FLAG="--enforce-eager"
+fi
 
 if [ ! -x "$VENV/bin/python" ]; then
   echo "No vLLM environment at $VENV. Run ./setup-vlm.sh first." >&2
@@ -41,6 +46,8 @@ echo "Launching $SESSION_NAME on port $VLLM_PORT (venv: $VENV, logs: $LOG_FILE)"
 
 tmux new-session -d -s "$SESSION_NAME" "bash -c '
   export HF_HOME=\"${HF_HOME:-$HOME/.cache/huggingface}\"
+  # vLLM compiles kernels with ninja, which setup-vlm.sh installs into the venv.
+  export PATH=\"$VENV/bin:$PATH\"
   \"$VENV/bin/python\" -m vllm.entrypoints.openai.api_server \
     --model \"$MODEL_NAME\" \
     --host \"$HOST\" \
@@ -50,7 +57,7 @@ tmux new-session -d -s "$SESSION_NAME" "bash -c '
     --max-model-len \"$MAX_MODEL_LEN_VALUE\" \
     --gpu-memory-utilization \"$GPU_UTIL_VALUE\" \
     --max-num-seqs \"$MAX_NUM_SEQS_VALUE\" \
-    --enforce-eager 2>&1 | tee \"$LOG_FILE\"
+    $EAGER_FLAG 2>&1 | tee \"$LOG_FILE\"
 '"
 
 echo "Session: $SESSION_NAME"
