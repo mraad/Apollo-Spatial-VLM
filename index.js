@@ -21,10 +21,14 @@ const SPLAT_MAX_STRETCH = 10;
   const submitButton = document.getElementById("submit");
   const promptInput = document.getElementById("prompt");
   const splatsInput = document.getElementById("splats");
+  const busyEl = document.getElementById("busy");
+  const busyText = document.getElementById("busy-text");
+  const busyElapsed = document.getElementById("busy-elapsed");
 
   let previewUrl = null;
   let pointsObject = null;
   let splatMesh = null;
+  let busyTimer = null;
   let markerSpheres = [];
   let cameraGroup = null;
 
@@ -71,6 +75,26 @@ const SPLAT_MAX_STRETCH = 10;
 
   function setStatus(text) {
     statusEl.textContent = text;
+  }
+
+  // Overlay on the viewer with a live seconds counter: the server reports no progress, so elapsed time is the honest signal.
+  function startBusy(text) {
+    const started = performance.now();
+    submitButton.disabled = true;
+    submitButton.textContent = "Running…";
+    busyText.textContent = text;
+    busyElapsed.textContent = "0 s";
+    busyEl.hidden = false;
+    busyTimer = setInterval(() => {
+      busyElapsed.textContent = `${Math.floor((performance.now() - started) / 1000)} s`;
+    }, 1000);
+  }
+
+  function stopBusy() {
+    clearInterval(busyTimer);
+    busyEl.hidden = true;
+    submitButton.disabled = false;
+    submitButton.textContent = "Run Demo";
   }
 
   function renderTargetList(targets) {
@@ -500,14 +524,14 @@ const SPLAT_MAX_STRETCH = 10;
       return;
     }
 
-    submitButton.disabled = true;
-    setStatus("Uploading image and running Depth Anything 3...");
-    metaEl.textContent = "Running...";
-
     const formData = new FormData();
     formData.append("image", file);
     const promptValue = promptInput.value.trim();
     formData.append("prompt", promptValue);
+
+    startBusy(promptValue ? "Estimating depth and finding targets" : "Estimating depth");
+    setStatus("Uploading image and running Depth Anything 3...");
+    metaEl.textContent = "Running...";
 
     try {
       const response = await fetch("/api/infer", {
@@ -551,7 +575,7 @@ const SPLAT_MAX_STRETCH = 10;
       annotatedPreview.removeAttribute("src");
       resetPointCloud();
     } finally {
-      submitButton.disabled = false;
+      stopBusy();
     }
   });
 
