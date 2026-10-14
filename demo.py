@@ -411,13 +411,17 @@ class DemoRuntime:
             return self._model
 
     def load_moge(self, name: str):
+        path = None
+        if name not in self._moge:
+            from huggingface_hub import hf_hub_download
+
+            # Outside the lock: a first download can take minutes and would stall every other request's forward pass.
+            path = hf_hub_download(MOGE_REPOS[name], "model.pt")
         with self._lock:
             if name not in self._moge:
-                from huggingface_hub import hf_hub_download
                 from moge.model.v3 import MoGeModel
 
                 print(f"Loading model: {MOGE_REPOS[name]} on {self.device}")
-                path = hf_hub_download(MOGE_REPOS[name], "model.pt")
                 self._moge[name] = MoGeModel.from_pretrained(path).to(self.device).eval()
             return self._moge[name]
 
