@@ -196,6 +196,15 @@ const MAX_POINTS = 50000;
     if (pointsObject) pointsObject.visible = !splats;
   }
 
+  // Pixel (u, v) at depth d -> camera space (x right, y up, z = -depth); same camera model as demo.py.
+  function unprojector(meta) {
+    const { width, height } = meta.processed_size;
+    const focal = meta.focal_px;
+    const cx = width * 0.5;
+    const cy = height * 0.5;
+    return (u, v, d, out) => out.set(((u - cx) * d) / focal, (-(v - cy) * d) / focal, -d);
+  }
+
   async function decodeRgba(jpegBase64, width, height) {
     const img = new Image();
     img.src = `data:image/jpeg;base64,${jpegBase64}`;
@@ -212,10 +221,7 @@ const MAX_POINTS = 50000;
   async function loadSplats(depth, rgba, meta) {
     const { width, height } = meta.processed_size;
     const focal = meta.focal_px;
-    const cx = width * 0.5;
-    const cy = height * 0.5;
-
-    const unproject = (u, v, d, out) => out.set(((u - cx) * d) / focal, (-(v - cy) * d) / focal, -d);
+    const unproject = unprojector(meta);
     // Depth of a neighbour on the same surface, or 0 when it is invalid or across an edge.
     const neighbour = (u, v, d) => {
       if (u < 0 || v < 0 || u >= width || v >= height) return 0;
@@ -505,46 +511,27 @@ const MAX_POINTS = 50000;
   // Little-endian IEEE half floats (the server's depth grid) -> Float32Array.
   function decodeFloat16(base64) {
     const half = new Uint16Array(Uint8Array.from(atob(base64), (c) => c.charCodeAt(0)).buffer);
-    const out = new Float32Array(half.length);
-    for (let i = 0; i < half.length; i++) {
-      const h = half[i];
-      const sign = h & 0x8000 ? -1 : 1;
-      const exponent = (h >> 10) & 0x1f;
-      const fraction = h & 0x3ff;
-      if (exponent === 0) out[i] = sign * fraction * 2 ** -24;
-      else if (exponent === 31) out[i] = fraction ? NaN : sign * Infinity;
-      else out[i] = sign * (1 + fraction / 1024) * 2 ** (exponent - 15);
-    }
-    return out;
+    return Float32Array.from(half, THREE.DataUtils.fromHalfFloat);
   }
 
-  // Same camera model as demo.py and the splats; rgba may be null (image failed to decode), giving grey points.
   function loadPointCloud(depth, rgba, meta) {
     resetPointCloud();
-    const { width, height } = meta.processed_size;
-    const focal = meta.focal_px;
-    const cx = width * 0.5;
-    const cy = height * 0.5;
+    const width = meta.processed_size.width;
+    const unproject = unprojector(meta);
+    const point = new THREE.Vector3();
 
     const valid = [];
     for (let i = 0; i < depth.length; i++) if (depth[i] > 0) valid.push(i);
     const count = Math.min(valid.length, MAX_POINTS);
     const positions = new Float32Array(count * 3);
-    const colors = new Float32Array(count * 3).fill(0.7);
+    const colors = new Float32Array(count * 3);
     for (let k = 0; k < count; k++) {
       // Evenly spaced over the valid pixels, like np.linspace(0, n - 1, count).astype(int).
       const i = valid[count > 1 ? Math.floor((k * (valid.length - 1)) / (count - 1)) : 0];
-      const u = i % width;
-      const v = Math.floor(i / width);
-      const d = depth[i];
-      positions[k * 3] = ((u - cx) * d) / focal;
-      positions[k * 3 + 1] = (-(v - cy) * d) / focal;
-      positions[k * 3 + 2] = -d;
-      if (rgba) {
-        colors[k * 3] = rgba[i * 4] / 255;
-        colors[k * 3 + 1] = rgba[i * 4 + 1] / 255;
-        colors[k * 3 + 2] = rgba[i * 4 + 2] / 255;
-      }
+      unproject(i % width, Math.floor(i / width), depth[i], point).toArray(positions, k * 3);
+      colors[k * 3] = rgba[i * 4] / 255;
+      colors[k * 3 + 1] = rgba[i * 4 + 1] / 255;
+      colors[k * 3 + 2] = rgba[i * 4 + 2] / 255;
     }
 
     const geometry = new THREE.BufferGeometry();
@@ -562,9 +549,6 @@ const MAX_POINTS = 50000;
 
     geometry.computeBoundingSphere();
     const sphere = geometry.boundingSphere;
-    if (!sphere) {
-      return count;
-    }
 
     controls.target.copy(sphere.center);
     const radius = Math.max(sphere.radius, 0.25);
@@ -633,17 +617,10 @@ const MAX_POINTS = 50000;
       renderTargetList(targets);
       const { width, height } = result.meta.processed_size;
       const depth = decodeFloat16(result.depth);
-      let rgba = null;
-      let rgbaError = null;
-      try {
-        rgba = await decodeRgba(result.rgb, width, height);
-      } catch (error) {
-        rgbaError = error;
-      }
+      const rgba = await decodeRgba(result.rgb, width, height);
       const pointCount = loadPointCloud(depth, rgba, result.meta);
       let splatNote;
       try {
-        if (!rgba) throw rgbaError;
         const started = performance.now();
         const splatCount = await loadSplats(depth, rgba, result.meta);
         splatNote = `${splatCount} splats (built in ${Math.round(performance.now() - started)} ms)`;
