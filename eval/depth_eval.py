@@ -159,7 +159,9 @@ def main() -> None:
     h, w = soh_depth.shape
     px, py = int(SOH_BRIDGE[0] / 1000 * w), int(SOH_BRIDGE[1] / 1000 * h)
     patch = soh_depth[max(0, py - 5):py + 6, max(0, px - 5):px + 6]
-    summary["soh_bridge_depth_m"] = round(float(np.median(patch[np.isfinite(patch) & (patch > 0)])), 2)
+    patch = patch[np.isfinite(patch) & (patch > 0)]
+    # None when the model masks the bridge as invalid (MoGe marks far/sky pixels inf).
+    summary["soh_bridge_depth_m"] = round(float(np.median(patch)), 2) if patch.size else None
 
     out = REPO / "eval" / "results" / f"depth-{args.model}.json"
     out.parent.mkdir(exist_ok=True)
