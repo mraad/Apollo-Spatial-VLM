@@ -68,6 +68,17 @@ Findings:
 - **ViT-G adds nothing over ViT-L** and is 2.2× slower.
 - **Harbour bridge (SOH sample):** DA3 puts it at 18.48 m with either focal length. MoGe-3 marks it invalid (no depth) rather than guessing.
 
+## CUDA graphs (2026-10-14)
+
+`run-vlm.sh` used to pass `--enforce-eager`. With CUDA graphs on the RTX PRO 6000 server, Qwen3.6-27B (demo prompt, 384 px) kept its accuracy and got faster:
+
+| Mode | Accuracy | Unparsed answers | Median latency |
+|---|---|---|---|
+| Eager (`vlm-qwen3.6-27b-384.json`) | 0.860 | 8 | 1.55 s |
+| CUDA graphs (`vlm-qwen3.6-27b-graphs-384.json`) | 0.860 | 6 | **1.13 s** |
+
+The full demo request (three targets, 77 output tokens) went from 3.85 to 2.85 s. vLLM's first start compiles kernels (166 s vs 55 s eager), and later starts take ~65 s. On a Jetson AGX Orin the gain was only 7.35 → 7.17 s per request, while startup doubled (110 → 221 s), so Orin keeps eager mode.
+
 ## Recommendations
 
 1. **VLM:** switch the demo to Qwen3.6-27B (smallest change: send `enable_thinking: false`). Or adopt each model's native output format, which also fixes Qwen3-VL-32B. For speed, Molmo2-8B, with its own prompt and parser path.
