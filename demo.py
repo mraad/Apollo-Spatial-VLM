@@ -69,6 +69,8 @@ LEADING_ARTICLE = re.compile(r"^(?:the|a|an)\s+", re.IGNORECASE)
 MOLMO_COORDS = re.compile(r'coords="([^"]+)')
 DEFAULT_MAX_POINTS = 50000
 MAX_UPLOAD_BYTES = 20 * 1024 * 1024
+# Per VLM call (Molmo2 makes one per target). A cold first request in eager mode adds 1-3 s (measured on the RTX PRO 6000 server and Orin).
+VLM_TIMEOUT_S = float(os.environ.get("VLM_TIMEOUT", "45"))
 # Multipart boundaries, headers and the prompt field on top of the image.
 MAX_INFER_BODY_BYTES = MAX_UPLOAD_BYTES + 1024 * 1024
 
@@ -598,7 +600,7 @@ class DemoRuntime:
             # Qwen3.5/3.6 think by default, which only adds latency here; models without the switch ignore it.
             "chat_template_kwargs": {"enable_thinking": False},
         }
-        response = requests.post(self.vlms[vlm], json=payload, timeout=45)
+        response = requests.post(self.vlms[vlm], json=payload, timeout=VLM_TIMEOUT_S)
         response.raise_for_status()
         return response.json()["choices"][0]["message"]["content"] or ""
 
