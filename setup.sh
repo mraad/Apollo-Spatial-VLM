@@ -2,31 +2,25 @@
 
 set -euo pipefail
 
-ENV_NAME="${1:-spatial-vlm}"
-PYTHON_VERSION="${PYTHON_VERSION:-3.10}"
-CONDA_CHANNEL_ARGS=(
-  --override-channels
-  -c conda-forge
-)
-TORCH_INDEX_URL="${TORCH_INDEX_URL:-https://download.pytorch.org/whl/cu121}"
-TORCH_VERSION="${TORCH_VERSION:-2.5.1}"
-TORCHVISION_VERSION="${TORCHVISION_VERSION:-0.20.1}"
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VENV="${VENV:-$REPO_DIR/.venv}"
+PYTHON_VERSION="${PYTHON_VERSION:-3.12}"
+# "auto" picks the torch build that matches the installed NVIDIA driver (or CPU/MPS); e.g. TORCH_BACKEND=cu128 to force one.
+TORCH_BACKEND="${TORCH_BACKEND:-auto}"
 
-eval "$(conda shell.bash hook)"
-conda config --set channel_priority strict >/dev/null
-
-if ! conda env list | awk '{print $1}' | grep -qx "${ENV_NAME}"; then
-  conda create -y "${CONDA_CHANNEL_ARGS[@]}" -n "${ENV_NAME}" "python=${PYTHON_VERSION}"
+if ! command -v uv >/dev/null; then
+  echo "uv is not installed: https://docs.astral.sh/uv/getting-started/installation/" >&2
+  exit 1
 fi
 
-conda activate "${ENV_NAME}"
+if [ ! -f "$REPO_DIR/Depth-Anything-3/pyproject.toml" ]; then
+  git -C "$REPO_DIR" submodule update --init --recursive
+fi
 
-pip install --upgrade pip
-pip install --index-url "${TORCH_INDEX_URL}" \
-  "torch==${TORCH_VERSION}" \
-  "torchvision==${TORCHVISION_VERSION}"
-pip install \
-  xformers \
+uv venv --allow-existing --python "$PYTHON_VERSION" "$VENV"
+uv pip install --python "$VENV" --torch-backend "$TORCH_BACKEND" \
+  torch \
+  torchvision \
   fastapi \
   "uvicorn[standard]" \
   python-multipart \
@@ -46,17 +40,22 @@ pip install \
   trimesh \
   requests
 
-pip install --no-deps -e ./Depth-Anything-3
+# Depth-Anything-3 imports pycolmap at load time; there is no wheel for Linux aarch64 (e.g. Jetson).
+if ! uv pip install --python "$VENV" pycolmap; then
+  echo "No pycolmap wheel for this platform. Build COLMAP from source and run" >&2
+  echo "  CMAKE_PREFIX_PATH=<colmap install> uv pip install --python $VENV <colmap repo>" >&2
+  echo "then re-run ./setup.sh (see README)." >&2
+  exit 1
+fi
+
+uv pip install --python "$VENV" --no-deps -e "$REPO_DIR/Depth-Anything-3"
 
 cat <<EOF
 
-Environment ready.
+Environment ready: $VENV
 
-Activate it with:
-  conda activate ${ENV_NAME}
-
-Then start the demo:
+Start the demo:
   ./run.sh
 
-The model weights will be downloaded on first launch unless DA3_MODEL_DIR points to a local checkpoint or cache.
+The model weights are downloaded on first launch unless DA3_MODEL_DIR points to a local checkpoint.
 EOF
