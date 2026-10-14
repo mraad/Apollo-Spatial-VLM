@@ -108,7 +108,7 @@ def main() -> None:
         if args.kind == "molmo":
             text, to_point = f"Point to the {s['expression']}.", point_molmo
         elif args.prompt == "native":
-            # Qwen-VL's documented grounding request: a JSON bbox_2d box on the 0-1000 grid.
+            # Qwen-VL's documented grounding request: a JSON box on the 0-1000 grid (Qwen3-VL-32B answers "bbox", not "bbox_2d").
             text = f'Locate "{s["expression"]}" in the image. Output its bbox coordinates in JSON format.'
             to_point = point_qwen_native
         else:
