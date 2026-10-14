@@ -369,13 +369,20 @@ const SPLAT_MAX_STRETCH = 10;
     cameraGroup = null;
   }
 
+  // Marker and frustum sizes are in metres, tuned for scenes ~10 m across; MoGe-3 can put targets hundreds of
+  // metres away, so grow them with the scene to keep them visible.
+  function sceneScale() {
+    return Math.max(1, (pointsObject?.geometry?.boundingSphere?.radius || 1) / 10);
+  }
+
   function updateCameraContext(markers) {
     resetCameraContext();
     cameraGroup = new THREE.Group();
 
-    const frustumDepth = 0.28;
-    const frustumHalfW = 0.18;
-    const frustumHalfH = 0.12;
+    const scale = sceneScale();
+    const frustumDepth = 0.28 * scale;
+    const frustumHalfW = 0.18 * scale;
+    const frustumHalfH = 0.12 * scale;
     const frustumPoints = [
       new THREE.Vector3(0, 0, 0),
       new THREE.Vector3(-frustumHalfW, frustumHalfH, -frustumDepth),
@@ -418,17 +425,17 @@ const SPLAT_MAX_STRETCH = 10;
           color,
           transparent: true,
           opacity: 0.45,
-          dashSize: 0.035,
-          gapSize: 0.03,
+          dashSize: 0.035 * scale,
+          gapSize: 0.03 * scale,
         })
       );
       ray.computeLineDistances();
       cameraGroup.add(ray);
 
-      const headLength = Math.min(0.06, arrowLength * 0.32);
+      const headLength = Math.min(0.06 * scale, arrowLength * 0.32);
       const shaftLength = Math.max(arrowLength - headLength, 0.02);
-      const shaftRadius = 0.018;
-      const headRadius = 0.045;
+      const shaftRadius = 0.018 * scale;
+      const headRadius = 0.045 * scale;
       const material = new THREE.MeshBasicMaterial({ color });
 
       const shaft = new THREE.Mesh(
@@ -459,6 +466,7 @@ const SPLAT_MAX_STRETCH = 10;
 
   function updateMarkers(markers) {
     resetMarkers();
+    const scale = sceneScale();
 
     for (const marker of markers) {
       const { x, y, z } = marker.position;
@@ -466,7 +474,7 @@ const SPLAT_MAX_STRETCH = 10;
       const coords = `(${x.toFixed(2)}, ${y.toFixed(2)}, ${z.toFixed(2)})`;
 
       const sphere = new THREE.Mesh(
-        new THREE.SphereGeometry(0.04),
+        new THREE.SphereGeometry(0.04 * scale),
         new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.92 })
       );
       sphere.position.set(x, y, z);
@@ -477,7 +485,7 @@ const SPLAT_MAX_STRETCH = 10;
       const stem = new THREE.Line(
         new THREE.BufferGeometry().setFromPoints([
           new THREE.Vector3(x, y, z),
-          new THREE.Vector3(x, y + 0.18, z),
+          new THREE.Vector3(x, y + 0.18 * scale, z),
         ]),
         new THREE.LineBasicMaterial({ color })
       );
@@ -488,7 +496,8 @@ const SPLAT_MAX_STRETCH = 10;
         color,
         `${coords}${confidenceText(marker.confidence)}`
       );
-      sprite.position.set(x, y + 0.28, z);
+      sprite.position.set(x, y + 0.28 * scale, z);
+      sprite.scale.multiplyScalar(scale);
       markerGroup.add(sprite);
     }
   }
