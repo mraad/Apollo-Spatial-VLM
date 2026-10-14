@@ -20,7 +20,7 @@ import torch
 import uvicorn
 from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
-from PIL import Image, ImageDraw, ImageOps
+from PIL import ExifTags, Image, ImageDraw, ImageOps
 
 ROOT = Path(__file__).resolve().parent
 DEPTH_ANYTHING_SRC = ROOT / "Depth-Anything-3" / "src"
@@ -60,6 +60,26 @@ DEFAULT_MAX_POINTS = 50000
 MAX_UPLOAD_BYTES = 20 * 1024 * 1024
 # Multipart boundaries, headers and the prompt field on top of the image.
 MAX_INFER_BODY_BYTES = MAX_UPLOAD_BYTES + 1024 * 1024
+
+
+def exif_fov_deg(image: Image.Image) -> float | None:
+    """Field of view across the long side from the EXIF 35 mm-equivalent focal length, or None."""
+    exif = image.getexif().get_ifd(ExifTags.IFD.Exif)
+    try:
+        focal_35mm = float(exif.get(ExifTags.Base.FocalLengthIn35mmFilm, 0))
+    except (TypeError, ValueError):
+        return None
+    if not focal_35mm > 0:
+        return None
+    width, height = image.size
+    # A resize keeps the equivalence, a crop doesn't: skip when the pixels' aspect differs from the original's.
+    exif_w = exif.get(ExifTags.Base.ExifImageWidth)
+    exif_h = exif.get(ExifTags.Base.ExifImageHeight)
+    if exif_w and exif_h and abs(max(exif_w, exif_h) / min(exif_w, exif_h) - max(width, height) / min(width, height)) > 0.02:
+        return None
+    # The 35 mm equivalence is defined on the diagonal (36x24 mm), so it holds for any aspect ratio or orientation.
+    focal_px = focal_35mm * math.hypot(width, height) / math.hypot(36.0, 24.0)
+    return math.degrees(2.0 * math.atan(max(width, height) / 2.0 / focal_px))
 
 
 def estimate_focal_px(width: int, height: int, fov_deg: float) -> float:
@@ -320,6 +340,7 @@ class DemoRuntime:
         self,
         image: Image.Image,
         prompt: str | None = None,
+        fov_deg: float | None = None,
     ) -> dict:
         model = self.load_model()
         np_image = np.asarray(image.convert("RGB"))
@@ -337,7 +358,8 @@ class DemoRuntime:
         sky = prediction.sky[0] if prediction.sky is not None else None
 
         height, width = raw_depth.shape
-        used_focal_px = estimate_focal_px(width, height, DEFAULT_FOV_DEG)
+        used_fov_deg = fov_deg or DEFAULT_FOV_DEG
+        used_focal_px = estimate_focal_px(width, height, used_fov_deg)
         metric_depth_m = raw_depth * (used_focal_px / 300.0)
 
         fx = used_focal_px
@@ -396,7 +418,8 @@ class DemoRuntime:
                 "input_size": {"width": int(image.width), "height": int(image.height)},
                 "processed_size": {"width": int(width), "height": int(height)},
                 "focal_px": float(used_focal_px),
-                "fov_deg": float(DEFAULT_FOV_DEG),
+                "fov_deg": float(used_fov_deg),
+                "fov_source": "exif" if fov_deg else "assumed",
                 "is_metric_model_output": True,
                 "prompt_used": prompt.strip() if prompt else None,
                 "target_count": len(targets_3d),
@@ -492,6 +515,7 @@ def build_app(runtime: DemoRuntime) -> FastAPI:
         try:
             payload = image.file.read()
             pil_image = Image.open(io.BytesIO(payload))
+            fov_deg = exif_fov_deg(pil_image)
             pil_image = ImageOps.exif_transpose(pil_image).convert("RGB")
         except Exception as exc:
             raise HTTPException(status_code=400, detail=f"Failed to read uploaded image: {exc}") from exc
@@ -500,6 +524,7 @@ def build_app(runtime: DemoRuntime) -> FastAPI:
             return runtime.infer_image(
                 image=pil_image,
                 prompt=prompt,
+                fov_deg=fov_deg,
             )
         except Exception as exc:
             raise HTTPException(status_code=500, detail=str(exc)) from exc

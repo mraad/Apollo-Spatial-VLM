@@ -1,10 +1,12 @@
 import asyncio
 import base64
+import io
 import unittest
 
 import numpy as np
+from PIL import ExifTags, Image
 
-from demo import MAX_INFER_BODY_BYTES, build_app, float32_base64, parse_vlm_targets
+from demo import MAX_INFER_BODY_BYTES, build_app, exif_fov_deg, float32_base64, parse_vlm_targets
 
 
 class ParseVlmTargetsTest(unittest.TestCase):
@@ -74,6 +76,27 @@ class InferBodyLimitTest(unittest.TestCase):
         self.assertEqual(self.status({"content-length": "abc"}), 413)
         self.assertEqual(self.status({"content-length": "\u00b2"}), 413)
         self.assertEqual(self.status({"transfer-encoding": "chunked"}), 411)
+
+
+def jpeg_with_exif(size: tuple[int, int], **tags) -> Image.Image:
+    exif = Image.Exif()
+    exif.get_ifd(ExifTags.IFD.Exif).update({getattr(ExifTags.Base, k): v for k, v in tags.items()})
+    buffer = io.BytesIO()
+    Image.new("RGB", size).save(buffer, "JPEG", exif=exif)
+    return Image.open(io.BytesIO(buffer.getvalue()))
+
+
+class ExifFovTest(unittest.TestCase):
+    def test_35mm_equivalent_gives_long_side_fov(self):
+        # iPhone 13 main camera: 26 mm equivalent, 4:3 -> 2 * atan(200 / (26 * 500 / 43.27)) = 67.3 deg.
+        image = jpeg_with_exif((300, 400), FocalLengthIn35mmFilm=26, ExifImageWidth=4032, ExifImageHeight=3024)
+        self.assertAlmostEqual(exif_fov_deg(image), 67.30, places=1)
+
+    def test_falls_back_without_focal_length_or_when_cropped(self):
+        self.assertIsNone(exif_fov_deg(jpeg_with_exif((300, 400))))
+        self.assertIsNone(exif_fov_deg(jpeg_with_exif((300, 400), FocalLengthIn35mmFilm=0)))
+        cropped = jpeg_with_exif((400, 400), FocalLengthIn35mmFilm=26, ExifImageWidth=4032, ExifImageHeight=3024)
+        self.assertIsNone(exif_fov_deg(cropped))
 
 
 if __name__ == "__main__":
