@@ -90,7 +90,9 @@ class ExifFovTest(unittest.TestCase):
     def test_35mm_equivalent_gives_long_side_fov(self):
         # iPhone 13 main camera: 26 mm equivalent, 4:3 -> 2 * atan(200 / (26 * 500 / 43.27)) = 67.3 deg.
         image = jpeg_with_exif((300, 400), FocalLengthIn35mmFilm=26, ExifImageWidth=4032, ExifImageHeight=3024)
-        self.assertAlmostEqual(exif_fov_deg(image), 67.30, places=1)
+        fov = exif_fov_deg(image)
+        assert fov is not None
+        self.assertAlmostEqual(fov, 67.30, places=1)
 
     def test_falls_back_without_focal_length_or_when_cropped(self):
         self.assertIsNone(exif_fov_deg(jpeg_with_exif((300, 400))))
