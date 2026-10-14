@@ -66,10 +66,11 @@ def point_molmo(raw: str) -> tuple[float, float] | None:
     if not match:
         return None
     values = match.group(1).split()
-    # "index x y [index x y ...]": take the first point.
-    if len(values) < 3:
+    # Triples "index x y ...", optionally after a 1-based image index (vLLM returns "1 1 770 483"): first point.
+    start = 1 if len(values) % 3 == 1 else 0
+    if len(values) < start + 3:
         return None
-    return float(values[1]), float(values[2])
+    return float(values[start + 1]), float(values[start + 2])
 
 
 def main() -> None:
