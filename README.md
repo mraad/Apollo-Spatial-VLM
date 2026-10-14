@@ -1,21 +1,24 @@
-# Odyseus Spatial VLM
+# Apollo Spatial VLM
 
-![LLM vs Spatial-VLM](https://github.com/MercuriusTech/Odyseus-Spatial-VLM/blob/main/media/SpatialVLM-demo2-low-res.gif)
+![LLM vs Spatial-VLM](media/SpatialVLM-demo2-low-res.gif)
 
-I've been recently fascinated by the possibilites provided by recent advancements in monocular depth estimation models and decided to expeirment combining them with a capable VLM, so below is an example demo to get 3D outputs from a VLM that can be more useful for a physical AI agent.
+A VLM picks targets in an image, Depth Anything 3 estimates metric depth, and the demo lifts the targets into a 3D point cloud and Gaussian splats you can inspect in the browser.
 
+## Origin
 
-Quick Live Demo 👉 [app.odyseus.xyz](https://app.odyseus.xyz)
+Apollo Spatial VLM started as a fork of [MercuriusTech/Odyseus-Spatial-VLM](https://github.com/MercuriusTech/Odyseus-Spatial-VLM), a demo by Mercurius Technologies for their Odyseus spatial-intelligence product, and was renamed on 2026-10-14. The `upstream` git remote still points to that repository. Mercurius hosts their own live demo at [app.odyseus.xyz](https://app.odyseus.xyz).
 
-Or follow the setup on this repo for custom deployment
+From the original README:
+
+> I've been recently fascinated by the possibilites provided by recent advancements in monocular depth estimation models and decided to expeirment combining them with a capable VLM, so below is an example demo to get 3D outputs from a VLM that can be more useful for a physical AI agent.
 
 ## Setup
 
 Requires [uv](https://docs.astral.sh/uv/getting-started/installation/). No conda needed. Supported: Linux with an NVIDIA GPU (including Jetson), and macOS on Apple Silicon (depth on MPS, VLM via Ollama).
 
 ```bash
-git clone --recurse-submodules https://github.com/MercuriusTech/Odyseus-Spatial-VLM.git
-cd Odyseus-Spatial-VLM
+git clone --recurse-submodules https://github.com/mraad/Apollo-Spatial-VLM.git
+cd Apollo-Spatial-VLM
 ```
 
 `Depth-Anything-3/` tracks the upstream project as a submodule; `./setup.sh` fetches it if you cloned without `--recurse-submodules`.
@@ -72,11 +75,6 @@ Then open:
 ```text
 http://localhost:8080
 ```
-
-## Hosted Demo
-
-
-The local repo remains the reference implementation for running and modifying the demo yourself.
 
 ## Use
 
