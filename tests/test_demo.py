@@ -33,6 +33,13 @@ class ParseVlmTargetsTest(unittest.TestCase):
         self.assertNotEqual(targets[0]["color"], targets[1]["color"])
         self.assertEqual(targets[2]["color"], "#ff4444")
 
+    def test_malformed_output_means_no_targets(self):
+        self.assertEqual(parse_vlm_targets('{"targets":[{"label":"red sauce","x":880,{'), [])
+        self.assertEqual(parse_vlm_targets("no json here"), [])
+        self.assertEqual(parse_vlm_targets('["not", "an", "object"]'), [])
+        raw = '{"targets":[{"label":"cup","x":"left","y":5},"junk",{"label":"bowl","x":10,"y":20}]}'
+        self.assertEqual([t["label"] for t in parse_vlm_targets(raw)], ["bowl"])
+
 
 class Float32Base64Test(unittest.TestCase):
     def test_round_trips_little_endian_float32(self):

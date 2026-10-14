@@ -1,0 +1,2413 @@
+{
+ "summary": {
+  "name": "qwen3.6-27b",
+  "model": "qwen3.6-27b",
+  "kind": "qwen",
+  "no_think": true,
+  "max_dim": 1024,
+  "n": 200,
+  "accuracy": 0.905,
+  "no_point": 2,
+  "errors": 0,
+  "latency_median_s": 1.602,
+  "latency_p90_s": 2.025,
+  "prompt": "demo",
+  "parsed_accuracy": 0.9141
+ },
+ "records": [
+  {
+   "ref_id": 101,
+   "expression": "mom",
+   "point_0_1000": [
+    620,
+    605
+   ],
+   "hit": true,
+   "latency_s": 1.609,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"mom\",\"x\":620,\"y\":605,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 790,
+   "expression": "bottom left portion of couch on left",
+   "point_0_1000": [
+    200,
+    850
+   ],
+   "hit": true,
+   "latency_s": 1.894,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"bottom left portion of couch on left\",\"x\":200,\"y\":850,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 1040,
+   "expression": "man front",
+   "point_0_1000": [
+    514,
+    611
+   ],
+   "hit": true,
+   "latency_s": 1.313,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"man front\",\"x\":514,\"y\":611}]}"
+  },
+  {
+   "ref_id": 1970,
+   "expression": "red comic",
+   "point_0_1000": [
+    329,
+    604
+   ],
+   "hit": true,
+   "latency_s": 1.573,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"red comic\",\"x\":329,\"y\":604,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 2317,
+   "expression": "zebra right",
+   "point_0_1000": [
+    764,
+    474
+   ],
+   "hit": true,
+   "latency_s": 1.57,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"zebra right\",\"x\":764,\"y\":474,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 2410,
+   "expression": "far couch",
+   "point_0_1000": [
+    360,
+    480
+   ],
+   "hit": true,
+   "latency_s": 1.553,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"far couch\",\"x\":360,\"y\":480,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 3559,
+   "expression": "medium sized vase",
+   "point_0_1000": [
+    474,
+    694
+   ],
+   "hit": false,
+   "latency_s": 1.312,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"medium sized vase\",\"x\":474,\"y\":694}]}"
+  },
+  {
+   "ref_id": 3560,
+   "expression": "smaller container",
+   "point_0_1000": [
+    364,
+    766
+   ],
+   "hit": true,
+   "latency_s": 1.462,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"smaller container\",\"x\":364,\"y\":766}]}"
+  },
+  {
+   "ref_id": 3572,
+   "expression": "person in background directly above fist",
+   "point_0_1000": [
+    890,
+    240
+   ],
+   "hit": false,
+   "latency_s": 1.861,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"person in background directly above fist\",\"x\":890,\"y\":240,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 3822,
+   "expression": "guy on the left in back",
+   "point_0_1000": [
+    710,
+    129
+   ],
+   "hit": true,
+   "latency_s": 1.798,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"guy on the left in back\",\"x\":710,\"y\":129,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 4109,
+   "expression": "guy",
+   "point_0_1000": [
+    470,
+    556
+   ],
+   "hit": true,
+   "latency_s": 1.51,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"guy\",\"x\":470,\"y\":556}]}\n```"
+  },
+  {
+   "ref_id": 4413,
+   "expression": "the blue cup on the top right",
+   "point_0_1000": [
+    864,
+    200
+   ],
+   "hit": true,
+   "latency_s": 1.567,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"blue cup\",\"x\":864,\"y\":200,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 4414,
+   "expression": "red sauce",
+   "point_0_1000": [
+    875,
+    550
+   ],
+   "hit": true,
+   "latency_s": 1.847,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"red sauce\",\"x\":875,\"y\":550,\"confidence\":0.95}]}\n```"
+  },
+  {
+   "ref_id": 4583,
+   "expression": "middle plate behind the pizza",
+   "point_0_1000": [
+    560,
+    290
+   ],
+   "hit": true,
+   "latency_s": 1.756,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"middle plate behind the pizza\",\"x\":560,\"y\":290,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 5120,
+   "expression": "man on right",
+   "point_0_1000": [
+    814,
+    600
+   ],
+   "hit": true,
+   "latency_s": 1.689,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"man on right\",\"x\":814,\"y\":600,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 5144,
+   "expression": "far right cupcake part",
+   "point_0_1000": [
+    940,
+    180
+   ],
+   "hit": true,
+   "latency_s": 1.717,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"far right cupcake part\",\"x\":940,\"y\":180,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 5152,
+   "expression": "bottom right corner of table",
+   "point_0_1000": [
+    950,
+    950
+   ],
+   "hit": true,
+   "latency_s": 1.666,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"bottom right corner of table\",\"x\":950,\"y\":950,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 5217,
+   "expression": "left choc donut on bottom",
+   "point_0_1000": [
+    384,
+    639
+   ],
+   "hit": true,
+   "latency_s": 1.744,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"left choc donut on bottom\",\"x\":384,\"y\":639,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 5249,
+   "expression": "bride",
+   "point_0_1000": [
+    475,
+    434
+   ],
+   "hit": true,
+   "latency_s": 1.278,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"bride\",\"x\":475,\"y\":434}]}"
+  },
+  {
+   "ref_id": 5466,
+   "expression": "right white spoon",
+   "point_0_1000": [
+    914,
+    414
+   ],
+   "hit": true,
+   "latency_s": 1.671,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"right white spoon\",\"x\":914,\"y\":414,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 5700,
+   "expression": "cup left",
+   "point_0_1000": [
+    200,
+    220
+   ],
+   "hit": true,
+   "latency_s": 1.205,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"cup\",\"x\":200,\"y\":220}]}"
+  },
+  {
+   "ref_id": 6146,
+   "expression": "midlle top",
+   "point_0_1000": [
+    500,
+    0
+   ],
+   "hit": false,
+   "latency_s": 1.152,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"top middle\",\"x\":500,\"y\":0}]}"
+  },
+  {
+   "ref_id": 6438,
+   "expression": "checkered tablecloth",
+   "point_0_1000": [
+    820,
+    480
+   ],
+   "hit": true,
+   "latency_s": 1.667,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"checkered tablecloth\",\"x\":820,\"y\":480,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 6504,
+   "expression": "biggest laptop",
+   "point_0_1000": [
+    280,
+    400
+   ],
+   "hit": true,
+   "latency_s": 1.618,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"biggest laptop\",\"x\":280,\"y\":400,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 6871,
+   "expression": "biggest glazed donut",
+   "point_0_1000": [
+    196,
+    543
+   ],
+   "hit": true,
+   "latency_s": 1.711,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"biggest glazed donut\",\"x\":196,\"y\":543,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 7091,
+   "expression": "center case on floor with squares",
+   "point_0_1000": [
+    384,
+    652
+   ],
+   "hit": true,
+   "latency_s": 1.858,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"center case on floor with squares\",\"x\":384,\"y\":652,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 7660,
+   "expression": "hand closest",
+   "point_0_1000": [
+    280,
+    680
+   ],
+   "hit": true,
+   "latency_s": 6.85,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"hand\",\"x\":280,\"y\":680},{\"label\":\"hand\",\"x\":420,\"y\":680},{\"label\":\"hand\",\"x\":110,\"y\":620},{\"label\":\"hand\",\"x\":660,\"y\":650},{\"label\":\"hand\",\"x\":730,\"y\":680},{\"label\":\"hand\",\"x\":490,\"y\":580},{\"label\":\"hand\",\"x\":420,\"y\":900},{\"label\":\"hand\",\"x\":580,\"y\":920}]}"
+  },
+  {
+   "ref_id": 7662,
+   "expression": "front red car",
+   "point_0_1000": [
+    475,
+    484
+   ],
+   "hit": true,
+   "latency_s": 1.676,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"front red car\",\"x\":475,\"y\":484,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 7739,
+   "expression": "left upper person",
+   "point_0_1000": [
+    276,
+    333
+   ],
+   "hit": false,
+   "latency_s": 1.353,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"left upper person\",\"x\":276,\"y\":333}]}"
+  },
+  {
+   "ref_id": 7977,
+   "expression": "left back white shirt behind fence",
+   "point_0_1000": [
+    135,
+    550
+   ],
+   "hit": true,
+   "latency_s": 1.501,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"left back white shirt behind fence\",\"x\":135,\"y\":550}]}"
+  },
+  {
+   "ref_id": 8162,
+   "expression": "center white chick",
+   "point_0_1000": [
+    500,
+    420
+   ],
+   "hit": true,
+   "latency_s": 1.619,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"center white chick\",\"x\":500,\"y\":420,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 9202,
+   "expression": "red shirt",
+   "point_0_1000": [
+    722,
+    404
+   ],
+   "hit": true,
+   "latency_s": 1.648,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"red shirt\",\"x\":722,\"y\":404,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 9976,
+   "expression": "white table blurry in background left",
+   "point_0_1000": [
+    150,
+    330
+   ],
+   "hit": true,
+   "latency_s": 1.886,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"white table blurry in background left\",\"x\":150,\"y\":330,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 10267,
+   "expression": "guy striped shirt",
+   "point_0_1000": [
+    280,
+    530
+   ],
+   "hit": true,
+   "latency_s": 1.841,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"guy striped shirt\",\"x\":280,\"y\":530,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 10324,
+   "expression": "person on far right standing",
+   "point_0_1000": [
+    943,
+    350
+   ],
+   "hit": true,
+   "latency_s": 1.712,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"person on far right standing\",\"x\":943,\"y\":350,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 10421,
+   "expression": "mama",
+   "point_0_1000": [
+    230,
+    514
+   ],
+   "hit": true,
+   "latency_s": 1.266,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"mama\",\"x\":230,\"y\":514}]}"
+  },
+  {
+   "ref_id": 10426,
+   "expression": "holding baby",
+   "point_0_1000": [
+    410,
+    350
+   ],
+   "hit": true,
+   "latency_s": 1.629,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"holding baby\",\"x\":410,\"y\":350,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 11110,
+   "expression": "batch of brocollie on left",
+   "point_0_1000": [
+    350,
+    200
+   ],
+   "hit": true,
+   "latency_s": 2.122,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"broccoli\",\"x\":350,\"y\":200},{\"label\":\"broccoli\",\"x\":780,\"y\":220}]}"
+  },
+  {
+   "ref_id": 11149,
+   "expression": "groom",
+   "point_0_1000": [
+    544,
+    306
+   ],
+   "hit": true,
+   "latency_s": 1.656,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"groom\",\"x\":544,\"y\":306,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 11556,
+   "expression": "person on left",
+   "point_0_1000": [
+    424,
+    604
+   ],
+   "hit": true,
+   "latency_s": 1.326,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"person on left\",\"x\":424,\"y\":604}]}"
+  },
+  {
+   "ref_id": 11687,
+   "expression": "man on right",
+   "point_0_1000": [
+    920,
+    550
+   ],
+   "hit": true,
+   "latency_s": 1.637,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"man on right\",\"x\":920,\"y\":550,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 11811,
+   "expression": "person on left",
+   "point_0_1000": [
+    350,
+    667
+   ],
+   "hit": true,
+   "latency_s": 1.626,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"person on left\",\"x\":350,\"y\":667,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 11855,
+   "expression": "galss vase in left top corner",
+   "point_0_1000": [
+    420,
+    714
+   ],
+   "hit": false,
+   "latency_s": 1.639,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"glass vase\",\"x\":420,\"y\":714,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 12501,
+   "expression": "blond girl in the bottom right corner",
+   "point_0_1000": [
+    870,
+    670
+   ],
+   "hit": true,
+   "latency_s": 1.64,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"blond girl\",\"x\":870,\"y\":670,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 12591,
+   "expression": "train on left",
+   "point_0_1000": [
+    200,
+    500
+   ],
+   "hit": true,
+   "latency_s": 1.876,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"train on left\",\"x\":200,\"y\":500,\"confidence\":0.99}]}\n```"
+  },
+  {
+   "ref_id": 12785,
+   "expression": "empty chair next to man",
+   "point_0_1000": [
+    575,
+    880
+   ],
+   "hit": true,
+   "latency_s": 4.644,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"empty chair\",\"x\":575,\"y\":880},{\"label\":\"empty chair\",\"x\":750,\"y\":600},{\"label\":\"empty chair\",\"x\":560,\"y\":570},{\"label\":\"empty chair\",\"x\":450,\"y\":430},{\"label\":\"empty chair\",\"x\":380,\"y\":380}]}"
+  },
+  {
+   "ref_id": 12845,
+   "expression": "apple left side",
+   "point_0_1000": [
+    140,
+    560
+   ],
+   "hit": true,
+   "latency_s": 3.612,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"apple\",\"x\":140,\"y\":560},{\"label\":\"apple\",\"x\":300,\"y\":360},{\"label\":\"apple\",\"x\":330,\"y\":730},{\"label\":\"apple\",\"x\":520,\"y\":400}]}"
+  },
+  {
+   "ref_id": 12884,
+   "expression": "elephant in center with trunk out",
+   "point_0_1000": [
+    464,
+    540
+   ],
+   "hit": true,
+   "latency_s": 1.257,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"elephant\",\"x\":464,\"y\":540}]}"
+  },
+  {
+   "ref_id": 13069,
+   "expression": "black motocicle",
+   "point_0_1000": [
+    880,
+    650
+   ],
+   "hit": true,
+   "latency_s": 2.46,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"black motocicle\",\"x\":880,\"y\":650},{\"label\":\"black motocicle\",\"x\":650,\"y\":650}]}\n```"
+  },
+  {
+   "ref_id": 13502,
+   "expression": "girl",
+   "point_0_1000": [
+    370,
+    420
+   ],
+   "hit": true,
+   "latency_s": 1.303,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"girl\",\"x\":370,\"y\":420}]}"
+  },
+  {
+   "ref_id": 13596,
+   "expression": "stand back right",
+   "point_0_1000": [
+    859,
+    250
+   ],
+   "hit": true,
+   "latency_s": 1.621,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"stand back right\",\"x\":859,\"y\":250,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 13597,
+   "expression": "any banana",
+   "point_0_1000": [
+    870,
+    870
+   ],
+   "hit": true,
+   "latency_s": 6.814,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"banana\",\"x\":870,\"y\":870},{\"label\":\"banana\",\"x\":470,\"y\":720},{\"label\":\"banana\",\"x\":280,\"y\":660},{\"label\":\"banana\",\"x\":800,\"y\":620},{\"label\":\"banana\",\"x\":540,\"y\":580},{\"label\":\"banana\",\"x\":100,\"y\":600},{\"label\":\"banana\",\"x\":260,\"y\":520},{\"label\":\"banana\",\"x\":420,\"y\":500}]}"
+  },
+  {
+   "ref_id": 14061,
+   "expression": "cycle to the right",
+   "point_0_1000": [
+    750,
+    680
+   ],
+   "hit": true,
+   "latency_s": 1.215,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"cycle\",\"x\":750,\"y\":680}]}"
+  },
+  {
+   "ref_id": 14355,
+   "expression": "remote on rightside",
+   "point_0_1000": [
+    830,
+    440
+   ],
+   "hit": true,
+   "latency_s": 1.245,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"remote\",\"x\":830,\"y\":440}]}"
+  },
+  {
+   "ref_id": 14356,
+   "expression": "fourth remote from left",
+   "point_0_1000": [
+    420,
+    470
+   ],
+   "hit": true,
+   "latency_s": 1.733,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"fourth remote from left\",\"x\":420,\"y\":470,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 14843,
+   "expression": "bus on the left",
+   "point_0_1000": [
+    644,
+    650
+   ],
+   "hit": false,
+   "latency_s": 3.659,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"bus\",\"x\":644,\"y\":650},{\"label\":\"bus\",\"x\":456,\"y\":560},{\"label\":\"bus\",\"x\":523,\"y\":540},{\"label\":\"bus\",\"x\":764,\"y\":560}]}"
+  },
+  {
+   "ref_id": 15322,
+   "expression": "lady with chef hat",
+   "point_0_1000": [
+    550,
+    500
+   ],
+   "hit": true,
+   "latency_s": 1.769,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"lady with chef hat\",\"x\":550,\"y\":500,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 15504,
+   "expression": "animal with collar",
+   "point_0_1000": [
+    480,
+    470
+   ],
+   "hit": true,
+   "latency_s": 1.314,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"animal with collar\",\"x\":480,\"y\":470}]}"
+  },
+  {
+   "ref_id": 15511,
+   "expression": "sandwich guy is holding",
+   "point_0_1000": [
+    300,
+    400
+   ],
+   "hit": true,
+   "latency_s": 1.312,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"sandwich\",\"x\":300,\"y\":400}]}"
+  },
+  {
+   "ref_id": 16135,
+   "expression": "container at bottom right with carrots",
+   "point_0_1000": [
+    775,
+    730
+   ],
+   "hit": true,
+   "latency_s": 1.712,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"container with carrots\",\"x\":775,\"y\":730,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 16231,
+   "expression": "kneeling far right bottom",
+   "point_0_1000": [
+    796,
+    646
+   ],
+   "hit": true,
+   "latency_s": 1.819,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"kneeling far right bottom\",\"x\":796,\"y\":646,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 16537,
+   "expression": "kid dark shirt light jeans",
+   "point_0_1000": [
+    690,
+    670
+   ],
+   "hit": true,
+   "latency_s": 1.731,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"kid dark shirt light jeans\",\"x\":690,\"y\":670,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 16717,
+   "expression": "right most dude",
+   "point_0_1000": [
+    800,
+    750
+   ],
+   "hit": true,
+   "latency_s": 1.658,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"right most dude\",\"x\":800,\"y\":750,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 16755,
+   "expression": "left couch",
+   "point_0_1000": [
+    160,
+    650
+   ],
+   "hit": true,
+   "latency_s": 1.593,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"left couch\",\"x\":160,\"y\":650,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 16871,
+   "expression": "bear farthest right facing you",
+   "point_0_1000": [
+    914,
+    539
+   ],
+   "hit": true,
+   "latency_s": 1.214,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"bear\",\"x\":914,\"y\":539}]}"
+  },
+  {
+   "ref_id": 17006,
+   "expression": "winner",
+   "point_0_1000": [
+    775,
+    500
+   ],
+   "hit": true,
+   "latency_s": 1.179,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"winner\",\"x\":775,\"y\":500}]}"
+  },
+  {
+   "ref_id": 17084,
+   "expression": "guy in white",
+   "point_0_1000": [
+    250,
+    540
+   ],
+   "hit": true,
+   "latency_s": 1.369,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"guy in white\",\"x\":250,\"y\":540}]}"
+  },
+  {
+   "ref_id": 17252,
+   "expression": "blue shirt guy on right",
+   "point_0_1000": [
+    600,
+    640
+   ],
+   "hit": true,
+   "latency_s": 1.729,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"blue shirt guy on right\",\"x\":600,\"y\":640,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 17453,
+   "expression": "right zebra",
+   "point_0_1000": [
+    794,
+    696
+   ],
+   "hit": true,
+   "latency_s": 1.923,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"right zebra\",\"x\":794,\"y\":696,\"confidence\":0.95}]}\n```"
+  },
+  {
+   "ref_id": 17533,
+   "expression": "blurred front image",
+   "point_0_1000": [
+    150,
+    650
+   ],
+   "hit": true,
+   "latency_s": 1.793,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"blurred front image\",\"x\":150,\"y\":650,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 17795,
+   "expression": "man on right",
+   "point_0_1000": [
+    879,
+    420
+   ],
+   "hit": true,
+   "latency_s": 1.344,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"man on right\",\"x\":879,\"y\":420}]}"
+  },
+  {
+   "ref_id": 18691,
+   "expression": "right bike",
+   "point_0_1000": [
+    700,
+    500
+   ],
+   "hit": true,
+   "latency_s": 1.551,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"right bike\",\"x\":700,\"y\":500,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 18837,
+   "expression": "center gyu",
+   "point_0_1000": [
+    550,
+    796
+   ],
+   "hit": true,
+   "latency_s": 1.224,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"gyu\",\"x\":550,\"y\":796}]}"
+  },
+  {
+   "ref_id": 19048,
+   "expression": "redblack second from right",
+   "point_0_1000": [
+    360,
+    340
+   ],
+   "hit": true,
+   "latency_s": 1.312,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"redblack elephant\",\"x\":360,\"y\":340}]}"
+  },
+  {
+   "ref_id": 19979,
+   "expression": "guy on right",
+   "point_0_1000": [
+    720,
+    570
+   ],
+   "hit": true,
+   "latency_s": 1.683,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"guy on right\",\"x\":720,\"y\":570,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 20813,
+   "expression": "catcher",
+   "point_0_1000": [
+    683,
+    636
+   ],
+   "hit": true,
+   "latency_s": 1.262,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"catcher\",\"x\":683,\"y\":636}]}"
+  },
+  {
+   "ref_id": 20814,
+   "expression": "batter",
+   "point_0_1000": [
+    309,
+    544
+   ],
+   "hit": true,
+   "latency_s": 1.241,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"batter\",\"x\":309,\"y\":544}]}"
+  },
+  {
+   "ref_id": 21146,
+   "expression": "dark blur to left above flowers",
+   "point_0_1000": [
+    80,
+    500
+   ],
+   "hit": true,
+   "latency_s": 1.61,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"dark blur\",\"x\":80,\"y\":500,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 21841,
+   "expression": "red peppers",
+   "point_0_1000": [
+    680,
+    240
+   ],
+   "hit": true,
+   "latency_s": 3.183,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"red peppers\",\"x\":680,\"y\":240},{\"label\":\"red peppers\",\"x\":780,\"y\":250},{\"label\":\"red peppers\",\"x\":850,\"y\":250}]}\n```"
+  },
+  {
+   "ref_id": 21962,
+   "expression": "left guy",
+   "point_0_1000": [
+    230,
+    570
+   ],
+   "hit": true,
+   "latency_s": 1.297,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"left guy\",\"x\":230,\"y\":570}]}"
+  },
+  {
+   "ref_id": 22465,
+   "expression": "white can",
+   "point_0_1000": null,
+   "hit": false,
+   "latency_s": 0.426,
+   "error": null,
+   "raw": "{\"targets\":[]}"
+  },
+  {
+   "ref_id": 22472,
+   "expression": "left kid",
+   "point_0_1000": [
+    250,
+    550
+   ],
+   "hit": true,
+   "latency_s": 1.556,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"left kid\",\"x\":250,\"y\":550,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 22746,
+   "expression": "man with glasses",
+   "point_0_1000": [
+    760,
+    330
+   ],
+   "hit": true,
+   "latency_s": 1.377,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"man with glasses\",\"x\":760,\"y\":330}]}"
+  },
+  {
+   "ref_id": 23046,
+   "expression": "girl in back with racket",
+   "point_0_1000": [
+    174,
+    422
+   ],
+   "hit": true,
+   "latency_s": 1.75,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"girl in back with racket\",\"x\":174,\"y\":422,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 23428,
+   "expression": "standing garraffe on right",
+   "point_0_1000": [
+    900,
+    450
+   ],
+   "hit": true,
+   "latency_s": 1.649,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"standing giraffe\",\"x\":900,\"y\":450,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 23507,
+   "expression": "zebra looking at the camera on the left",
+   "point_0_1000": [
+    362,
+    596
+   ],
+   "hit": true,
+   "latency_s": 2.141,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"zebra looking at the camera on the left\",\"x\":362,\"y\":596,\"confidence\":0.9}]}\n```"
+  },
+  {
+   "ref_id": 23681,
+   "expression": "top of big umbrella",
+   "point_0_1000": [
+    812,
+    284
+   ],
+   "hit": true,
+   "latency_s": 1.625,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"top of big umbrella\",\"x\":812,\"y\":284,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 23768,
+   "expression": "right corner car",
+   "point_0_1000": [
+    800,
+    870
+   ],
+   "hit": true,
+   "latency_s": 1.576,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"right corner car\",\"x\":800,\"y\":870,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 24767,
+   "expression": "second food item from left",
+   "point_0_1000": [
+    470,
+    230
+   ],
+   "hit": true,
+   "latency_s": 1.572,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"beignet\",\"x\":470,\"y\":230,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 24900,
+   "expression": "batter",
+   "point_0_1000": [
+    344,
+    500
+   ],
+   "hit": true,
+   "latency_s": 1.266,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"batter\",\"x\":344,\"y\":500}]}"
+  },
+  {
+   "ref_id": 24920,
+   "expression": "man on right",
+   "point_0_1000": [
+    854,
+    443
+   ],
+   "hit": true,
+   "latency_s": 1.621,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"man on right\",\"x\":854,\"y\":443,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 24921,
+   "expression": "man in black",
+   "point_0_1000": [
+    656,
+    540
+   ],
+   "hit": true,
+   "latency_s": 1.596,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"man in black\",\"x\":656,\"y\":540,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 25427,
+   "expression": "second bowl of soup from the left",
+   "point_0_1000": [
+    360,
+    764
+   ],
+   "hit": true,
+   "latency_s": 1.784,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"second bowl of soup from the left\",\"x\":360,\"y\":764,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 25436,
+   "expression": "car driving in the road",
+   "point_0_1000": [
+    560,
+    700
+   ],
+   "hit": true,
+   "latency_s": 9.342,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"car driving in the road\",\"x\":560,\"y\":700,\"confidence\":0.9},{\"label\":\"car driving in the road\",\"x\":950,\"y\":760,\"confidence\":0.8},{\"label\":\"car driving in the road\",\"x\":80,\"y\":720,\"confidence\":0.8},{\"label\":\"car driving in the road\",\"x\":140,\"y\":600,\"confidence\":0.8},{\"label\":\"car"
+  },
+  {
+   "ref_id": 25587,
+   "expression": "right most vase",
+   "point_0_1000": [
+    805,
+    710
+   ],
+   "hit": true,
+   "latency_s": 1.619,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"right most vase\",\"x\":805,\"y\":710,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 25858,
+   "expression": "female in blue clothing",
+   "point_0_1000": [
+    72,
+    400
+   ],
+   "hit": false,
+   "latency_s": 3.036,
+   "error": null,
+   "raw": "```json\n{\"targets\": [{\"label\": \"female in blue clothing\", \"x\": 72, \"y\": 400}, {\"label\": \"female in blue clothing\", \"x\": 833, \"y\": 570}]}\n```"
+  },
+  {
+   "ref_id": 25956,
+   "expression": "dog in party hat",
+   "point_0_1000": [
+    770,
+    400
+   ],
+   "hit": true,
+   "latency_s": 1.661,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"dog in party hat\",\"x\":770,\"y\":400,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 26589,
+   "expression": "bag hanging up on fence left",
+   "point_0_1000": [
+    100,
+    450
+   ],
+   "hit": true,
+   "latency_s": 1.194,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"bag\",\"x\":100,\"y\":450}]}"
+  },
+  {
+   "ref_id": 26642,
+   "expression": "green pants kid",
+   "point_0_1000": [
+    340,
+    650
+   ],
+   "hit": true,
+   "latency_s": 1.597,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"green pants kid\",\"x\":340,\"y\":650,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 26808,
+   "expression": "right chair",
+   "point_0_1000": [
+    800,
+    250
+   ],
+   "hit": true,
+   "latency_s": 1.558,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"right chair\",\"x\":800,\"y\":250,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 27292,
+   "expression": "orange shirt",
+   "point_0_1000": [
+    920,
+    300
+   ],
+   "hit": true,
+   "latency_s": 1.582,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"orange shirt\",\"x\":920,\"y\":300,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 27321,
+   "expression": "the exposed wood to the top of the sandwhich",
+   "point_0_1000": [
+    938,
+    420
+   ],
+   "hit": true,
+   "latency_s": 2.199,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"the exposed wood to the top of the sandwhich\",\"x\":938,\"y\":420,\"confidence\":0.9}]}\n```"
+  },
+  {
+   "ref_id": 27478,
+   "expression": "guy under frisbee",
+   "point_0_1000": [
+    264,
+    454
+   ],
+   "hit": true,
+   "latency_s": 1.394,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"guy under frisbee\",\"x\":264,\"y\":454}]}"
+  },
+  {
+   "ref_id": 27939,
+   "expression": "old person in glasses no hat light blue blanket",
+   "point_0_1000": [
+    280,
+    450
+   ],
+   "hit": true,
+   "latency_s": 1.887,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"old person in glasses no hat light blue blanket\",\"x\":280,\"y\":450,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 28318,
+   "expression": "guys arm far right",
+   "point_0_1000": [
+    940,
+    750
+   ],
+   "hit": true,
+   "latency_s": 1.691,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"guys arm far right\",\"x\":940,\"y\":750,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 28319,
+   "expression": "man",
+   "point_0_1000": [
+    414,
+    594
+   ],
+   "hit": true,
+   "latency_s": 1.965,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"man\",\"x\":414,\"y\":594},{\"label\":\"man\",\"x\":944,\"y\":750}]}"
+  },
+  {
+   "ref_id": 28474,
+   "expression": "front right person next to dog lover",
+   "point_0_1000": [
+    842,
+    728
+   ],
+   "hit": false,
+   "latency_s": 1.799,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"front right person next to dog lover\",\"x\":842,\"y\":728,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 28557,
+   "expression": "batta batta batta",
+   "point_0_1000": [
+    620,
+    267
+   ],
+   "hit": false,
+   "latency_s": 1.25,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"batta\",\"x\":620,\"y\":267}]}"
+  },
+  {
+   "ref_id": 28578,
+   "expression": "europe",
+   "point_0_1000": [
+    660,
+    420
+   ],
+   "hit": true,
+   "latency_s": 1.503,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"europe\",\"x\":660,\"y\":420}]}\n```"
+  },
+  {
+   "ref_id": 28599,
+   "expression": "woman in yellow hoodie",
+   "point_0_1000": [
+    175,
+    708
+   ],
+   "hit": true,
+   "latency_s": 1.719,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"woman in yellow hoodie\",\"x\":175,\"y\":708,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 28729,
+   "expression": "person on left",
+   "point_0_1000": [
+    315,
+    571
+   ],
+   "hit": true,
+   "latency_s": 1.676,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"person on left\",\"x\":315,\"y\":571,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 28822,
+   "expression": "far left lounge chair",
+   "point_0_1000": [
+    220,
+    850
+   ],
+   "hit": true,
+   "latency_s": 1.31,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"lounge chair\",\"x\":220,\"y\":850}]}"
+  },
+  {
+   "ref_id": 29220,
+   "expression": "white train on left",
+   "point_0_1000": [
+    330,
+    470
+   ],
+   "hit": true,
+   "latency_s": 1.959,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"white train on left\",\"x\":330,\"y\":470,\"confidence\":0.95}]}\n```"
+  },
+  {
+   "ref_id": 29592,
+   "expression": "lttle girl",
+   "point_0_1000": [
+    690,
+    686
+   ],
+   "hit": true,
+   "latency_s": 1.638,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"lttle girl\",\"x\":690,\"y\":686,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 30144,
+   "expression": "woman in the black and white dres on the right",
+   "point_0_1000": [
+    742,
+    402
+   ],
+   "hit": true,
+   "latency_s": 2.033,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"woman in the black and white dres on the right\",\"x\":742,\"y\":402,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 30295,
+   "expression": "bed",
+   "point_0_1000": [
+    500,
+    550
+   ],
+   "hit": true,
+   "latency_s": 1.535,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"bed\",\"x\":500,\"y\":550,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 30602,
+   "expression": "man",
+   "point_0_1000": [
+    600,
+    700
+   ],
+   "hit": true,
+   "latency_s": 4.303,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"man\",\"x\":600,\"y\":700},{\"label\":\"man\",\"x\":38,\"y\":714},{\"label\":\"man\",\"x\":781,\"y\":725},{\"label\":\"man\",\"x\":834,\"y\":725},{\"label\":\"man\",\"x\":900,\"y\":738}]}"
+  },
+  {
+   "ref_id": 30716,
+   "expression": "left apple",
+   "point_0_1000": [
+    580,
+    346
+   ],
+   "hit": false,
+   "latency_s": 1.237,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"apple\",\"x\":580,\"y\":346}]}"
+  },
+  {
+   "ref_id": 30718,
+   "expression": "apple in the middle",
+   "point_0_1000": [
+    580,
+    346
+   ],
+   "hit": true,
+   "latency_s": 2.008,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"apple\",\"x\":580,\"y\":346},{\"label\":\"apple\",\"x\":834,\"y\":486}]}"
+  },
+  {
+   "ref_id": 30861,
+   "expression": "woman on right",
+   "point_0_1000": [
+    664,
+    471
+   ],
+   "hit": true,
+   "latency_s": 1.29,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"woman on right\",\"x\":664,\"y\":471}]}"
+  },
+  {
+   "ref_id": 31214,
+   "expression": "man far left",
+   "point_0_1000": [
+    110,
+    650
+   ],
+   "hit": true,
+   "latency_s": 1.889,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"man far left\",\"x\":110,\"y\":650,\"confidence\":0.95}]}\n```"
+  },
+  {
+   "ref_id": 31468,
+   "expression": "broc laying sideways in center of photo",
+   "point_0_1000": [
+    530,
+    330
+   ],
+   "hit": true,
+   "latency_s": 2.12,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"broc\",\"x\":530,\"y\":330},{\"label\":\"broc\",\"x\":440,\"y\":700}]}"
+  },
+  {
+   "ref_id": 31519,
+   "expression": "elephant in back",
+   "point_0_1000": [
+    540,
+    580
+   ],
+   "hit": true,
+   "latency_s": 1.639,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"elephant in back\",\"x\":540,\"y\":580,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 31949,
+   "expression": "left cup",
+   "point_0_1000": [
+    100,
+    450
+   ],
+   "hit": true,
+   "latency_s": 1.569,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"left cup\",\"x\":100,\"y\":450,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 32013,
+   "expression": "elephant on the right edge of photo",
+   "point_0_1000": [
+    930,
+    570
+   ],
+   "hit": true,
+   "latency_s": 1.533,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"elephant\",\"x\":930,\"y\":570,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 32016,
+   "expression": "glazed donut",
+   "point_0_1000": [
+    250,
+    430
+   ],
+   "hit": true,
+   "latency_s": 1.349,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"glazed donut\",\"x\":250,\"y\":430}]}"
+  },
+  {
+   "ref_id": 32412,
+   "expression": "guy with phone",
+   "point_0_1000": [
+    864,
+    474
+   ],
+   "hit": true,
+   "latency_s": 1.361,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"guy with phone\",\"x\":864,\"y\":474}]}"
+  },
+  {
+   "ref_id": 32993,
+   "expression": "hotdog in bottom left corner",
+   "point_0_1000": [
+    190,
+    700
+   ],
+   "hit": true,
+   "latency_s": 1.301,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"hotdog\",\"x\":190,\"y\":700}]}"
+  },
+  {
+   "ref_id": 33133,
+   "expression": "orange shirt botttom right",
+   "point_0_1000": [
+    930,
+    750
+   ],
+   "hit": true,
+   "latency_s": 1.524,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"orange shirt\",\"x\":930,\"y\":750,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 33727,
+   "expression": "wow didnt even see those legs lol but top pie very top",
+   "point_0_1000": [
+    410,
+    530
+   ],
+   "hit": false,
+   "latency_s": 1.571,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"legs\",\"x\":410,\"y\":530,\"confidence\":0.6}]}"
+  },
+  {
+   "ref_id": 33784,
+   "expression": "bird on left",
+   "point_0_1000": [
+    369,
+    392
+   ],
+   "hit": true,
+   "latency_s": 1.206,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"bird\",\"x\":369,\"y\":392}]}"
+  },
+  {
+   "ref_id": 34903,
+   "expression": "leather chair on left",
+   "point_0_1000": [
+    330,
+    760
+   ],
+   "hit": true,
+   "latency_s": 1.355,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"leather chair\",\"x\":330,\"y\":760}]}"
+  },
+  {
+   "ref_id": 35053,
+   "expression": "woman top right gray dress not running",
+   "point_0_1000": [
+    917,
+    280
+   ],
+   "hit": true,
+   "latency_s": 1.855,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"woman top right gray dress not running\",\"x\":917,\"y\":280,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 35719,
+   "expression": "blurry person",
+   "point_0_1000": [
+    910,
+    550
+   ],
+   "hit": true,
+   "latency_s": 1.601,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"blurry person\",\"x\":910,\"y\":550,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 36438,
+   "expression": "teddy that is closest to the girl",
+   "point_0_1000": [
+    380,
+    560
+   ],
+   "hit": false,
+   "latency_s": 1.554,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"teddy\",\"x\":380,\"y\":560,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 36468,
+   "expression": "person on top with green shirt",
+   "point_0_1000": [
+    280,
+    80
+   ],
+   "hit": true,
+   "latency_s": 1.757,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"person on top with green shirt\",\"x\":280,\"y\":80,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 36688,
+   "expression": "man with blue plaid shirt",
+   "point_0_1000": [
+    540,
+    550
+   ],
+   "hit": true,
+   "latency_s": 1.758,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"man with blue plaid shirt\",\"x\":540,\"y\":550,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 36724,
+   "expression": "right horse",
+   "point_0_1000": [
+    740,
+    660
+   ],
+   "hit": true,
+   "latency_s": 1.547,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"right horse\",\"x\":740,\"y\":660,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 37543,
+   "expression": "second cake layer from left",
+   "point_0_1000": [
+    460,
+    500
+   ],
+   "hit": true,
+   "latency_s": 1.703,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"second cake layer from left\",\"x\":460,\"y\":500,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 37655,
+   "expression": "top",
+   "point_0_1000": [
+    538,
+    145
+   ],
+   "hit": true,
+   "latency_s": 1.248,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"top\",\"x\":538,\"y\":145}]}"
+  },
+  {
+   "ref_id": 37839,
+   "expression": "guy on left",
+   "point_0_1000": [
+    470,
+    614
+   ],
+   "hit": true,
+   "latency_s": 1.666,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"guy on left\",\"x\":470,\"y\":614,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 37848,
+   "expression": "orange shirt guy",
+   "point_0_1000": [
+    764,
+    500
+   ],
+   "hit": true,
+   "latency_s": 1.68,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"orange shirt guy\",\"x\":764,\"y\":500,\"confidence\":0.99}]}"
+  },
+  {
+   "ref_id": 37849,
+   "expression": "the woman throwing the frisbee",
+   "point_0_1000": [
+    270,
+    776
+   ],
+   "hit": true,
+   "latency_s": 1.708,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"woman throwing the frisbee\",\"x\":270,\"y\":776,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 37942,
+   "expression": "food left",
+   "point_0_1000": [
+    170,
+    680
+   ],
+   "hit": true,
+   "latency_s": 1.36,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"macaroni salad\",\"x\":170,\"y\":680}]}"
+  },
+  {
+   "ref_id": 38111,
+   "expression": "chair far left",
+   "point_0_1000": [
+    143,
+    788
+   ],
+   "hit": true,
+   "latency_s": 1.215,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"chair\",\"x\":143,\"y\":788}]}"
+  },
+  {
+   "ref_id": 38675,
+   "expression": "pillows bottom left pink or white",
+   "point_0_1000": [
+    480,
+    750
+   ],
+   "hit": false,
+   "latency_s": 2.623,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"pillow\",\"x\":480,\"y\":750,\"confidence\":0.9},{\"label\":\"pillow\",\"x\":720,\"y\":750,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 39284,
+   "expression": "man on right",
+   "point_0_1000": [
+    714,
+    571
+   ],
+   "hit": true,
+   "latency_s": 1.285,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"man on right\",\"x\":714,\"y\":571}]}"
+  },
+  {
+   "ref_id": 39320,
+   "expression": "giraffe background",
+   "point_0_1000": [
+    500,
+    230
+   ],
+   "hit": false,
+   "latency_s": 1.521,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"giraffe background\",\"x\":500,\"y\":230}]}\n```"
+  },
+  {
+   "ref_id": 39333,
+   "expression": "second person from the left",
+   "point_0_1000": [
+    382,
+    434
+   ],
+   "hit": true,
+   "latency_s": 1.406,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"second person from the left\",\"x\":382,\"y\":434}]}"
+  },
+  {
+   "ref_id": 40483,
+   "expression": "woman",
+   "point_0_1000": [
+    808,
+    233
+   ],
+   "hit": true,
+   "latency_s": 1.94,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"woman\",\"x\":808,\"y\":233},{\"label\":\"woman\",\"x\":50,\"y\":329}]}"
+  },
+  {
+   "ref_id": 40680,
+   "expression": "left kitten",
+   "point_0_1000": [
+    620,
+    714
+   ],
+   "hit": true,
+   "latency_s": 1.561,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"left kitten\",\"x\":620,\"y\":714,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 40681,
+   "expression": "right cat",
+   "point_0_1000": [
+    880,
+    635
+   ],
+   "hit": true,
+   "latency_s": 1.589,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"right cat\",\"x\":880,\"y\":635,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 41976,
+   "expression": "pink donut",
+   "point_0_1000": [
+    543,
+    592
+   ],
+   "hit": true,
+   "latency_s": 1.687,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"pink donut\",\"x\":543,\"y\":592,\"confidence\":0.99}]}"
+  },
+  {
+   "ref_id": 42133,
+   "expression": "arm on right",
+   "point_0_1000": [
+    860,
+    480
+   ],
+   "hit": true,
+   "latency_s": 1.57,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"arm on right\",\"x\":860,\"y\":480}]}\n```"
+  },
+  {
+   "ref_id": 42500,
+   "expression": "koo koo dog",
+   "point_0_1000": [
+    320,
+    270
+   ],
+   "hit": true,
+   "latency_s": 2.398,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"koo koo dog\",\"x\":320,\"y\":270},{\"label\":\"koo koo dog\",\"x\":730,\"y\":340}]}"
+  },
+  {
+   "ref_id": 42547,
+   "expression": "bottom front boat",
+   "point_0_1000": [
+    768,
+    692
+   ],
+   "hit": true,
+   "latency_s": 1.904,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"bottom front boat\",\"x\":768,\"y\":692,\"confidence\":0.95}]}\n```"
+  },
+  {
+   "ref_id": 42752,
+   "expression": "right cow",
+   "point_0_1000": [
+    678,
+    614
+   ],
+   "hit": true,
+   "latency_s": 1.601,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"right cow\",\"x\":678,\"y\":614,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 42762,
+   "expression": "man bottom right red shirt blue scarf on head",
+   "point_0_1000": [
+    672,
+    800
+   ],
+   "hit": true,
+   "latency_s": 1.87,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"man bottom right red shirt blue scarf on head\",\"x\":672,\"y\":800,\"confidence\":0.3}]}"
+  },
+  {
+   "ref_id": 42883,
+   "expression": "ffarthest snd on front plte",
+   "point_0_1000": [
+    500,
+    530
+   ],
+   "hit": true,
+   "latency_s": 1.255,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"sandwich\",\"x\":500,\"y\":530}]}"
+  },
+  {
+   "ref_id": 42884,
+   "expression": "sandwich closest to you",
+   "point_0_1000": [
+    550,
+    740
+   ],
+   "hit": true,
+   "latency_s": 2.06,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"sandwich\",\"x\":550,\"y\":740},{\"label\":\"sandwich\",\"x\":470,\"y\":530}]}"
+  },
+  {
+   "ref_id": 42956,
+   "expression": "top right ight part of pie",
+   "point_0_1000": [
+    700,
+    250
+   ],
+   "hit": true,
+   "latency_s": 2.027,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"top right ight part of pie\",\"x\":700,\"y\":250,\"confidence\":0.9}]}\n```"
+  },
+  {
+   "ref_id": 43077,
+   "expression": "green bottle in center",
+   "point_0_1000": [
+    333,
+    594
+   ],
+   "hit": true,
+   "latency_s": 1.261,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"green bottle\",\"x\":333,\"y\":594}]}"
+  },
+  {
+   "ref_id": 43126,
+   "expression": "dude standing behind woman checking her ass out",
+   "point_0_1000": null,
+   "hit": false,
+   "latency_s": 0.422,
+   "error": null,
+   "raw": "{\"targets\":[]}"
+  },
+  {
+   "ref_id": 43191,
+   "expression": "third guy from right",
+   "point_0_1000": [
+    625,
+    650
+   ],
+   "hit": false,
+   "latency_s": 1.608,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"third guy from right\",\"x\":625,\"y\":650,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 43196,
+   "expression": "fourth guy from right",
+   "point_0_1000": [
+    621,
+    644
+   ],
+   "hit": true,
+   "latency_s": 1.344,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"fourth guy from right\",\"x\":621,\"y\":644}]}"
+  },
+  {
+   "ref_id": 43376,
+   "expression": "couch by window",
+   "point_0_1000": [
+    484,
+    530
+   ],
+   "hit": true,
+   "latency_s": 1.604,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"couch by window\",\"x\":484,\"y\":530}]}\n```"
+  },
+  {
+   "ref_id": 43543,
+   "expression": "right guy",
+   "point_0_1000": [
+    700,
+    533
+   ],
+   "hit": true,
+   "latency_s": 1.783,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"right guy\",\"x\":700,\"y\":533,\"confidence\":1.0}]}\n```"
+  },
+  {
+   "ref_id": 43584,
+   "expression": "red shirt",
+   "point_0_1000": [
+    720,
+    560
+   ],
+   "hit": true,
+   "latency_s": 1.555,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"red shirt\",\"x\":720,\"y\":560,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 43764,
+   "expression": "left person",
+   "point_0_1000": [
+    144,
+    579
+   ],
+   "hit": true,
+   "latency_s": 1.258,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"left person\",\"x\":144,\"y\":579}]}"
+  },
+  {
+   "ref_id": 43991,
+   "expression": "second person",
+   "point_0_1000": [
+    617,
+    714
+   ],
+   "hit": true,
+   "latency_s": 1.251,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"second person\",\"x\":617,\"y\":714}]}"
+  },
+  {
+   "ref_id": 44036,
+   "expression": "shirtless guy",
+   "point_0_1000": [
+    309,
+    292
+   ],
+   "hit": false,
+   "latency_s": 1.303,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"shirtless guy\",\"x\":309,\"y\":292}]}"
+  },
+  {
+   "ref_id": 44563,
+   "expression": "center wine glass tiny amount of dark wine",
+   "point_0_1000": [
+    726,
+    344
+   ],
+   "hit": false,
+   "latency_s": 2.891,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"wine glass\",\"x\":726,\"y\":344},{\"label\":\"wine glass\",\"x\":641,\"y\":350},{\"label\":\"wine glass\",\"x\":544,\"y\":394}]}"
+  },
+  {
+   "ref_id": 44657,
+   "expression": "crouching",
+   "point_0_1000": [
+    480,
+    630
+   ],
+   "hit": true,
+   "latency_s": 1.631,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"crouching\",\"x\":480,\"y\":630,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 44960,
+   "expression": "white folded shirt with bees",
+   "point_0_1000": [
+    300,
+    380
+   ],
+   "hit": true,
+   "latency_s": 1.702,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"white folded shirt with bees\",\"x\":300,\"y\":380,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 45042,
+   "expression": "girl standing",
+   "point_0_1000": [
+    720,
+    520
+   ],
+   "hit": true,
+   "latency_s": 1.225,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"girl standing\",\"x\":720,\"y\":520}]}"
+  },
+  {
+   "ref_id": 45045,
+   "expression": "blue shirt standin",
+   "point_0_1000": [
+    350,
+    400
+   ],
+   "hit": true,
+   "latency_s": 1.303,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"blue shirt standin\",\"x\":350,\"y\":400}]}"
+  },
+  {
+   "ref_id": 45258,
+   "expression": "bear middle one",
+   "point_0_1000": [
+    550,
+    520
+   ],
+   "hit": true,
+   "latency_s": 1.209,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"bear\",\"x\":550,\"y\":520}]}"
+  },
+  {
+   "ref_id": 45373,
+   "expression": "man in green",
+   "point_0_1000": [
+    430,
+    550
+   ],
+   "hit": true,
+   "latency_s": 1.272,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"man in green\",\"x\":430,\"y\":550}]}"
+  },
+  {
+   "ref_id": 46104,
+   "expression": "center person",
+   "point_0_1000": [
+    467,
+    696
+   ],
+   "hit": true,
+   "latency_s": 1.54,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"center person\",\"x\":467,\"y\":696,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 46267,
+   "expression": "full bike on right at front",
+   "point_0_1000": [
+    600,
+    630
+   ],
+   "hit": true,
+   "latency_s": 1.232,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"full bike\",\"x\":600,\"y\":630}]}"
+  },
+  {
+   "ref_id": 46567,
+   "expression": "second from right",
+   "point_0_1000": [
+    630,
+    550
+   ],
+   "hit": true,
+   "latency_s": 1.55,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"duck\",\"x\":630,\"y\":550,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 46856,
+   "expression": "sandwich on the right",
+   "point_0_1000": [
+    660,
+    270
+   ],
+   "hit": true,
+   "latency_s": 1.233,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"sandwich\",\"x\":660,\"y\":270}]}"
+  },
+  {
+   "ref_id": 46945,
+   "expression": "man in a tie",
+   "point_0_1000": [
+    714,
+    619
+   ],
+   "hit": true,
+   "latency_s": 1.34,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"man in a tie\",\"x\":714,\"y\":619}]}"
+  },
+  {
+   "ref_id": 47832,
+   "expression": "left bird",
+   "point_0_1000": [
+    174,
+    446
+   ],
+   "hit": true,
+   "latency_s": 1.834,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"left bird\",\"x\":174,\"y\":446,\"confidence\":0.95}]}\n```"
+  },
+  {
+   "ref_id": 47891,
+   "expression": "bald man in background wearing yellow striped shirt and jeans",
+   "point_0_1000": [
+    83,
+    280
+   ],
+   "hit": true,
+   "latency_s": 1.59,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"bald man\",\"x\":83,\"y\":280,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 48043,
+   "expression": "that was closemiddle plate",
+   "point_0_1000": [
+    500,
+    630
+   ],
+   "hit": true,
+   "latency_s": 1.57,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"closemiddle plate\",\"x\":500,\"y\":630,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 48270,
+   "expression": "wine glass on left",
+   "point_0_1000": [
+    120,
+    215
+   ],
+   "hit": true,
+   "latency_s": 1.251,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"wine glass\",\"x\":120,\"y\":215}]}"
+  },
+  {
+   "ref_id": 48387,
+   "expression": "pepperoni pizza",
+   "point_0_1000": [
+    400,
+    370
+   ],
+   "hit": true,
+   "latency_s": 1.918,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"pepperoni pizza\",\"x\":400,\"y\":370,\"confidence\":0.95}]}\n```"
+  },
+  {
+   "ref_id": 48452,
+   "expression": "black cat",
+   "point_0_1000": [
+    890,
+    460
+   ],
+   "hit": true,
+   "latency_s": 1.591,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"black cat\",\"x\":890,\"y\":460,\"confidence\":0.95}]}"
+  },
+  {
+   "ref_id": 48786,
+   "expression": "right giraffe",
+   "point_0_1000": [
+    750,
+    620
+   ],
+   "hit": true,
+   "latency_s": 1.811,
+   "error": null,
+   "raw": "```json\n{\"targets\":[{\"label\":\"right giraffe\",\"x\":750,\"y\":620,\"confidence\":0.9}]}\n```"
+  },
+  {
+   "ref_id": 48927,
+   "expression": "flowery bush behind hydrant to our left",
+   "point_0_1000": [
+    75,
+    400
+   ],
+   "hit": true,
+   "latency_s": 1.234,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"flowery bush\",\"x\":75,\"y\":400}]}"
+  },
+  {
+   "ref_id": 49120,
+   "expression": "cut off person on left",
+   "point_0_1000": [
+    50,
+    450
+   ],
+   "hit": true,
+   "latency_s": 1.393,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"cut off person on left\",\"x\":50,\"y\":450}]}"
+  },
+  {
+   "ref_id": 49260,
+   "expression": "left orange behind the one in the very bottom left",
+   "point_0_1000": [
+    192,
+    480
+   ],
+   "hit": true,
+   "latency_s": 1.232,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"orange\",\"x\":192,\"y\":480}]}"
+  },
+  {
+   "ref_id": 49264,
+   "expression": "orange below big one left",
+   "point_0_1000": [
+    193,
+    490
+   ],
+   "hit": true,
+   "latency_s": 1.21,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"orange\",\"x\":193,\"y\":490}]}"
+  },
+  {
+   "ref_id": 49326,
+   "expression": "third person from left",
+   "point_0_1000": [
+    380,
+    550
+   ],
+   "hit": true,
+   "latency_s": 1.684,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"third person from left\",\"x\":380,\"y\":550,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 49449,
+   "expression": "child",
+   "point_0_1000": [
+    500,
+    647
+   ],
+   "hit": true,
+   "latency_s": 1.197,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"child\",\"x\":500,\"y\":647}]}"
+  },
+  {
+   "ref_id": 49450,
+   "expression": "person blue coat",
+   "point_0_1000": [
+    784,
+    564
+   ],
+   "hit": true,
+   "latency_s": 1.275,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"person blue coat\",\"x\":784,\"y\":564}]}"
+  },
+  {
+   "ref_id": 49588,
+   "expression": "older male",
+   "point_0_1000": [
+    640,
+    500
+   ],
+   "hit": true,
+   "latency_s": 1.544,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"older male\",\"x\":640,\"y\":500,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 49763,
+   "expression": "man holding a white cord",
+   "point_0_1000": [
+    490,
+    490
+   ],
+   "hit": true,
+   "latency_s": 1.679,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"man holding a white cord\",\"x\":490,\"y\":490,\"confidence\":0.9}]}"
+  },
+  {
+   "ref_id": 49767,
+   "expression": "second from right bottle",
+   "point_0_1000": [
+    570,
+    480
+   ],
+   "hit": true,
+   "latency_s": 1.603,
+   "error": null,
+   "raw": "{\"targets\":[{\"label\":\"second from right bottle\",\"x\":570,\"y\":480,\"confidence\":0.9}]}"
+  }
+ ]
+}

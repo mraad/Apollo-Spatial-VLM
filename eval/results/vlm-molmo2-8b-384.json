@@ -1,0 +1,2407 @@
+{
+ "summary": {
+  "name": "molmo2-8b",
+  "model": "molmo2-8b",
+  "kind": "molmo",
+  "no_think": false,
+  "prompt": "molmo",
+  "max_dim": 384,
+  "n": 200,
+  "accuracy": 0.895,
+  "no_point": 4,
+  "parsed_accuracy": 0.9133,
+  "errors": 0,
+  "latency_median_s": 0.518,
+  "latency_p90_s": 0.602
+ },
+ "records": [
+  {
+   "ref_id": 101,
+   "expression": "mom",
+   "point_0_1000": [
+    770.0,
+    483.0
+   ],
+   "hit": true,
+   "latency_s": 0.494,
+   "error": null,
+   "raw": "<points coords=\"1 1 770 483\">mom.</points>"
+  },
+  {
+   "ref_id": 790,
+   "expression": "bottom left portion of couch on left",
+   "point_0_1000": null,
+   "hit": false,
+   "latency_s": 0.175,
+   "error": null,
+   "raw": "There are none."
+  },
+  {
+   "ref_id": 1040,
+   "expression": "man front",
+   "point_0_1000": [
+    530.0,
+    457.0
+   ],
+   "hit": true,
+   "latency_s": 0.502,
+   "error": null,
+   "raw": "<points coords=\"1 1 530 457\">man front</points>"
+  },
+  {
+   "ref_id": 1970,
+   "expression": "red comic",
+   "point_0_1000": [
+    443.0,
+    557.0
+   ],
+   "hit": true,
+   "latency_s": 0.484,
+   "error": null,
+   "raw": "<points coords=\"1 1 443 557\">red comic.</points>"
+  },
+  {
+   "ref_id": 2317,
+   "expression": "zebra right",
+   "point_0_1000": [
+    748.0,
+    419.0
+   ],
+   "hit": true,
+   "latency_s": 0.493,
+   "error": null,
+   "raw": "<points coords=\"1 1 748 419\">zebra right</points>"
+  },
+  {
+   "ref_id": 2410,
+   "expression": "far couch",
+   "point_0_1000": [
+    349.0,
+    529.0
+   ],
+   "hit": true,
+   "latency_s": 0.489,
+   "error": null,
+   "raw": "<points coords=\"1 1 349 529\">far couch.</points>"
+  },
+  {
+   "ref_id": 3559,
+   "expression": "medium sized vase",
+   "point_0_1000": [
+    618.0,
+    779.0
+   ],
+   "hit": true,
+   "latency_s": 0.508,
+   "error": null,
+   "raw": "<points coords=\"1 1 618 779\">medium sized vase.</points>"
+  },
+  {
+   "ref_id": 3560,
+   "expression": "smaller container",
+   "point_0_1000": [
+    377.0,
+    779.0
+   ],
+   "hit": true,
+   "latency_s": 0.516,
+   "error": null,
+   "raw": "<points coords=\"1 1 377 779\">smaller container.</points>"
+  },
+  {
+   "ref_id": 3572,
+   "expression": "person in background directly above fist",
+   "point_0_1000": [
+    839.0,
+    459.0
+   ],
+   "hit": true,
+   "latency_s": 0.569,
+   "error": null,
+   "raw": "<points coords=\"1 1 839 459\">person in background directly above fist</points>"
+  },
+  {
+   "ref_id": 3822,
+   "expression": "guy on the left in back",
+   "point_0_1000": null,
+   "hit": false,
+   "latency_s": 0.156,
+   "error": null,
+   "raw": "There are none."
+  },
+  {
+   "ref_id": 4109,
+   "expression": "guy",
+   "point_0_1000": [
+    577.0,
+    539.0
+   ],
+   "hit": true,
+   "latency_s": 0.477,
+   "error": null,
+   "raw": "<points coords=\"1 1 577 539\">guy.</points>"
+  },
+  {
+   "ref_id": 4413,
+   "expression": "the blue cup on the top right",
+   "point_0_1000": [
+    808.0,
+    308.0
+   ],
+   "hit": true,
+   "latency_s": 0.578,
+   "error": null,
+   "raw": "<points coords=\"1 1 808 308\">the blue cup on the top right.</points>"
+  },
+  {
+   "ref_id": 4414,
+   "expression": "red sauce",
+   "point_0_1000": [
+    877.0,
+    549.0
+   ],
+   "hit": true,
+   "latency_s": 0.478,
+   "error": null,
+   "raw": "<points coords=\"1 1 877 549\">red sauce.</points>"
+  },
+  {
+   "ref_id": 4583,
+   "expression": "middle plate behind the pizza",
+   "point_0_1000": [
+    588.0,
+    257.0
+   ],
+   "hit": true,
+   "latency_s": 0.551,
+   "error": null,
+   "raw": "<points coords=\"1 1 588 257\">middle plate behind the pizza.</points>"
+  },
+  {
+   "ref_id": 5120,
+   "expression": "man on right",
+   "point_0_1000": [
+    877.0,
+    679.0
+   ],
+   "hit": true,
+   "latency_s": 0.508,
+   "error": null,
+   "raw": "<points coords=\"1 1 877 679\">man on right</points>"
+  },
+  {
+   "ref_id": 5144,
+   "expression": "far right cupcake part",
+   "point_0_1000": [
+    970.0,
+    117.0
+   ],
+   "hit": true,
+   "latency_s": 0.539,
+   "error": null,
+   "raw": "<points coords=\"1 1 970 117\">far right cupcake part.</points>"
+  },
+  {
+   "ref_id": 5152,
+   "expression": "bottom right corner of table",
+   "point_0_1000": [
+    970.0,
+    973.0
+   ],
+   "hit": true,
+   "latency_s": 0.537,
+   "error": null,
+   "raw": "<points coords=\"1 1 970 973\">bottom right corner of table.</points>"
+  },
+  {
+   "ref_id": 5217,
+   "expression": "left choc donut on bottom",
+   "point_0_1000": [
+    377.0,
+    679.0
+   ],
+   "hit": true,
+   "latency_s": 0.557,
+   "error": null,
+   "raw": "<points coords=\"1 1 377 679\">left choc donut on bottom</points>"
+  },
+  {
+   "ref_id": 5249,
+   "expression": "bride",
+   "point_0_1000": [
+    452.0,
+    414.0
+   ],
+   "hit": true,
+   "latency_s": 0.503,
+   "error": null,
+   "raw": "<points coords=\"1 1 452 414\">bride.</points>"
+  },
+  {
+   "ref_id": 5466,
+   "expression": "right white spoon",
+   "point_0_1000": [
+    930.0,
+    440.0
+   ],
+   "hit": true,
+   "latency_s": 0.505,
+   "error": null,
+   "raw": "<points coords=\"1 1 930 440\">right white spoon.</points>"
+  },
+  {
+   "ref_id": 5700,
+   "expression": "cup left",
+   "point_0_1000": [
+    220.0,
+    265.0
+   ],
+   "hit": true,
+   "latency_s": 0.478,
+   "error": null,
+   "raw": "<points coords=\"1 1 220 265\">cup left</points>"
+  },
+  {
+   "ref_id": 6146,
+   "expression": "midlle top",
+   "point_0_1000": [
+    498.0,
+    2.0
+   ],
+   "hit": false,
+   "latency_s": 0.496,
+   "error": null,
+   "raw": "<points coords=\"1 1 498 002\">midlle top</points>"
+  },
+  {
+   "ref_id": 6438,
+   "expression": "checkered tablecloth",
+   "point_0_1000": [
+    818.0,
+    462.0
+   ],
+   "hit": true,
+   "latency_s": 0.517,
+   "error": null,
+   "raw": "<points coords=\"1 1 818 462\">checkered tablecloth.</points>"
+  },
+  {
+   "ref_id": 6504,
+   "expression": "biggest laptop",
+   "point_0_1000": [
+    290.0,
+    405.0
+   ],
+   "hit": true,
+   "latency_s": 0.503,
+   "error": null,
+   "raw": "<points coords=\"1 1 290 405\">biggest laptop</points>"
+  },
+  {
+   "ref_id": 6871,
+   "expression": "biggest glazed donut",
+   "point_0_1000": [
+    712.0,
+    439.0
+   ],
+   "hit": false,
+   "latency_s": 0.539,
+   "error": null,
+   "raw": "<points coords=\"1 1 712 439\">biggest glazed donut.</points>"
+  },
+  {
+   "ref_id": 7091,
+   "expression": "center case on floor with squares",
+   "point_0_1000": [
+    514.0,
+    649.0
+   ],
+   "hit": true,
+   "latency_s": 0.577,
+   "error": null,
+   "raw": "<points coords=\"1 1 514 649\">center case on floor with squares</points>"
+  },
+  {
+   "ref_id": 7660,
+   "expression": "hand closest",
+   "point_0_1000": [
+    268.0,
+    705.0
+   ],
+   "hit": true,
+   "latency_s": 0.475,
+   "error": null,
+   "raw": "<points coords=\"1 1 268 705\">hand closest.</points>"
+  },
+  {
+   "ref_id": 7662,
+   "expression": "front red car",
+   "point_0_1000": [
+    111.0,
+    495.0
+   ],
+   "hit": true,
+   "latency_s": 0.505,
+   "error": null,
+   "raw": "<points coords=\"1 1 111 495\">front red car.</points>"
+  },
+  {
+   "ref_id": 7739,
+   "expression": "left upper person",
+   "point_0_1000": [
+    68.0,
+    349.0
+   ],
+   "hit": true,
+   "latency_s": 0.504,
+   "error": null,
+   "raw": "<points coords=\"1 1 068 349\">left upper person</points>"
+  },
+  {
+   "ref_id": 7977,
+   "expression": "left back white shirt behind fence",
+   "point_0_1000": [
+    152.0,
+    452.0
+   ],
+   "hit": true,
+   "latency_s": 0.562,
+   "error": null,
+   "raw": "<points coords=\"1 1 152 452\">left back white shirt behind fence</points>"
+  },
+  {
+   "ref_id": 8162,
+   "expression": "center white chick",
+   "point_0_1000": [
+    514.0,
+    432.0
+   ],
+   "hit": true,
+   "latency_s": 0.496,
+   "error": null,
+   "raw": "<points coords=\"1 1 514 432\">center white chick</points>"
+  },
+  {
+   "ref_id": 9202,
+   "expression": "red shirt",
+   "point_0_1000": [
+    727.0,
+    405.0
+   ],
+   "hit": true,
+   "latency_s": 0.482,
+   "error": null,
+   "raw": "<points coords=\"1 1 727 405\">red shirt.</points>"
+  },
+  {
+   "ref_id": 9976,
+   "expression": "white table blurry in background left",
+   "point_0_1000": [
+    198.0,
+    283.0
+   ],
+   "hit": true,
+   "latency_s": 0.572,
+   "error": null,
+   "raw": "<points coords=\"1 1 198 283\">white table blurry in background left</points>"
+  },
+  {
+   "ref_id": 10267,
+   "expression": "guy striped shirt",
+   "point_0_1000": [
+    302.0,
+    602.0
+   ],
+   "hit": true,
+   "latency_s": 0.531,
+   "error": null,
+   "raw": "<points coords=\"1 1 302 602\">guy striped shirt.</points>"
+  },
+  {
+   "ref_id": 10324,
+   "expression": "person on far right standing",
+   "point_0_1000": [
+    940.0,
+    243.0
+   ],
+   "hit": true,
+   "latency_s": 0.539,
+   "error": null,
+   "raw": "<points coords=\"1 1 940 243\">person on far right standing</points>"
+  },
+  {
+   "ref_id": 10421,
+   "expression": "mama",
+   "point_0_1000": [
+    239.0,
+    333.0
+   ],
+   "hit": true,
+   "latency_s": 0.491,
+   "error": null,
+   "raw": "<points coords=\"1 1 239 333\">mama.</points>"
+  },
+  {
+   "ref_id": 10426,
+   "expression": "holding baby",
+   "point_0_1000": [
+    405.0,
+    252.0
+   ],
+   "hit": true,
+   "latency_s": 0.516,
+   "error": null,
+   "raw": "<points coords=\"1 1 405 252\">holding baby.</points>"
+  },
+  {
+   "ref_id": 11110,
+   "expression": "batch of brocollie on left",
+   "point_0_1000": [
+    340.0,
+    211.0
+   ],
+   "hit": true,
+   "latency_s": 0.572,
+   "error": null,
+   "raw": "<points coords=\"1 1 340 211\">batch of brocollie on left.</points>"
+  },
+  {
+   "ref_id": 11149,
+   "expression": "groom",
+   "point_0_1000": [
+    549.0,
+    293.0
+   ],
+   "hit": true,
+   "latency_s": 0.505,
+   "error": null,
+   "raw": "<points coords=\"1 1 549 293\">groom.</points>"
+  },
+  {
+   "ref_id": 11556,
+   "expression": "person on left",
+   "point_0_1000": [
+    420.0,
+    521.0
+   ],
+   "hit": true,
+   "latency_s": 0.505,
+   "error": null,
+   "raw": "<points coords=\"1 1 420 521\">person on left.</points>"
+  },
+  {
+   "ref_id": 11687,
+   "expression": "man on right",
+   "point_0_1000": [
+    946.0,
+    393.0
+   ],
+   "hit": true,
+   "latency_s": 0.5,
+   "error": null,
+   "raw": "<points coords=\"1 1 946 393\">man on right</points>"
+  },
+  {
+   "ref_id": 11811,
+   "expression": "person on left",
+   "point_0_1000": [
+    504.0,
+    586.0
+   ],
+   "hit": true,
+   "latency_s": 0.503,
+   "error": null,
+   "raw": "<points coords=\"1 1 504 586\">person on left.</points>"
+  },
+  {
+   "ref_id": 11855,
+   "expression": "galss vase in left top corner",
+   "point_0_1000": [
+    196.0,
+    102.0
+   ],
+   "hit": true,
+   "latency_s": 0.584,
+   "error": null,
+   "raw": "<points coords=\"1 1 196 102\">galss vase in left top corner</points>"
+  },
+  {
+   "ref_id": 12501,
+   "expression": "blond girl in the bottom right corner",
+   "point_0_1000": [
+    902.0,
+    570.0
+   ],
+   "hit": true,
+   "latency_s": 0.602,
+   "error": null,
+   "raw": "<points coords=\"1 1 902 570\">blond girl in the bottom right corner</points>"
+  },
+  {
+   "ref_id": 12591,
+   "expression": "train on left",
+   "point_0_1000": [
+    240.0,
+    504.0
+   ],
+   "hit": true,
+   "latency_s": 0.485,
+   "error": null,
+   "raw": "<points coords=\"1 1 240 504\">train on left.</points>"
+  },
+  {
+   "ref_id": 12785,
+   "expression": "empty chair next to man",
+   "point_0_1000": [
+    339.0,
+    892.0
+   ],
+   "hit": false,
+   "latency_s": 0.544,
+   "error": null,
+   "raw": "<points coords=\"1 1 339 892\">empty chair next to man</points>"
+  },
+  {
+   "ref_id": 12845,
+   "expression": "apple left side",
+   "point_0_1000": [
+    148.0,
+    573.0
+   ],
+   "hit": true,
+   "latency_s": 0.512,
+   "error": null,
+   "raw": "<points coords=\"1 1 148 573\">apple left side</points>"
+  },
+  {
+   "ref_id": 12884,
+   "expression": "elephant in center with trunk out",
+   "point_0_1000": [
+    514.0,
+    432.0
+   ],
+   "hit": true,
+   "latency_s": 0.577,
+   "error": null,
+   "raw": "<points coords=\"1 1 514 432\">elephant in center with trunk out</points>"
+  },
+  {
+   "ref_id": 13069,
+   "expression": "black motocicle",
+   "point_0_1000": [
+    862.0,
+    617.0
+   ],
+   "hit": true,
+   "latency_s": 0.521,
+   "error": null,
+   "raw": "<points coords=\"1 1 862 617\">black motocicle.</points>"
+  },
+  {
+   "ref_id": 13502,
+   "expression": "girl",
+   "point_0_1000": [
+    386.0,
+    490.0
+   ],
+   "hit": true,
+   "latency_s": 0.482,
+   "error": null,
+   "raw": "<points coords=\"1 1 386 490\">girl.</points>"
+  },
+  {
+   "ref_id": 13596,
+   "expression": "stand back right",
+   "point_0_1000": [
+    852.0,
+    223.0
+   ],
+   "hit": true,
+   "latency_s": 0.497,
+   "error": null,
+   "raw": "<points coords=\"1 1 852 223\">stand back right</points>"
+  },
+  {
+   "ref_id": 13597,
+   "expression": "any banana",
+   "point_0_1000": [
+    29.0,
+    652.0
+   ],
+   "hit": true,
+   "latency_s": 7.857,
+   "error": null,
+   "raw": "<points coords=\"1 1 029 652 2 059 667 3 068 467 4 079 482 5 082 392 6 082 602 7 098 482 8 102 682 9 112 402 10 112 472 11 118 627 12 132 477 13 142 642 14 168 647 15 202 547 16 212 692 17 222 547 18 232 377 19 238 412 20 242 547 21 248 687 22 252 377 23 258 547 24 262 412 25 272 547 26 282 377 27 28"
+  },
+  {
+   "ref_id": 14061,
+   "expression": "cycle to the right",
+   "point_0_1000": [
+    792.0,
+    749.0
+   ],
+   "hit": true,
+   "latency_s": 0.52,
+   "error": null,
+   "raw": "<points coords=\"1 1 792 749\">cycle to the right</points>"
+  },
+  {
+   "ref_id": 14355,
+   "expression": "remote on rightside",
+   "point_0_1000": [
+    846.0,
+    460.0
+   ],
+   "hit": true,
+   "latency_s": 0.532,
+   "error": null,
+   "raw": "<points coords=\"1 1 846 460\">remote on rightside</points>"
+  },
+  {
+   "ref_id": 14356,
+   "expression": "fourth remote from left",
+   "point_0_1000": [
+    427.0,
+    475.0
+   ],
+   "hit": true,
+   "latency_s": 0.551,
+   "error": null,
+   "raw": "<points coords=\"1 1 427 475\">fourth remote from left</points>"
+  },
+  {
+   "ref_id": 14843,
+   "expression": "bus on the left",
+   "point_0_1000": [
+    386.0,
+    719.0
+   ],
+   "hit": true,
+   "latency_s": 0.519,
+   "error": null,
+   "raw": "<points coords=\"1 1 386 719\">bus on the left.</points>"
+  },
+  {
+   "ref_id": 15322,
+   "expression": "lady with chef hat",
+   "point_0_1000": [
+    552.0,
+    492.0
+   ],
+   "hit": true,
+   "latency_s": 0.544,
+   "error": null,
+   "raw": "<points coords=\"1 1 552 492\">lady with chef hat.</points>"
+  },
+  {
+   "ref_id": 15504,
+   "expression": "animal with collar",
+   "point_0_1000": [
+    677.0,
+    483.0
+   ],
+   "hit": true,
+   "latency_s": 0.504,
+   "error": null,
+   "raw": "<points coords=\"1 1 677 483\">animal with collar.</points>"
+  },
+  {
+   "ref_id": 15511,
+   "expression": "sandwich guy is holding",
+   "point_0_1000": [
+    305.0,
+    432.0
+   ],
+   "hit": true,
+   "latency_s": 0.551,
+   "error": null,
+   "raw": "<points coords=\"1 1 305 432\">sandwich guy is holding.</points>"
+  },
+  {
+   "ref_id": 16135,
+   "expression": "container at bottom right with carrots",
+   "point_0_1000": [
+    862.0,
+    602.0
+   ],
+   "hit": true,
+   "latency_s": 0.575,
+   "error": null,
+   "raw": "<points coords=\"1 1 862 602\">container at bottom right with carrots.</points>"
+  },
+  {
+   "ref_id": 16231,
+   "expression": "kneeling far right bottom",
+   "point_0_1000": [
+    812.0,
+    655.0
+   ],
+   "hit": true,
+   "latency_s": 0.57,
+   "error": null,
+   "raw": "<points coords=\"1 1 812 655\">kneeling far right bottom</points>"
+  },
+  {
+   "ref_id": 16537,
+   "expression": "kid dark shirt light jeans",
+   "point_0_1000": [
+    749.0,
+    529.0
+   ],
+   "hit": true,
+   "latency_s": 0.56,
+   "error": null,
+   "raw": "<points coords=\"1 1 749 529\">kid dark shirt light jeans</points>"
+  },
+  {
+   "ref_id": 16717,
+   "expression": "right most dude",
+   "point_0_1000": [
+    892.0,
+    812.0
+   ],
+   "hit": true,
+   "latency_s": 0.515,
+   "error": null,
+   "raw": "<points coords=\"1 1 892 812\">right most dude</points>"
+  },
+  {
+   "ref_id": 16755,
+   "expression": "left couch",
+   "point_0_1000": [
+    139.0,
+    679.0
+   ],
+   "hit": true,
+   "latency_s": 0.49,
+   "error": null,
+   "raw": "<points coords=\"1 1 139 679\">left couch.</points>"
+  },
+  {
+   "ref_id": 16871,
+   "expression": "bear farthest right facing you",
+   "point_0_1000": [
+    908.0,
+    749.0
+   ],
+   "hit": true,
+   "latency_s": 0.565,
+   "error": null,
+   "raw": "<points coords=\"1 1 908 749\">bear farthest right facing you</points>"
+  },
+  {
+   "ref_id": 17006,
+   "expression": "winner",
+   "point_0_1000": [
+    762.0,
+    314.0
+   ],
+   "hit": true,
+   "latency_s": 0.468,
+   "error": null,
+   "raw": "<points coords=\"1 1 762 314\">winner.</points>"
+  },
+  {
+   "ref_id": 17084,
+   "expression": "guy in white",
+   "point_0_1000": [
+    229.0,
+    521.0
+   ],
+   "hit": true,
+   "latency_s": 0.526,
+   "error": null,
+   "raw": "<points coords=\"1 1 229 521\">guy in white</points>"
+  },
+  {
+   "ref_id": 17252,
+   "expression": "blue shirt guy on right",
+   "point_0_1000": [
+    612.0,
+    696.0
+   ],
+   "hit": true,
+   "latency_s": 0.55,
+   "error": null,
+   "raw": "<points coords=\"1 1 612 696\">blue shirt guy on right</points>"
+  },
+  {
+   "ref_id": 17453,
+   "expression": "right zebra",
+   "point_0_1000": [
+    790.0,
+    649.0
+   ],
+   "hit": true,
+   "latency_s": 0.5,
+   "error": null,
+   "raw": "<points coords=\"1 1 790 649\">right zebra.</points>"
+  },
+  {
+   "ref_id": 17533,
+   "expression": "blurred front image",
+   "point_0_1000": [
+    330.0,
+    217.0
+   ],
+   "hit": false,
+   "latency_s": 0.527,
+   "error": null,
+   "raw": "<points coords=\"1 1 330 217\">blurred front image.</points>"
+  },
+  {
+   "ref_id": 17795,
+   "expression": "man on right",
+   "point_0_1000": [
+    862.0,
+    417.0
+   ],
+   "hit": true,
+   "latency_s": 0.51,
+   "error": null,
+   "raw": "<points coords=\"1 1 862 417\">man on right</points>"
+  },
+  {
+   "ref_id": 18691,
+   "expression": "right bike",
+   "point_0_1000": [
+    646.0,
+    257.0
+   ],
+   "hit": true,
+   "latency_s": 0.479,
+   "error": null,
+   "raw": "<points coords=\"1 1 646 257\">right bike</points>"
+  },
+  {
+   "ref_id": 18837,
+   "expression": "center gyu",
+   "point_0_1000": [
+    311.0,
+    946.0
+   ],
+   "hit": false,
+   "latency_s": 0.502,
+   "error": null,
+   "raw": "<points coords=\"1 1 311 946\">center gyu.</points>"
+  },
+  {
+   "ref_id": 19048,
+   "expression": "redblack second from right",
+   "point_0_1000": [
+    418.0,
+    332.0
+   ],
+   "hit": true,
+   "latency_s": 0.542,
+   "error": null,
+   "raw": "<points coords=\"1 1 418 332\">redblack second from right</points>"
+  },
+  {
+   "ref_id": 19979,
+   "expression": "guy on right",
+   "point_0_1000": [
+    712.0,
+    582.0
+   ],
+   "hit": true,
+   "latency_s": 0.518,
+   "error": null,
+   "raw": "<points coords=\"1 1 712 582\">guy on right</points>"
+  },
+  {
+   "ref_id": 20813,
+   "expression": "catcher",
+   "point_0_1000": [
+    777.0,
+    617.0
+   ],
+   "hit": true,
+   "latency_s": 0.48,
+   "error": null,
+   "raw": "<points coords=\"1 1 777 617\">catcher.</points>"
+  },
+  {
+   "ref_id": 20814,
+   "expression": "batter",
+   "point_0_1000": [
+    346.0,
+    473.0
+   ],
+   "hit": true,
+   "latency_s": 0.481,
+   "error": null,
+   "raw": "<points coords=\"1 1 346 473\">batter.</points>"
+  },
+  {
+   "ref_id": 21146,
+   "expression": "dark blur to left above flowers",
+   "point_0_1000": [
+    77.0,
+    443.0
+   ],
+   "hit": true,
+   "latency_s": 0.59,
+   "error": null,
+   "raw": "<points coords=\"1 1 077 443\">dark blur to left above flowers</points>"
+  },
+  {
+   "ref_id": 21841,
+   "expression": "red peppers",
+   "point_0_1000": [
+    777.0,
+    273.0
+   ],
+   "hit": true,
+   "latency_s": 0.483,
+   "error": null,
+   "raw": "<points coords=\"1 1 777 273\">red peppers.</points>"
+  },
+  {
+   "ref_id": 21962,
+   "expression": "left guy",
+   "point_0_1000": [
+    220.0,
+    640.0
+   ],
+   "hit": true,
+   "latency_s": 0.501,
+   "error": null,
+   "raw": "<points coords=\"1 1 220 640\">left guy</points>"
+  },
+  {
+   "ref_id": 22465,
+   "expression": "white can",
+   "point_0_1000": [
+    258.0,
+    357.0
+   ],
+   "hit": false,
+   "latency_s": 0.481,
+   "error": null,
+   "raw": "<points coords=\"1 1 258 357\">white can.</points>"
+  },
+  {
+   "ref_id": 22472,
+   "expression": "left kid",
+   "point_0_1000": [
+    49.0,
+    339.0
+   ],
+   "hit": true,
+   "latency_s": 0.488,
+   "error": null,
+   "raw": "<points coords=\"1 1 049 339\">left kid.</points>"
+  },
+  {
+   "ref_id": 22746,
+   "expression": "man with glasses",
+   "point_0_1000": [
+    743.0,
+    119.0
+   ],
+   "hit": true,
+   "latency_s": 0.507,
+   "error": null,
+   "raw": "<points coords=\"1 1 743 119\">man with glasses.</points>"
+  },
+  {
+   "ref_id": 23046,
+   "expression": "girl in back with racket",
+   "point_0_1000": [
+    162.0,
+    343.0
+   ],
+   "hit": true,
+   "latency_s": 0.551,
+   "error": null,
+   "raw": "<points coords=\"1 1 162 343\">girl in back with racket</points>"
+  },
+  {
+   "ref_id": 23428,
+   "expression": "standing garraffe on right",
+   "point_0_1000": [
+    957.0,
+    339.0
+   ],
+   "hit": true,
+   "latency_s": 0.569,
+   "error": null,
+   "raw": "<points coords=\"1 1 957 339\">standing garraffe on right.</points>"
+  },
+  {
+   "ref_id": 23507,
+   "expression": "zebra looking at the camera on the left",
+   "point_0_1000": [
+    440.0,
+    590.0
+   ],
+   "hit": true,
+   "latency_s": 0.619,
+   "error": null,
+   "raw": "<points coords=\"1 1 440 590\">zebra looking at the camera on the left.</points>"
+  },
+  {
+   "ref_id": 23681,
+   "expression": "top of big umbrella",
+   "point_0_1000": [
+    820.0,
+    301.0
+   ],
+   "hit": true,
+   "latency_s": 0.517,
+   "error": null,
+   "raw": "<points coords=\"1 1 820 301\">top of big umbrella.</points>"
+  },
+  {
+   "ref_id": 23768,
+   "expression": "right corner car",
+   "point_0_1000": [
+    186.0,
+    574.0
+   ],
+   "hit": false,
+   "latency_s": 1.092,
+   "error": null,
+   "raw": "<points coords=\"1 1 186 574 2 370 839 3 577 665 4 748 917\">right corner car</points>"
+  },
+  {
+   "ref_id": 24767,
+   "expression": "second food item from left",
+   "point_0_1000": [
+    340.0,
+    582.0
+   ],
+   "hit": false,
+   "latency_s": 0.554,
+   "error": null,
+   "raw": "<points coords=\"1 1 340 582\">second food item from left</points>"
+  },
+  {
+   "ref_id": 24900,
+   "expression": "batter",
+   "point_0_1000": [
+    370.0,
+    370.0
+   ],
+   "hit": true,
+   "latency_s": 0.491,
+   "error": null,
+   "raw": "<points coords=\"1 1 370 370\">batter.</points>"
+  },
+  {
+   "ref_id": 24920,
+   "expression": "man on right",
+   "point_0_1000": [
+    890.0,
+    452.0
+   ],
+   "hit": true,
+   "latency_s": 0.51,
+   "error": null,
+   "raw": "<points coords=\"1 1 890 452\">man on right</points>"
+  },
+  {
+   "ref_id": 24921,
+   "expression": "man in black",
+   "point_0_1000": [
+    670.0,
+    470.0
+   ],
+   "hit": true,
+   "latency_s": 0.51,
+   "error": null,
+   "raw": "<points coords=\"1 1 670 470\">man in black.</points>"
+  },
+  {
+   "ref_id": 25427,
+   "expression": "second bowl of soup from the left",
+   "point_0_1000": [
+    377.0,
+    790.0
+   ],
+   "hit": true,
+   "latency_s": 0.577,
+   "error": null,
+   "raw": "<points coords=\"1 1 377 790\">second bowl of soup from the left.</points>"
+  },
+  {
+   "ref_id": 25436,
+   "expression": "car driving in the road",
+   "point_0_1000": [
+    548.0,
+    729.0
+   ],
+   "hit": true,
+   "latency_s": 0.565,
+   "error": null,
+   "raw": "<points coords=\"1 1 548 729\">car driving in the road.</points>"
+  },
+  {
+   "ref_id": 25587,
+   "expression": "right most vase",
+   "point_0_1000": [
+    802.0,
+    715.0
+   ],
+   "hit": true,
+   "latency_s": 0.51,
+   "error": null,
+   "raw": "<points coords=\"1 1 802 715\">right most vase.</points>"
+  },
+  {
+   "ref_id": 25858,
+   "expression": "female in blue clothing",
+   "point_0_1000": [
+    862.0,
+    511.0
+   ],
+   "hit": true,
+   "latency_s": 0.515,
+   "error": null,
+   "raw": "<points coords=\"1 1 862 511\">female in blue clothing.</points>"
+  },
+  {
+   "ref_id": 25956,
+   "expression": "dog in party hat",
+   "point_0_1000": [
+    762.0,
+    305.0
+   ],
+   "hit": true,
+   "latency_s": 0.526,
+   "error": null,
+   "raw": "<points coords=\"1 1 762 305\">dog in party hat.</points>"
+  },
+  {
+   "ref_id": 26589,
+   "expression": "bag hanging up on fence left",
+   "point_0_1000": [
+    39.0,
+    342.0
+   ],
+   "hit": true,
+   "latency_s": 0.554,
+   "error": null,
+   "raw": "<points coords=\"1 1 039 342\">bag hanging up on fence left</points>"
+  },
+  {
+   "ref_id": 26642,
+   "expression": "green pants kid",
+   "point_0_1000": [
+    343.0,
+    752.0
+   ],
+   "hit": true,
+   "latency_s": 0.499,
+   "error": null,
+   "raw": "<points coords=\"1 1 343 752\">green pants kid</points>"
+  },
+  {
+   "ref_id": 26808,
+   "expression": "right chair",
+   "point_0_1000": [
+    839.0,
+    217.0
+   ],
+   "hit": true,
+   "latency_s": 0.498,
+   "error": null,
+   "raw": "<points coords=\"1 1 839 217\">right chair</points>"
+  },
+  {
+   "ref_id": 27292,
+   "expression": "orange shirt",
+   "point_0_1000": [
+    915.0,
+    283.0
+   ],
+   "hit": true,
+   "latency_s": 0.491,
+   "error": null,
+   "raw": "<points coords=\"1 1 915 283\">orange shirt.</points>"
+  },
+  {
+   "ref_id": 27321,
+   "expression": "the exposed wood to the top of the sandwhich",
+   "point_0_1000": [
+    777.0,
+    414.0
+   ],
+   "hit": true,
+   "latency_s": 0.638,
+   "error": null,
+   "raw": "<points coords=\"1 1 777 414\">the exposed wood to the top of the sandwhich.</points>"
+  },
+  {
+   "ref_id": 27478,
+   "expression": "guy under frisbee",
+   "point_0_1000": [
+    243.0,
+    371.0
+   ],
+   "hit": true,
+   "latency_s": 0.557,
+   "error": null,
+   "raw": "<points coords=\"1 1 243 371\">guy under frisbee</points>"
+  },
+  {
+   "ref_id": 27939,
+   "expression": "old person in glasses no hat light blue blanket",
+   "point_0_1000": [
+    262.0,
+    287.0
+   ],
+   "hit": true,
+   "latency_s": 1.007,
+   "error": null,
+   "raw": "<points coords=\"1 1 262 287 2 262 377 3 308 537\">old person in glasses no hat light blue blanket</points>"
+  },
+  {
+   "ref_id": 28318,
+   "expression": "guys arm far right",
+   "point_0_1000": null,
+   "hit": false,
+   "latency_s": 0.147,
+   "error": null,
+   "raw": "There are none."
+  },
+  {
+   "ref_id": 28319,
+   "expression": "man",
+   "point_0_1000": [
+    415.0,
+    573.0
+   ],
+   "hit": true,
+   "latency_s": 0.461,
+   "error": null,
+   "raw": "<points coords=\"1 1 415 573\">man.</points>"
+  },
+  {
+   "ref_id": 28474,
+   "expression": "front right person next to dog lover",
+   "point_0_1000": [
+    332.0,
+    627.0
+   ],
+   "hit": true,
+   "latency_s": 0.579,
+   "error": null,
+   "raw": "<points coords=\"1 1 332 627\">front right person next to dog lover</points>"
+  },
+  {
+   "ref_id": 28557,
+   "expression": "batta batta batta",
+   "point_0_1000": [
+    627.0,
+    257.0
+   ],
+   "hit": false,
+   "latency_s": 0.558,
+   "error": null,
+   "raw": "<points coords=\"1 1 627 257\">batta batta batta</points>"
+  },
+  {
+   "ref_id": 28578,
+   "expression": "europe",
+   "point_0_1000": [
+    649.0,
+    443.0
+   ],
+   "hit": true,
+   "latency_s": 0.485,
+   "error": null,
+   "raw": "<points coords=\"1 1 649 443\">europe.</points>"
+  },
+  {
+   "ref_id": 28599,
+   "expression": "woman in yellow hoodie",
+   "point_0_1000": [
+    196.0,
+    729.0
+   ],
+   "hit": true,
+   "latency_s": 0.537,
+   "error": null,
+   "raw": "<points coords=\"1 1 196 729\">woman in yellow hoodie.</points>"
+  },
+  {
+   "ref_id": 28729,
+   "expression": "person on left",
+   "point_0_1000": [
+    349.0,
+    490.0
+   ],
+   "hit": true,
+   "latency_s": 0.512,
+   "error": null,
+   "raw": "<points coords=\"1 1 349 490\">person on left.</points>"
+  },
+  {
+   "ref_id": 28822,
+   "expression": "far left lounge chair",
+   "point_0_1000": [
+    20.0,
+    729.0
+   ],
+   "hit": true,
+   "latency_s": 0.533,
+   "error": null,
+   "raw": "<points coords=\"1 1 020 729\">far left lounge chair.</points>"
+  },
+  {
+   "ref_id": 29220,
+   "expression": "white train on left",
+   "point_0_1000": [
+    204.0,
+    473.0
+   ],
+   "hit": true,
+   "latency_s": 0.534,
+   "error": null,
+   "raw": "<points coords=\"1 1 204 473\">white train on left.</points>"
+  },
+  {
+   "ref_id": 29592,
+   "expression": "lttle girl",
+   "point_0_1000": [
+    702.0,
+    649.0
+   ],
+   "hit": true,
+   "latency_s": 0.529,
+   "error": null,
+   "raw": "<points coords=\"1 1 702 649\">lttle girl.</points>"
+  },
+  {
+   "ref_id": 30144,
+   "expression": "woman in the black and white dres on the right",
+   "point_0_1000": [
+    762.0,
+    486.0
+   ],
+   "hit": true,
+   "latency_s": 0.665,
+   "error": null,
+   "raw": "<points coords=\"1 1 762 486\">woman in the black and white dres on the right.</points>"
+  },
+  {
+   "ref_id": 30295,
+   "expression": "bed",
+   "point_0_1000": [
+    862.0,
+    483.0
+   ],
+   "hit": true,
+   "latency_s": 0.478,
+   "error": null,
+   "raw": "<points coords=\"1 1 862 483\">bed.</points>"
+  },
+  {
+   "ref_id": 30602,
+   "expression": "man",
+   "point_0_1000": [
+    40.0,
+    679.0
+   ],
+   "hit": false,
+   "latency_s": 1.246,
+   "error": null,
+   "raw": "<points coords=\"1 1 040 679 2 590 679 3 777 714 4 838 714 5 908 721\">man.</points>"
+  },
+  {
+   "ref_id": 30716,
+   "expression": "left apple",
+   "point_0_1000": [
+    196.0,
+    279.0
+   ],
+   "hit": true,
+   "latency_s": 0.489,
+   "error": null,
+   "raw": "<points coords=\"1 1 196 279\">left apple.</points>"
+  },
+  {
+   "ref_id": 30718,
+   "expression": "apple in the middle",
+   "point_0_1000": [
+    577.0,
+    340.0
+   ],
+   "hit": true,
+   "latency_s": 0.528,
+   "error": null,
+   "raw": "<points coords=\"1 1 577 340\">apple in the middle.</points>"
+  },
+  {
+   "ref_id": 30861,
+   "expression": "woman on right",
+   "point_0_1000": [
+    749.0,
+    514.0
+   ],
+   "hit": true,
+   "latency_s": 0.495,
+   "error": null,
+   "raw": "<points coords=\"1 1 749 514\">woman on right</points>"
+  },
+  {
+   "ref_id": 31214,
+   "expression": "man far left",
+   "point_0_1000": [
+    65.0,
+    532.0
+   ],
+   "hit": true,
+   "latency_s": 0.5,
+   "error": null,
+   "raw": "<points coords=\"1 1 065 532\">man far left.</points>"
+  },
+  {
+   "ref_id": 31468,
+   "expression": "broc laying sideways in center of photo",
+   "point_0_1000": [
+    518.0,
+    405.0
+   ],
+   "hit": true,
+   "latency_s": 0.609,
+   "error": null,
+   "raw": "<points coords=\"1 1 518 405\">broc laying sideways in center of photo.</points>"
+  },
+  {
+   "ref_id": 31519,
+   "expression": "elephant in back",
+   "point_0_1000": [
+    632.0,
+    279.0
+   ],
+   "hit": true,
+   "latency_s": 0.514,
+   "error": null,
+   "raw": "<points coords=\"1 1 632 279\">elephant in back.</points>"
+  },
+  {
+   "ref_id": 31949,
+   "expression": "left cup",
+   "point_0_1000": [
+    96.0,
+    474.0
+   ],
+   "hit": true,
+   "latency_s": 0.5,
+   "error": null,
+   "raw": "<points coords=\"1 1 096 474\">left cup.</points>"
+  },
+  {
+   "ref_id": 32013,
+   "expression": "elephant on the right edge of photo",
+   "point_0_1000": [
+    957.0,
+    552.0
+   ],
+   "hit": true,
+   "latency_s": 0.591,
+   "error": null,
+   "raw": "<points coords=\"1 1 957 552\">elephant on the right edge of photo</points>"
+  },
+  {
+   "ref_id": 32016,
+   "expression": "glazed donut",
+   "point_0_1000": [
+    249.0,
+    473.0
+   ],
+   "hit": true,
+   "latency_s": 0.536,
+   "error": null,
+   "raw": "<points coords=\"1 1 249 473\">glazed donut.</points>"
+  },
+  {
+   "ref_id": 32412,
+   "expression": "guy with phone",
+   "point_0_1000": [
+    892.0,
+    482.0
+   ],
+   "hit": true,
+   "latency_s": 0.524,
+   "error": null,
+   "raw": "<points coords=\"1 1 892 482\">guy with phone.</points>"
+  },
+  {
+   "ref_id": 32993,
+   "expression": "hotdog in bottom left corner",
+   "point_0_1000": [
+    62.0,
+    902.0
+   ],
+   "hit": true,
+   "latency_s": 0.574,
+   "error": null,
+   "raw": "<points coords=\"1 1 062 902\">hotdog in bottom left corner</points>"
+  },
+  {
+   "ref_id": 33133,
+   "expression": "orange shirt botttom right",
+   "point_0_1000": [
+    949.0,
+    770.0
+   ],
+   "hit": true,
+   "latency_s": 0.541,
+   "error": null,
+   "raw": "<points coords=\"1 1 949 770\">orange shirt botttom right</points>"
+  },
+  {
+   "ref_id": 33727,
+   "expression": "wow didnt even see those legs lol but top pie very top",
+   "point_0_1000": [
+    914.0,
+    54.0
+   ],
+   "hit": false,
+   "latency_s": 0.893,
+   "error": null,
+   "raw": "<points coords=\"1 1 914 054 2 970 054\">wow didnt even see those legs lol but top pie very top</points>"
+  },
+  {
+   "ref_id": 33784,
+   "expression": "bird on left",
+   "point_0_1000": [
+    365.0,
+    333.0
+   ],
+   "hit": true,
+   "latency_s": 0.509,
+   "error": null,
+   "raw": "<points coords=\"1 1 365 333\">bird on left.</points>"
+  },
+  {
+   "ref_id": 34903,
+   "expression": "leather chair on left",
+   "point_0_1000": [
+    302.0,
+    752.0
+   ],
+   "hit": true,
+   "latency_s": 0.562,
+   "error": null,
+   "raw": "<points coords=\"1 1 302 752\">leather chair on left.</points>"
+  },
+  {
+   "ref_id": 35053,
+   "expression": "woman top right gray dress not running",
+   "point_0_1000": [
+    927.0,
+    243.0
+   ],
+   "hit": true,
+   "latency_s": 0.599,
+   "error": null,
+   "raw": "<points coords=\"1 1 927 243\">woman top right gray dress not running</points>"
+  },
+  {
+   "ref_id": 35719,
+   "expression": "blurry person",
+   "point_0_1000": [
+    927.0,
+    430.0
+   ],
+   "hit": true,
+   "latency_s": 0.511,
+   "error": null,
+   "raw": "<points coords=\"1 1 927 430\">blurry person.</points>"
+  },
+  {
+   "ref_id": 36438,
+   "expression": "teddy that is closest to the girl",
+   "point_0_1000": [
+    302.0,
+    289.0
+   ],
+   "hit": true,
+   "latency_s": 0.601,
+   "error": null,
+   "raw": "<points coords=\"1 1 302 289\">teddy that is closest to the girl.</points>"
+  },
+  {
+   "ref_id": 36468,
+   "expression": "person on top with green shirt",
+   "point_0_1000": [
+    377.0,
+    29.0
+   ],
+   "hit": true,
+   "latency_s": 0.587,
+   "error": null,
+   "raw": "<points coords=\"1 1 377 029\">person on top with green shirt.</points>"
+  },
+  {
+   "ref_id": 36688,
+   "expression": "man with blue plaid shirt",
+   "point_0_1000": [
+    511.0,
+    562.0
+   ],
+   "hit": true,
+   "latency_s": 0.569,
+   "error": null,
+   "raw": "<points coords=\"1 1 511 562\">man with blue plaid shirt.</points>"
+  },
+  {
+   "ref_id": 36724,
+   "expression": "right horse",
+   "point_0_1000": [
+    746.0,
+    617.0
+   ],
+   "hit": true,
+   "latency_s": 0.483,
+   "error": null,
+   "raw": "<points coords=\"1 1 746 617\">right horse.</points>"
+  },
+  {
+   "ref_id": 37543,
+   "expression": "second cake layer from left",
+   "point_0_1000": [
+    442.0,
+    552.0
+   ],
+   "hit": true,
+   "latency_s": 0.547,
+   "error": null,
+   "raw": "<points coords=\"1 1 442 552\">second cake layer from left</points>"
+  },
+  {
+   "ref_id": 37655,
+   "expression": "top",
+   "point_0_1000": [
+    511.0,
+    5.0
+   ],
+   "hit": true,
+   "latency_s": 0.494,
+   "error": null,
+   "raw": "<points coords=\"1 1 511 005\">top.</points>"
+  },
+  {
+   "ref_id": 37839,
+   "expression": "guy on left",
+   "point_0_1000": [
+    590.0,
+    615.0
+   ],
+   "hit": true,
+   "latency_s": 0.532,
+   "error": null,
+   "raw": "<points coords=\"1 1 590 615\">guy on left</points>"
+  },
+  {
+   "ref_id": 37848,
+   "expression": "orange shirt guy",
+   "point_0_1000": [
+    790.0,
+    479.0
+   ],
+   "hit": true,
+   "latency_s": 0.512,
+   "error": null,
+   "raw": "<points coords=\"1 1 790 479\">orange shirt guy.</points>"
+  },
+  {
+   "ref_id": 37849,
+   "expression": "the woman throwing the frisbee",
+   "point_0_1000": [
+    246.0,
+    783.0
+   ],
+   "hit": true,
+   "latency_s": 0.591,
+   "error": null,
+   "raw": "<points coords=\"1 1 246 783\">the woman throwing the frisbee.</points>"
+  },
+  {
+   "ref_id": 37942,
+   "expression": "food left",
+   "point_0_1000": [
+    162.0,
+    662.0
+   ],
+   "hit": true,
+   "latency_s": 0.488,
+   "error": null,
+   "raw": "<points coords=\"1 1 162 662\">food left</points>"
+  },
+  {
+   "ref_id": 38111,
+   "expression": "chair far left",
+   "point_0_1000": [
+    158.0,
+    786.0
+   ],
+   "hit": true,
+   "latency_s": 0.507,
+   "error": null,
+   "raw": "<points coords=\"1 1 158 786\">chair far left</points>"
+  },
+  {
+   "ref_id": 38675,
+   "expression": "pillows bottom left pink or white",
+   "point_0_1000": [
+    99.0,
+    762.0
+   ],
+   "hit": true,
+   "latency_s": 0.772,
+   "error": null,
+   "raw": "<points coords=\"1 1 099 762 2 127 962\">pillows bottom left pink or white</points>"
+  },
+  {
+   "ref_id": 39284,
+   "expression": "man on right",
+   "point_0_1000": [
+    727.0,
+    467.0
+   ],
+   "hit": true,
+   "latency_s": 0.505,
+   "error": null,
+   "raw": "<points coords=\"1 1 727 467\">man on right</points>"
+  },
+  {
+   "ref_id": 39320,
+   "expression": "giraffe background",
+   "point_0_1000": [
+    927.0,
+    235.0
+   ],
+   "hit": false,
+   "latency_s": 0.516,
+   "error": null,
+   "raw": "<points coords=\"1 1 927 235\">giraffe background.</points>"
+  },
+  {
+   "ref_id": 39333,
+   "expression": "second person from the left",
+   "point_0_1000": [
+    386.0,
+    302.0
+   ],
+   "hit": true,
+   "latency_s": 0.551,
+   "error": null,
+   "raw": "<points coords=\"1 1 386 302\">second person from the left</points>"
+  },
+  {
+   "ref_id": 40483,
+   "expression": "woman",
+   "point_0_1000": [
+    39.0,
+    339.0
+   ],
+   "hit": false,
+   "latency_s": 0.667,
+   "error": null,
+   "raw": "<points coords=\"1 1 039 339 2 818 162\">woman.</points>"
+  },
+  {
+   "ref_id": 40680,
+   "expression": "left kitten",
+   "point_0_1000": [
+    615.0,
+    605.0
+   ],
+   "hit": true,
+   "latency_s": 0.495,
+   "error": null,
+   "raw": "<points coords=\"1 1 615 605\">left kitten</points>"
+  },
+  {
+   "ref_id": 40681,
+   "expression": "right cat",
+   "point_0_1000": [
+    890.0,
+    662.0
+   ],
+   "hit": true,
+   "latency_s": 0.495,
+   "error": null,
+   "raw": "<points coords=\"1 1 890 662\">right cat</points>"
+  },
+  {
+   "ref_id": 41976,
+   "expression": "pink donut",
+   "point_0_1000": [
+    589.0,
+    614.0
+   ],
+   "hit": true,
+   "latency_s": 0.523,
+   "error": null,
+   "raw": "<points coords=\"1 1 589 614\">pink donut.</points>"
+  },
+  {
+   "ref_id": 42133,
+   "expression": "arm on right",
+   "point_0_1000": [
+    920.0,
+    452.0
+   ],
+   "hit": true,
+   "latency_s": 0.514,
+   "error": null,
+   "raw": "<points coords=\"1 1 920 452\">arm on right</points>"
+  },
+  {
+   "ref_id": 42500,
+   "expression": "koo koo dog",
+   "point_0_1000": [
+    362.0,
+    343.0
+   ],
+   "hit": true,
+   "latency_s": 0.741,
+   "error": null,
+   "raw": "<points coords=\"1 1 362 343 2 748 379\">koo koo dog.</points>"
+  },
+  {
+   "ref_id": 42547,
+   "expression": "bottom front boat",
+   "point_0_1000": [
+    777.0,
+    740.0
+   ],
+   "hit": true,
+   "latency_s": 0.516,
+   "error": null,
+   "raw": "<points coords=\"1 1 777 740\">bottom front boat</points>"
+  },
+  {
+   "ref_id": 42752,
+   "expression": "right cow",
+   "point_0_1000": [
+    714.0,
+    521.0
+   ],
+   "hit": true,
+   "latency_s": 0.485,
+   "error": null,
+   "raw": "<points coords=\"1 1 714 521\">right cow</points>"
+  },
+  {
+   "ref_id": 42762,
+   "expression": "man bottom right red shirt blue scarf on head",
+   "point_0_1000": [
+    683.0,
+    812.0
+   ],
+   "hit": true,
+   "latency_s": 0.616,
+   "error": null,
+   "raw": "<points coords=\"1 1 683 812\">man bottom right red shirt blue scarf on head</points>"
+  },
+  {
+   "ref_id": 42883,
+   "expression": "ffarthest snd on front plte",
+   "point_0_1000": [
+    799.0,
+    623.0
+   ],
+   "hit": false,
+   "latency_s": 0.605,
+   "error": null,
+   "raw": "<points coords=\"1 1 799 623\">ffarthest snd on front plte</points>"
+  },
+  {
+   "ref_id": 42884,
+   "expression": "sandwich closest to you",
+   "point_0_1000": [
+    552.0,
+    714.0
+   ],
+   "hit": true,
+   "latency_s": 0.545,
+   "error": null,
+   "raw": "<points coords=\"1 1 552 714\">sandwich closest to you.</points>"
+  },
+  {
+   "ref_id": 42956,
+   "expression": "top right ight part of pie",
+   "point_0_1000": [
+    657.0,
+    299.0
+   ],
+   "hit": true,
+   "latency_s": 0.579,
+   "error": null,
+   "raw": "<points coords=\"1 1 657 299\">top right ight part of pie</points>"
+  },
+  {
+   "ref_id": 43077,
+   "expression": "green bottle in center",
+   "point_0_1000": [
+    339.0,
+    610.0
+   ],
+   "hit": true,
+   "latency_s": 0.53,
+   "error": null,
+   "raw": "<points coords=\"1 1 339 610\">green bottle in center</points>"
+  },
+  {
+   "ref_id": 43126,
+   "expression": "dude standing behind woman checking her ass out",
+   "point_0_1000": [
+    462.0,
+    440.0
+   ],
+   "hit": false,
+   "latency_s": 0.628,
+   "error": null,
+   "raw": "<points coords=\"1 1 462 440\">dude standing behind woman checking her ass out</points>"
+  },
+  {
+   "ref_id": 43191,
+   "expression": "third guy from right",
+   "point_0_1000": [
+    632.0,
+    605.0
+   ],
+   "hit": false,
+   "latency_s": 0.516,
+   "error": null,
+   "raw": "<points coords=\"1 1 632 605\">third guy from right</points>"
+  },
+  {
+   "ref_id": 43196,
+   "expression": "fourth guy from right",
+   "point_0_1000": [
+    514.0,
+    629.0
+   ],
+   "hit": false,
+   "latency_s": 0.537,
+   "error": null,
+   "raw": "<points coords=\"1 1 514 629\">fourth guy from right</points>"
+  },
+  {
+   "ref_id": 43376,
+   "expression": "couch by window",
+   "point_0_1000": [
+    462.0,
+    543.0
+   ],
+   "hit": true,
+   "latency_s": 0.532,
+   "error": null,
+   "raw": "<points coords=\"1 1 462 543\">couch by window.</points>"
+  },
+  {
+   "ref_id": 43543,
+   "expression": "right guy",
+   "point_0_1000": [
+    705.0,
+    505.0
+   ],
+   "hit": true,
+   "latency_s": 0.481,
+   "error": null,
+   "raw": "<points coords=\"1 1 705 505\">right guy</points>"
+  },
+  {
+   "ref_id": 43584,
+   "expression": "red shirt",
+   "point_0_1000": [
+    758.0,
+    579.0
+   ],
+   "hit": true,
+   "latency_s": 0.475,
+   "error": null,
+   "raw": "<points coords=\"1 1 758 579\">red shirt.</points>"
+  },
+  {
+   "ref_id": 43764,
+   "expression": "left person",
+   "point_0_1000": [
+    152.0,
+    449.0
+   ],
+   "hit": true,
+   "latency_s": 0.488,
+   "error": null,
+   "raw": "<points coords=\"1 1 152 449\">left person</points>"
+  },
+  {
+   "ref_id": 43991,
+   "expression": "second person",
+   "point_0_1000": [
+    620.0,
+    629.0
+   ],
+   "hit": true,
+   "latency_s": 0.494,
+   "error": null,
+   "raw": "<points coords=\"1 1 620 629\">second person</points>"
+  },
+  {
+   "ref_id": 44036,
+   "expression": "shirtless guy",
+   "point_0_1000": [
+    335.0,
+    576.0
+   ],
+   "hit": true,
+   "latency_s": 0.51,
+   "error": null,
+   "raw": "<points coords=\"1 1 335 576\">shirtless guy.</points>"
+  },
+  {
+   "ref_id": 44563,
+   "expression": "center wine glass tiny amount of dark wine",
+   "point_0_1000": [
+    535.0,
+    414.0
+   ],
+   "hit": true,
+   "latency_s": 0.602,
+   "error": null,
+   "raw": "<points coords=\"1 1 535 414\">center wine glass tiny amount of dark wine</points>"
+  },
+  {
+   "ref_id": 44657,
+   "expression": "crouching",
+   "point_0_1000": [
+    452.0,
+    670.0
+   ],
+   "hit": true,
+   "latency_s": 0.509,
+   "error": null,
+   "raw": "<points coords=\"1 1 452 670\">crouching</points>"
+  },
+  {
+   "ref_id": 44960,
+   "expression": "white folded shirt with bees",
+   "point_0_1000": [
+    320.0,
+    396.0
+   ],
+   "hit": true,
+   "latency_s": 0.555,
+   "error": null,
+   "raw": "<points coords=\"1 1 320 396\">white folded shirt with bees.</points>"
+  },
+  {
+   "ref_id": 45042,
+   "expression": "girl standing",
+   "point_0_1000": [
+    732.0,
+    429.0
+   ],
+   "hit": true,
+   "latency_s": 0.482,
+   "error": null,
+   "raw": "<points coords=\"1 1 732 429\">girl standing.</points>"
+  },
+  {
+   "ref_id": 45045,
+   "expression": "blue shirt standin",
+   "point_0_1000": [
+    358.0,
+    352.0
+   ],
+   "hit": true,
+   "latency_s": 0.521,
+   "error": null,
+   "raw": "<points coords=\"1 1 358 352\">blue shirt standin</points>"
+  },
+  {
+   "ref_id": 45258,
+   "expression": "bear middle one",
+   "point_0_1000": [
+    552.0,
+    552.0
+   ],
+   "hit": true,
+   "latency_s": 0.516,
+   "error": null,
+   "raw": "<points coords=\"1 1 552 552\">bear middle one</points>"
+  },
+  {
+   "ref_id": 45373,
+   "expression": "man in green",
+   "point_0_1000": [
+    452.0,
+    511.0
+   ],
+   "hit": true,
+   "latency_s": 0.497,
+   "error": null,
+   "raw": "<points coords=\"1 1 452 511\">man in green.</points>"
+  },
+  {
+   "ref_id": 46104,
+   "expression": "center person",
+   "point_0_1000": [
+    482.0,
+    796.0
+   ],
+   "hit": true,
+   "latency_s": 0.489,
+   "error": null,
+   "raw": "<points coords=\"1 1 482 796\">center person.</points>"
+  },
+  {
+   "ref_id": 46267,
+   "expression": "full bike on right at front",
+   "point_0_1000": null,
+   "hit": false,
+   "latency_s": 0.146,
+   "error": null,
+   "raw": "There are none."
+  },
+  {
+   "ref_id": 46567,
+   "expression": "second from right",
+   "point_0_1000": [
+    665.0,
+    552.0
+   ],
+   "hit": true,
+   "latency_s": 0.523,
+   "error": null,
+   "raw": "<points coords=\"1 1 665 552\">second from right</points>"
+  },
+  {
+   "ref_id": 46856,
+   "expression": "sandwich on the right",
+   "point_0_1000": [
+    662.0,
+    279.0
+   ],
+   "hit": true,
+   "latency_s": 0.537,
+   "error": null,
+   "raw": "<points coords=\"1 1 662 279\">sandwich on the right.</points>"
+  },
+  {
+   "ref_id": 46945,
+   "expression": "man in a tie",
+   "point_0_1000": [
+    712.0,
+    523.0
+   ],
+   "hit": true,
+   "latency_s": 0.523,
+   "error": null,
+   "raw": "<points coords=\"1 1 712 523\">man in a tie.</points>"
+  },
+  {
+   "ref_id": 47832,
+   "expression": "left bird",
+   "point_0_1000": [
+    162.0,
+    495.0
+   ],
+   "hit": true,
+   "latency_s": 0.495,
+   "error": null,
+   "raw": "<points coords=\"1 1 162 495\">left bird</points>"
+  },
+  {
+   "ref_id": 47891,
+   "expression": "bald man in background wearing yellow striped shirt and jeans",
+   "point_0_1000": [
+    90.0,
+    152.0
+   ],
+   "hit": true,
+   "latency_s": 0.675,
+   "error": null,
+   "raw": "<points coords=\"1 1 090 152\">bald man in background wearing yellow striped shirt and jeans.</points>"
+  },
+  {
+   "ref_id": 48043,
+   "expression": "that was closemiddle plate",
+   "point_0_1000": [
+    496.0,
+    529.0
+   ],
+   "hit": true,
+   "latency_s": 0.54,
+   "error": null,
+   "raw": "<points coords=\"1 1 496 529\">that was closemiddle plate</points>"
+  },
+  {
+   "ref_id": 48270,
+   "expression": "wine glass on left",
+   "point_0_1000": [
+    52.0,
+    267.0
+   ],
+   "hit": true,
+   "latency_s": 0.531,
+   "error": null,
+   "raw": "<points coords=\"1 1 052 267\">wine glass on left.</points>"
+  },
+  {
+   "ref_id": 48387,
+   "expression": "pepperoni pizza",
+   "point_0_1000": [
+    443.0,
+    367.0
+   ],
+   "hit": true,
+   "latency_s": 0.524,
+   "error": null,
+   "raw": "<points coords=\"1 1 443 367\">pepperoni pizza.</points>"
+  },
+  {
+   "ref_id": 48452,
+   "expression": "black cat",
+   "point_0_1000": [
+    827.0,
+    493.0
+   ],
+   "hit": true,
+   "latency_s": 0.487,
+   "error": null,
+   "raw": "<points coords=\"1 1 827 493\">black cat.</points>"
+  },
+  {
+   "ref_id": 48786,
+   "expression": "right giraffe",
+   "point_0_1000": [
+    840.0,
+    517.0
+   ],
+   "hit": true,
+   "latency_s": 0.501,
+   "error": null,
+   "raw": "<points coords=\"1 1 840 517\">right giraffe.</points>"
+  },
+  {
+   "ref_id": 48927,
+   "expression": "flowery bush behind hydrant to our left",
+   "point_0_1000": [
+    96.0,
+    427.0
+   ],
+   "hit": true,
+   "latency_s": 0.617,
+   "error": null,
+   "raw": "<points coords=\"1 1 096 427\">flowery bush behind hydrant to our left.</points>"
+  },
+  {
+   "ref_id": 49120,
+   "expression": "cut off person on left",
+   "point_0_1000": [
+    27.0,
+    289.0
+   ],
+   "hit": true,
+   "latency_s": 0.554,
+   "error": null,
+   "raw": "<points coords=\"1 1 027 289\">cut off person on left.</points>"
+  },
+  {
+   "ref_id": 49260,
+   "expression": "left orange behind the one in the very bottom left",
+   "point_0_1000": [
+    96.0,
+    588.0
+   ],
+   "hit": true,
+   "latency_s": 0.656,
+   "error": null,
+   "raw": "<points coords=\"1 1 096 588\">left orange behind the one in the very bottom left</points>"
+  },
+  {
+   "ref_id": 49264,
+   "expression": "orange below big one left",
+   "point_0_1000": [
+    246.0,
+    479.0
+   ],
+   "hit": true,
+   "latency_s": 0.56,
+   "error": null,
+   "raw": "<points coords=\"1 1 246 479\">orange below big one left</points>"
+  },
+  {
+   "ref_id": 49326,
+   "expression": "third person from left",
+   "point_0_1000": [
+    379.0,
+    492.0
+   ],
+   "hit": true,
+   "latency_s": 0.531,
+   "error": null,
+   "raw": "<points coords=\"1 1 379 492\">third person from left</points>"
+  },
+  {
+   "ref_id": 49449,
+   "expression": "child",
+   "point_0_1000": [
+    462.0,
+    605.0
+   ],
+   "hit": true,
+   "latency_s": 0.483,
+   "error": null,
+   "raw": "<points coords=\"1 1 462 605\">child.</points>"
+  },
+  {
+   "ref_id": 49450,
+   "expression": "person blue coat",
+   "point_0_1000": [
+    790.0,
+    439.0
+   ],
+   "hit": true,
+   "latency_s": 0.509,
+   "error": null,
+   "raw": "<points coords=\"1 1 790 439\">person blue coat.</points>"
+  },
+  {
+   "ref_id": 49588,
+   "expression": "older male",
+   "point_0_1000": [
+    749.0,
+    470.0
+   ],
+   "hit": true,
+   "latency_s": 0.49,
+   "error": null,
+   "raw": "<points coords=\"1 1 749 470\">older male.</points>"
+  },
+  {
+   "ref_id": 49763,
+   "expression": "man holding a white cord",
+   "point_0_1000": [
+    290.0,
+    373.0
+   ],
+   "hit": true,
+   "latency_s": 0.541,
+   "error": null,
+   "raw": "<points coords=\"1 1 290 373\">man holding a white cord</points>"
+  },
+  {
+   "ref_id": 49767,
+   "expression": "second from right bottle",
+   "point_0_1000": [
+    577.0,
+    452.0
+   ],
+   "hit": true,
+   "latency_s": 0.516,
+   "error": null,
+   "raw": "<points coords=\"1 1 577 452\">second from right bottle</points>"
+  }
+ ]
+}

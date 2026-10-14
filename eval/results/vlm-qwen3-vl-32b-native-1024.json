@@ -1,0 +1,2417 @@
+{
+ "summary": {
+  "name": "qwen3-vl-32b-native",
+  "model": "qwen3-vl-32b",
+  "kind": "qwen",
+  "no_think": false,
+  "prompt": "native",
+  "max_dim": 1024,
+  "n": 200,
+  "accuracy": 0.905,
+  "no_point": 1,
+  "parsed_accuracy": 0.9095,
+  "errors": 0,
+  "latency_median_s": 1.579,
+  "latency_p90_s": 2.045,
+  "rescored": "from stored raw output with the bbox/bbox_2d parser"
+ },
+ "records": [
+  {
+   "ref_id": 101,
+   "expression": "mom",
+   "point_0_1000": [
+    618.0,
+    612.0
+   ],
+   "hit": true,
+   "latency_s": 1.88,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [348, 275, 888, 949],\n  \"label\": \"mom\"\n}\n```"
+  },
+  {
+   "ref_id": 790,
+   "expression": "bottom left portion of couch on left",
+   "point_0_1000": [
+    212.5,
+    854.0
+   ],
+   "hit": true,
+   "latency_s": 1.636,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [0, 710, 425, 998]\n}\n```"
+  },
+  {
+   "ref_id": 1040,
+   "expression": "man front",
+   "point_0_1000": [
+    517.0,
+    614.5
+   ],
+   "hit": true,
+   "latency_s": 1.535,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [355, 304, 679, 925]\n}\n```"
+  },
+  {
+   "ref_id": 1970,
+   "expression": "red comic",
+   "point_0_1000": [
+    329.5,
+    612.5
+   ],
+   "hit": true,
+   "latency_s": 1.564,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [164, 477, 495, 748]\n}\n```"
+  },
+  {
+   "ref_id": 2317,
+   "expression": "zebra right",
+   "point_0_1000": [
+    765.0,
+    478.0
+   ],
+   "hit": true,
+   "latency_s": 1.515,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [671, 298, 859, 658]\n}\n```"
+  },
+  {
+   "ref_id": 2410,
+   "expression": "far couch",
+   "point_0_1000": [
+    348.5,
+    523.0
+   ],
+   "hit": true,
+   "latency_s": 1.547,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [175, 379, 522, 667]\n}\n```"
+  },
+  {
+   "ref_id": 3559,
+   "expression": "medium sized vase",
+   "point_0_1000": [
+    472.5,
+    697.0
+   ],
+   "hit": false,
+   "latency_s": 1.559,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [357, 544, 588, 850]\n}\n```"
+  },
+  {
+   "ref_id": 3560,
+   "expression": "smaller container",
+   "point_0_1000": [
+    365.5,
+    768.0
+   ],
+   "hit": true,
+   "latency_s": 1.546,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [250, 661, 481, 875]\n}\n```"
+  },
+  {
+   "ref_id": 3572,
+   "expression": "person in background directly above fist",
+   "point_0_1000": [
+    680.5,
+    275.0
+   ],
+   "hit": false,
+   "latency_s": 1.647,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [576, 105, 785, 445]\n}\n```"
+  },
+  {
+   "ref_id": 3822,
+   "expression": "guy on the left in back",
+   "point_0_1000": [
+    705.0,
+    132.0
+   ],
+   "hit": true,
+   "latency_s": 1.583,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [605, 0, 805, 264]\n}\n```"
+  },
+  {
+   "ref_id": 4109,
+   "expression": "guy",
+   "point_0_1000": [
+    485.5,
+    557.0
+   ],
+   "hit": true,
+   "latency_s": 1.581,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [154, 114, 817, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 4413,
+   "expression": "the blue cup on the top right",
+   "point_0_1000": [
+    866.5,
+    199.5
+   ],
+   "hit": true,
+   "latency_s": 1.633,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [735, 37, 998, 362]\n}\n```"
+  },
+  {
+   "ref_id": 4414,
+   "expression": "red sauce",
+   "point_0_1000": [
+    870.0,
+    538.0
+   ],
+   "hit": true,
+   "latency_s": 1.575,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [740, 351, 1000, 725]\n}\n```"
+  },
+  {
+   "ref_id": 4583,
+   "expression": "middle plate behind the pizza",
+   "point_0_1000": [
+    489.0,
+    291.5
+   ],
+   "hit": true,
+   "latency_s": 1.717,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [210, 199, 768, 384]\n}\n```"
+  },
+  {
+   "ref_id": 5120,
+   "expression": "man on right",
+   "point_0_1000": [
+    812.5,
+    599.0
+   ],
+   "hit": true,
+   "latency_s": 1.644,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [625, 198, 1000, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 5144,
+   "expression": "far right cupcake part",
+   "point_0_1000": [
+    935.5,
+    187.5
+   ],
+   "hit": true,
+   "latency_s": 1.494,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [871, 0, 1000, 375]\n}\n```"
+  },
+  {
+   "ref_id": 5152,
+   "expression": "bottom right corner of table",
+   "point_0_1000": [
+    926.5,
+    788.0
+   ],
+   "hit": true,
+   "latency_s": 1.627,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [855, 578, 998, 998]\n}\n```"
+  },
+  {
+   "ref_id": 5217,
+   "expression": "left choc donut on bottom",
+   "point_0_1000": [
+    294.0,
+    426.0
+   ],
+   "hit": false,
+   "latency_s": 2.217,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [192, 281, 396, 571],\n  \"label\": \"left choc donut on bottom\"\n}\n```"
+  },
+  {
+   "ref_id": 5249,
+   "expression": "bride",
+   "point_0_1000": [
+    483.5,
+    440.0
+   ],
+   "hit": true,
+   "latency_s": 2.057,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [236, 180, 731, 700],\n  \"label\": \"bride\"\n}\n```"
+  },
+  {
+   "ref_id": 5466,
+   "expression": "right white spoon",
+   "point_0_1000": [
+    912.5,
+    423.0
+   ],
+   "hit": true,
+   "latency_s": 1.611,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [825, 288, 1000, 558]\n}\n```"
+  },
+  {
+   "ref_id": 5700,
+   "expression": "cup left",
+   "point_0_1000": [
+    200.5,
+    218.0
+   ],
+   "hit": true,
+   "latency_s": 1.801,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [53, 48, 348, 388],\n  \"label\": \"cup left\"\n}\n```"
+  },
+  {
+   "ref_id": 6146,
+   "expression": "midlle top",
+   "point_0_1000": [
+    562.5,
+    140.0
+   ],
+   "hit": true,
+   "latency_s": 1.601,
+   "error": null,
+   "raw": "{\n  \"bbox\": [\n    325,\n    40,\n    800,\n    240\n  ]\n}"
+  },
+  {
+   "ref_id": 6438,
+   "expression": "checkered tablecloth",
+   "point_0_1000": [
+    820.0,
+    494.0
+   ],
+   "hit": true,
+   "latency_s": 1.537,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [648, 334, 992, 654]\n}\n```"
+  },
+  {
+   "ref_id": 6504,
+   "expression": "biggest laptop",
+   "point_0_1000": [
+    279.5,
+    413.5
+   ],
+   "hit": true,
+   "latency_s": 1.483,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [59, 174, 500, 653]\n}\n```"
+  },
+  {
+   "ref_id": 6871,
+   "expression": "biggest glazed donut",
+   "point_0_1000": [
+    198.5,
+    539.0
+   ],
+   "hit": true,
+   "latency_s": 1.637,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [99, 338, 298, 740]\n}\n```"
+  },
+  {
+   "ref_id": 7091,
+   "expression": "center case on floor with squares",
+   "point_0_1000": [
+    379.0,
+    656.5
+   ],
+   "hit": true,
+   "latency_s": 1.662,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [98, 488, 660, 825]\n}\n```"
+  },
+  {
+   "ref_id": 7660,
+   "expression": "hand closest",
+   "point_0_1000": [
+    347.0,
+    755.5
+   ],
+   "hit": true,
+   "latency_s": 1.72,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [144, 511, 550, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 7662,
+   "expression": "front red car",
+   "point_0_1000": [
+    483.0,
+    489.5
+   ],
+   "hit": true,
+   "latency_s": 1.548,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [0, 304, 966, 675]\n}\n```"
+  },
+  {
+   "ref_id": 7739,
+   "expression": "left upper person",
+   "point_0_1000": [
+    78.5,
+    507.5
+   ],
+   "hit": true,
+   "latency_s": 1.455,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [0, 127, 157, 888]\n}\n```"
+  },
+  {
+   "ref_id": 7977,
+   "expression": "left back white shirt behind fence",
+   "point_0_1000": [
+    145.0,
+    596.0
+   ],
+   "hit": true,
+   "latency_s": 1.511,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [56, 252, 234, 940]\n}\n```"
+  },
+  {
+   "ref_id": 8162,
+   "expression": "center white chick",
+   "point_0_1000": [
+    504.0,
+    411.0
+   ],
+   "hit": true,
+   "latency_s": 2.074,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [401, 148, 607, 674],\n  \"label\": \"center white chick\"\n}\n```"
+  },
+  {
+   "ref_id": 9202,
+   "expression": "red shirt",
+   "point_0_1000": [
+    705.5,
+    531.0
+   ],
+   "hit": true,
+   "latency_s": 1.902,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [615, 195, 796, 867],\n  \"label\": \"red shirt\"\n}\n```"
+  },
+  {
+   "ref_id": 9976,
+   "expression": "white table blurry in background left",
+   "point_0_1000": [
+    180.0,
+    341.5
+   ],
+   "hit": true,
+   "latency_s": 1.468,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [0, 225, 360, 458]\n}\n```"
+  },
+  {
+   "ref_id": 10267,
+   "expression": "guy striped shirt",
+   "point_0_1000": [
+    283.5,
+    531.0
+   ],
+   "hit": true,
+   "latency_s": 1.966,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [95, 62, 472, 1000],\n  \"label\": \"guy striped shirt\"\n}\n```"
+  },
+  {
+   "ref_id": 10324,
+   "expression": "person on far right standing",
+   "point_0_1000": [
+    940.0,
+    368.5
+   ],
+   "hit": true,
+   "latency_s": 1.492,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [880, 8, 1000, 729]\n}\n```"
+  },
+  {
+   "ref_id": 10421,
+   "expression": "mama",
+   "point_0_1000": [
+    238.5,
+    524.0
+   ],
+   "hit": true,
+   "latency_s": 1.456,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [40, 70, 437, 978]\n}\n```"
+  },
+  {
+   "ref_id": 10426,
+   "expression": "holding baby",
+   "point_0_1000": [
+    422.5,
+    411.5
+   ],
+   "hit": true,
+   "latency_s": 1.906,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [295, 38, 550, 785],\n  \"label\": \"holding baby\"\n}\n```"
+  },
+  {
+   "ref_id": 11110,
+   "expression": "batch of brocollie on left",
+   "point_0_1000": [
+    371.5,
+    217.5
+   ],
+   "hit": true,
+   "latency_s": 1.625,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [258, 81, 485, 354]\n}\n```"
+  },
+  {
+   "ref_id": 11149,
+   "expression": "groom",
+   "point_0_1000": [
+    544.0,
+    309.5
+   ],
+   "hit": true,
+   "latency_s": 2.065,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [388, 102, 700, 517],\n  \"label\": \"groom\"\n}\n```"
+  },
+  {
+   "ref_id": 11556,
+   "expression": "person on left",
+   "point_0_1000": [
+    429.5,
+    610.5
+   ],
+   "hit": true,
+   "latency_s": 2.085,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [314, 233, 545, 988],\n  \"label\": \"person on left\"\n}\n```"
+  },
+  {
+   "ref_id": 11687,
+   "expression": "man on right",
+   "point_0_1000": [
+    887.5,
+    587.0
+   ],
+   "hit": true,
+   "latency_s": 2.089,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [775, 177, 1000, 997],\n  \"label\": \"man on right\"\n}\n```"
+  },
+  {
+   "ref_id": 11811,
+   "expression": "person on left",
+   "point_0_1000": [
+    354.0,
+    549.0
+   ],
+   "hit": true,
+   "latency_s": 1.633,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [74, 98, 634, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 11855,
+   "expression": "galss vase in left top corner",
+   "point_0_1000": [
+    185.0,
+    451.0
+   ],
+   "hit": true,
+   "latency_s": 2.008,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [19, 0, 351, 902],\n  \"label\": \"galss vase in left top corner\"\n}\n```"
+  },
+  {
+   "ref_id": 12501,
+   "expression": "blond girl in the bottom right corner",
+   "point_0_1000": [
+    869.0,
+    674.0
+   ],
+   "hit": true,
+   "latency_s": 1.643,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [738, 348, 1000, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 12591,
+   "expression": "train on left",
+   "point_0_1000": [
+    217.5,
+    500.0
+   ],
+   "hit": true,
+   "latency_s": 1.34,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [0, 0, 435, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 12785,
+   "expression": "empty chair next to man",
+   "point_0_1000": [
+    607.5,
+    884.5
+   ],
+   "hit": true,
+   "latency_s": 1.588,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [484, 769, 731, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 12845,
+   "expression": "apple left side",
+   "point_0_1000": [
+    146.0,
+    583.5
+   ],
+   "hit": true,
+   "latency_s": 1.463,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [0, 410, 292, 757]\n}\n```"
+  },
+  {
+   "ref_id": 12884,
+   "expression": "elephant in center with trunk out",
+   "point_0_1000": [
+    471.5,
+    557.5
+   ],
+   "hit": true,
+   "latency_s": 1.521,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [348, 348, 595, 767]\n}\n```"
+  },
+  {
+   "ref_id": 13069,
+   "expression": "black motocicle",
+   "point_0_1000": [
+    872.5,
+    569.0
+   ],
+   "hit": true,
+   "latency_s": 2.128,
+   "error": null,
+   "raw": "```json\n[\n  {\"bbox_2d\": [745, 240, 1000, 898], \"label\": \"black motocicle\"}\n]\n```"
+  },
+  {
+   "ref_id": 13502,
+   "expression": "girl",
+   "point_0_1000": [
+    391.5,
+    429.0
+   ],
+   "hit": true,
+   "latency_s": 1.862,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [104, 98, 679, 760],\n  \"label\": \"girl\"\n}\n```"
+  },
+  {
+   "ref_id": 13596,
+   "expression": "stand back right",
+   "point_0_1000": [
+    950.0,
+    279.5
+   ],
+   "hit": false,
+   "latency_s": 1.528,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [900, 78, 1000, 481]\n}\n```"
+  },
+  {
+   "ref_id": 13597,
+   "expression": "any banana",
+   "point_0_1000": [
+    500.0,
+    643.0
+   ],
+   "hit": true,
+   "latency_s": 1.97,
+   "error": null,
+   "raw": "```json\n[\n  {\"bbox_2d\": [0, 286, 1000, 1000], \"label\": \"any banana\"}\n]\n```"
+  },
+  {
+   "ref_id": 14061,
+   "expression": "cycle to the right",
+   "point_0_1000": [
+    500.0,
+    500.0
+   ],
+   "hit": true,
+   "latency_s": 1.437,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [0, 0, 1000, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 14355,
+   "expression": "remote on rightside",
+   "point_0_1000": [
+    834.0,
+    442.5
+   ],
+   "hit": true,
+   "latency_s": 2.025,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [764, 141, 904, 744],\n  \"label\": \"remote on rightside\"\n}\n```"
+  },
+  {
+   "ref_id": 14356,
+   "expression": "fourth remote from left",
+   "point_0_1000": [
+    558.0,
+    426.0
+   ],
+   "hit": false,
+   "latency_s": 1.967,
+   "error": null,
+   "raw": "{\n  \"bbox_2d\": [488, 98, 628, 754],\n  \"label\": \"fourth remote from left\"\n}"
+  },
+  {
+   "ref_id": 14843,
+   "expression": "bus on the left",
+   "point_0_1000": [
+    383.5,
+    725.0
+   ],
+   "hit": true,
+   "latency_s": 1.533,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [301, 562, 466, 888]\n}\n```"
+  },
+  {
+   "ref_id": 15322,
+   "expression": "lady with chef hat",
+   "point_0_1000": [
+    581.0,
+    512.0
+   ],
+   "hit": true,
+   "latency_s": 2.041,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [427, 24, 735, 1000],\n  \"label\": \"lady with chef hat\"\n}\n```"
+  },
+  {
+   "ref_id": 15504,
+   "expression": "animal with collar",
+   "point_0_1000": [
+    475.5,
+    479.5
+   ],
+   "hit": true,
+   "latency_s": 1.452,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [70, 74, 881, 885]\n}\n```"
+  },
+  {
+   "ref_id": 15511,
+   "expression": "sandwich guy is holding",
+   "point_0_1000": [
+    305.0,
+    394.0
+   ],
+   "hit": true,
+   "latency_s": 1.573,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [112, 101, 498, 687]\n}\n```"
+  },
+  {
+   "ref_id": 16135,
+   "expression": "container at bottom right with carrots",
+   "point_0_1000": [
+    776.0,
+    735.0
+   ],
+   "hit": true,
+   "latency_s": 1.74,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [607, 525, 945, 945]\n}\n```"
+  },
+  {
+   "ref_id": 16231,
+   "expression": "kneeling far right bottom",
+   "point_0_1000": [
+    803.0,
+    643.5
+   ],
+   "hit": true,
+   "latency_s": 1.386,
+   "error": null,
+   "raw": "{\n  \"bbox\": [728, 475, 878, 812]\n}"
+  },
+  {
+   "ref_id": 16537,
+   "expression": "kid dark shirt light jeans",
+   "point_0_1000": [
+    685.0,
+    687.0
+   ],
+   "hit": true,
+   "latency_s": 1.534,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [585, 377, 785, 997]\n}\n```"
+  },
+  {
+   "ref_id": 16717,
+   "expression": "right most dude",
+   "point_0_1000": [
+    787.5,
+    752.5
+   ],
+   "hit": true,
+   "latency_s": 1.656,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [575, 505, 1000, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 16755,
+   "expression": "left couch",
+   "point_0_1000": [
+    172.5,
+    685.0
+   ],
+   "hit": true,
+   "latency_s": 1.624,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [0, 372, 345, 998]\n}\n```"
+  },
+  {
+   "ref_id": 16871,
+   "expression": "bear farthest right facing you",
+   "point_0_1000": [
+    879.0,
+    541.5
+   ],
+   "hit": true,
+   "latency_s": 1.743,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [758, 252, 1000, 831]\n}\n```"
+  },
+  {
+   "ref_id": 17006,
+   "expression": "winner",
+   "point_0_1000": [
+    782.5,
+    506.5
+   ],
+   "hit": true,
+   "latency_s": 1.777,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [640, 98, 925, 915],\n  \"label\": \"winner\"\n}\n```"
+  },
+  {
+   "ref_id": 17084,
+   "expression": "guy in white",
+   "point_0_1000": [
+    275.0,
+    535.0
+   ],
+   "hit": true,
+   "latency_s": 1.465,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [0, 70, 550, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 17252,
+   "expression": "blue shirt guy on right",
+   "point_0_1000": [
+    608.0,
+    623.0
+   ],
+   "hit": true,
+   "latency_s": 1.571,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [438, 248, 778, 998]\n}\n```"
+  },
+  {
+   "ref_id": 17453,
+   "expression": "right zebra",
+   "point_0_1000": [
+    799.5,
+    698.5
+   ],
+   "hit": true,
+   "latency_s": 1.555,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [641, 406, 958, 991]\n}\n```"
+  },
+  {
+   "ref_id": 17533,
+   "expression": "blurred front image",
+   "point_0_1000": [
+    141.0,
+    652.0
+   ],
+   "hit": true,
+   "latency_s": 1.456,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [7, 312, 275, 992]\n}\n```"
+  },
+  {
+   "ref_id": 17795,
+   "expression": "man on right",
+   "point_0_1000": [
+    872.5,
+    405.0
+   ],
+   "hit": true,
+   "latency_s": 1.971,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [745, 24, 1000, 786],\n  \"label\": \"man on right\"\n}\n```"
+  },
+  {
+   "ref_id": 18691,
+   "expression": "right bike",
+   "point_0_1000": [
+    671.0,
+    503.5
+   ],
+   "hit": true,
+   "latency_s": 1.483,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [444, 10, 898, 997]\n}\n```"
+  },
+  {
+   "ref_id": 18837,
+   "expression": "center gyu",
+   "point_0_1000": [
+    550.5,
+    801.5
+   ],
+   "hit": true,
+   "latency_s": 2.083,
+   "error": null,
+   "raw": "{\n  \"bbox_2d\": [\n    424, 605,\n    677, 998\n  ],\n  \"label\": \"center gyu\"\n}"
+  },
+  {
+   "ref_id": 19048,
+   "expression": "redblack second from right",
+   "point_0_1000": [
+    364.0,
+    340.5
+   ],
+   "hit": true,
+   "latency_s": 1.694,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [250, 200, 478, 481]\n}\n```"
+  },
+  {
+   "ref_id": 19979,
+   "expression": "guy on right",
+   "point_0_1000": [
+    684.5,
+    585.0
+   ],
+   "hit": true,
+   "latency_s": 1.535,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [371, 170, 998, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 20813,
+   "expression": "catcher",
+   "point_0_1000": [
+    684.5,
+    633.0
+   ],
+   "hit": true,
+   "latency_s": 1.682,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [515, 450, 854, 816]\n}\n```"
+  },
+  {
+   "ref_id": 20814,
+   "expression": "batter",
+   "point_0_1000": [
+    311.5,
+    539.5
+   ],
+   "hit": true,
+   "latency_s": 2.033,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [173, 275, 450, 804],\n  \"label\": \"batter\"\n}\n```"
+  },
+  {
+   "ref_id": 21146,
+   "expression": "dark blur to left above flowers",
+   "point_0_1000": [
+    97.5,
+    107.0
+   ],
+   "hit": false,
+   "latency_s": 1.58,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [0, 0, 195, 214]\n}\n```"
+  },
+  {
+   "ref_id": 21841,
+   "expression": "red peppers",
+   "point_0_1000": [
+    759.0,
+    240.5
+   ],
+   "hit": true,
+   "latency_s": 1.828,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [604, 0, 914, 481],\n  \"label\": \"red peppers\"\n}\n```"
+  },
+  {
+   "ref_id": 21962,
+   "expression": "left guy",
+   "point_0_1000": [
+    237.5,
+    586.5
+   ],
+   "hit": true,
+   "latency_s": 1.537,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [34, 298, 441, 875]\n}\n```"
+  },
+  {
+   "ref_id": 22465,
+   "expression": "white can",
+   "point_0_1000": [
+    869.0,
+    229.0
+   ],
+   "hit": true,
+   "latency_s": 1.645,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [738, 0, 1000, 458]\n}\n```"
+  },
+  {
+   "ref_id": 22472,
+   "expression": "left kid",
+   "point_0_1000": [
+    262.5,
+    557.0
+   ],
+   "hit": true,
+   "latency_s": 1.455,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [0, 114, 525, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 22746,
+   "expression": "man with glasses",
+   "point_0_1000": [
+    760.0,
+    330.0
+   ],
+   "hit": true,
+   "latency_s": 1.489,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [554, 33, 966, 627]\n}\n```"
+  },
+  {
+   "ref_id": 23046,
+   "expression": "girl in back with racket",
+   "point_0_1000": [
+    178.0,
+    432.0
+   ],
+   "hit": true,
+   "latency_s": 1.54,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [31, 167, 325, 697]\n}\n```"
+  },
+  {
+   "ref_id": 23428,
+   "expression": "standing garraffe on right",
+   "point_0_1000": [
+    871.0,
+    468.5
+   ],
+   "hit": true,
+   "latency_s": 2.222,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [744, 185, 998, 752],\n  \"label\": \"standing giraffe on right\"\n}\n```"
+  },
+  {
+   "ref_id": 23507,
+   "expression": "zebra looking at the camera on the left",
+   "point_0_1000": [
+    367.5,
+    601.5
+   ],
+   "hit": true,
+   "latency_s": 1.542,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [248, 348, 487, 855]\n}\n```"
+  },
+  {
+   "ref_id": 23681,
+   "expression": "top of big umbrella",
+   "point_0_1000": [
+    606.5,
+    465.5
+   ],
+   "hit": true,
+   "latency_s": 1.517,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [225, 270, 988, 661]\n}\n```"
+  },
+  {
+   "ref_id": 23768,
+   "expression": "right corner car",
+   "point_0_1000": [
+    791.5,
+    867.0
+   ],
+   "hit": true,
+   "latency_s": 1.533,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [588, 750, 995, 984]\n}\n```"
+  },
+  {
+   "ref_id": 24767,
+   "expression": "second food item from left",
+   "point_0_1000": [
+    501.0,
+    244.5
+   ],
+   "hit": true,
+   "latency_s": 1.669,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [371, 44, 631, 445]\n}\n```"
+  },
+  {
+   "ref_id": 24900,
+   "expression": "batter",
+   "point_0_1000": [
+    348.0,
+    509.5
+   ],
+   "hit": true,
+   "latency_s": 1.917,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [112, 19, 584, 1000],\n  \"label\": \"batter\"\n}\n```"
+  },
+  {
+   "ref_id": 24920,
+   "expression": "man on right",
+   "point_0_1000": [
+    853.5,
+    446.5
+   ],
+   "hit": true,
+   "latency_s": 1.696,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [707, 55, 1000, 838]\n}\n```"
+  },
+  {
+   "ref_id": 24921,
+   "expression": "man in black",
+   "point_0_1000": [
+    657.5,
+    531.0
+   ],
+   "hit": true,
+   "latency_s": 1.546,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [571, 262, 744, 800]\n}\n```"
+  },
+  {
+   "ref_id": 25427,
+   "expression": "second bowl of soup from the left",
+   "point_0_1000": [
+    359.0,
+    769.5
+   ],
+   "hit": true,
+   "latency_s": 1.541,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [234, 598, 484, 941]\n}\n```"
+  },
+  {
+   "ref_id": 25436,
+   "expression": "car driving in the road",
+   "point_0_1000": [
+    563.5,
+    702.5
+   ],
+   "hit": true,
+   "latency_s": 15.583,
+   "error": null,
+   "raw": "```json\n[\n  {\"bbox_2d\": [432, 580, 695, 825], \"label\": \"car driving in the road\"},\n  {\"bbox_2d\": [0, 598, 185, 856], \"label\": \"car driving in the road\"},\n  {\"bbox_2d\": [898, 606, 1000, 906], \"label\": \"car driving in the road\"},\n  {\"bbox_2d\": [0, 425, 295, 817], \"label\": \"car driving in the road\"},\n "
+  },
+  {
+   "ref_id": 25587,
+   "expression": "right most vase",
+   "point_0_1000": [
+    801.5,
+    715.5
+   ],
+   "hit": true,
+   "latency_s": 1.639,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [625, 567, 978, 864]\n}\n```"
+  },
+  {
+   "ref_id": 25858,
+   "expression": "female in blue clothing",
+   "point_0_1000": [
+    818.0,
+    571.5
+   ],
+   "hit": true,
+   "latency_s": 2.107,
+   "error": null,
+   "raw": "```json\n[\n\t{\"bbox_2d\": [695, 143, 941, 1000], \"label\": \"female in blue clothing\"}\n]\n```"
+  },
+  {
+   "ref_id": 25956,
+   "expression": "dog in party hat",
+   "point_0_1000": [
+    754.5,
+    373.0
+   ],
+   "hit": true,
+   "latency_s": 1.497,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [648, 127, 861, 619]\n}\n```"
+  },
+  {
+   "ref_id": 26589,
+   "expression": "bag hanging up on fence left",
+   "point_0_1000": [
+    109.0,
+    469.0
+   ],
+   "hit": true,
+   "latency_s": 1.427,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [0, 250, 218, 688]\n}\n```"
+  },
+  {
+   "ref_id": 26642,
+   "expression": "green pants kid",
+   "point_0_1000": [
+    344.0,
+    653.5
+   ],
+   "hit": true,
+   "latency_s": 1.526,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [284, 312, 404, 995]\n}\n```"
+  },
+  {
+   "ref_id": 26808,
+   "expression": "right chair",
+   "point_0_1000": [
+    802.5,
+    268.0
+   ],
+   "hit": true,
+   "latency_s": 1.69,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [618, 128, 987, 408]\n}\n```"
+  },
+  {
+   "ref_id": 27292,
+   "expression": "orange shirt",
+   "point_0_1000": [
+    921.5,
+    498.0
+   ],
+   "hit": true,
+   "latency_s": 1.643,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [845, 158, 998, 838]\n}\n```"
+  },
+  {
+   "ref_id": 27321,
+   "expression": "the exposed wood to the top of the sandwhich",
+   "point_0_1000": [
+    754.5,
+    587.5
+   ],
+   "hit": true,
+   "latency_s": 1.692,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [611, 435, 898, 740]\n}\n```"
+  },
+  {
+   "ref_id": 27478,
+   "expression": "guy under frisbee",
+   "point_0_1000": [
+    272.5,
+    455.0
+   ],
+   "hit": true,
+   "latency_s": 1.519,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [131, 152, 414, 758]\n}\n```"
+  },
+  {
+   "ref_id": 27939,
+   "expression": "old person in glasses no hat light blue blanket",
+   "point_0_1000": [
+    283.0,
+    461.0
+   ],
+   "hit": true,
+   "latency_s": 1.497,
+   "error": null,
+   "raw": "{\n  \"bbox_2d\": [184, 239, 382, 683]\n}"
+  },
+  {
+   "ref_id": 28318,
+   "expression": "guys arm far right",
+   "point_0_1000": [
+    942.5,
+    753.5
+   ],
+   "hit": true,
+   "latency_s": 1.619,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [885, 507, 1000, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 28319,
+   "expression": "man",
+   "point_0_1000": [
+    419.5,
+    598.0
+   ],
+   "hit": true,
+   "latency_s": 1.924,
+   "error": null,
+   "raw": "```json\n[\n  {\"bbox_2d\": [244, 198, 595, 998], \"label\": \"man\"}\n]\n```"
+  },
+  {
+   "ref_id": 28474,
+   "expression": "front right person next to dog lover",
+   "point_0_1000": [
+    114.5,
+    575.5
+   ],
+   "hit": false,
+   "latency_s": 1.307,
+   "error": null,
+   "raw": "{\n  \"bbox\": [54, 231, 175, 920]\n}\n"
+  },
+  {
+   "ref_id": 28557,
+   "expression": "batta batta batta",
+   "point_0_1000": [
+    539.5,
+    513.0
+   ],
+   "hit": true,
+   "latency_s": 2.074,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [382, 214, 697, 812],\n  \"label\": \"batta batta batta\"\n}\n```"
+  },
+  {
+   "ref_id": 28578,
+   "expression": "europe",
+   "point_0_1000": [
+    665.0,
+    431.0
+   ],
+   "hit": true,
+   "latency_s": 1.529,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [488, 324, 842, 538]\n}\n```"
+  },
+  {
+   "ref_id": 28599,
+   "expression": "woman in yellow hoodie",
+   "point_0_1000": [
+    177.5,
+    707.0
+   ],
+   "hit": true,
+   "latency_s": 1.527,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [52, 481, 303, 933]\n}\n```"
+  },
+  {
+   "ref_id": 28729,
+   "expression": "person on left",
+   "point_0_1000": [
+    318.0,
+    574.5
+   ],
+   "hit": true,
+   "latency_s": 1.711,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [105, 151, 531, 998]\n}\n```"
+  },
+  {
+   "ref_id": 28822,
+   "expression": "far left lounge chair",
+   "point_0_1000": [
+    220.0,
+    844.0
+   ],
+   "hit": true,
+   "latency_s": 1.495,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [0, 688, 440, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 29220,
+   "expression": "white train on left",
+   "point_0_1000": [
+    329.5,
+    479.5
+   ],
+   "hit": true,
+   "latency_s": 1.702,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [119, 370, 540, 589]\n}\n```"
+  },
+  {
+   "ref_id": 29592,
+   "expression": "lttle girl",
+   "point_0_1000": [
+    694.5,
+    687.0
+   ],
+   "hit": true,
+   "latency_s": 1.577,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [579, 374, 810, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 30144,
+   "expression": "woman in the black and white dres on the right",
+   "point_0_1000": [
+    864.0,
+    626.0
+   ],
+   "hit": false,
+   "latency_s": 1.62,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [728, 254, 1000, 998]\n}\n```"
+  },
+  {
+   "ref_id": 30295,
+   "expression": "bed",
+   "point_0_1000": [
+    499.0,
+    639.0
+   ],
+   "hit": true,
+   "latency_s": 1.927,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [0, 278, 998, 1000],\n  \"label\": \"bed\"\n}\n```"
+  },
+  {
+   "ref_id": 30602,
+   "expression": "man",
+   "point_0_1000": [
+    600.5,
+    704.0
+   ],
+   "hit": true,
+   "latency_s": 1.998,
+   "error": null,
+   "raw": "```json\n[\n\t{\"bbox_2d\": [463, 408, 738, 1000], \"label\": \"man\"}\n]\n```"
+  },
+  {
+   "ref_id": 30716,
+   "expression": "left apple",
+   "point_0_1000": [
+    384.5,
+    500.5
+   ],
+   "hit": false,
+   "latency_s": 2.078,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [258, 414, 511, 587],\n  \"label\": \"left apple\"\n}\n```"
+  },
+  {
+   "ref_id": 30718,
+   "expression": "apple in the middle",
+   "point_0_1000": [
+    384.5,
+    499.5
+   ],
+   "hit": false,
+   "latency_s": 1.565,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [258, 414, 511, 585]\n}\n```"
+  },
+  {
+   "ref_id": 30861,
+   "expression": "woman on right",
+   "point_0_1000": [
+    662.0,
+    480.0
+   ],
+   "hit": true,
+   "latency_s": 1.465,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [337, 10, 987, 950]\n}\n```"
+  },
+  {
+   "ref_id": 31214,
+   "expression": "man far left",
+   "point_0_1000": [
+    120.5,
+    651.0
+   ],
+   "hit": true,
+   "latency_s": 1.631,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [16, 304, 225, 998]\n}\n```"
+  },
+  {
+   "ref_id": 31468,
+   "expression": "broc laying sideways in center of photo",
+   "point_0_1000": [
+    442.5,
+    707.5
+   ],
+   "hit": false,
+   "latency_s": 1.556,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [310, 517, 575, 898]\n}\n```"
+  },
+  {
+   "ref_id": 31519,
+   "expression": "elephant in back",
+   "point_0_1000": [
+    549.0,
+    587.5
+   ],
+   "hit": true,
+   "latency_s": 1.515,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [241, 187, 857, 988]\n}\n```"
+  },
+  {
+   "ref_id": 31949,
+   "expression": "left cup",
+   "point_0_1000": [
+    111.5,
+    461.5
+   ],
+   "hit": true,
+   "latency_s": 1.457,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [0, 328, 223, 595]\n}\n```"
+  },
+  {
+   "ref_id": 32013,
+   "expression": "elephant on the right edge of photo",
+   "point_0_1000": [
+    925.5,
+    583.5
+   ],
+   "hit": true,
+   "latency_s": 1.561,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [851, 362, 1000, 805]\n}\n```"
+  },
+  {
+   "ref_id": 32016,
+   "expression": "glazed donut",
+   "point_0_1000": [
+    251.0,
+    440.0
+   ],
+   "hit": true,
+   "latency_s": 2.015,
+   "error": null,
+   "raw": "```json\n[\n\t{\"bbox_2d\": [44, 297, 458, 583], \"label\": \"glazed donut\"}\n]\n```"
+  },
+  {
+   "ref_id": 32412,
+   "expression": "guy with phone",
+   "point_0_1000": [
+    869.0,
+    475.5
+   ],
+   "hit": true,
+   "latency_s": 1.594,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [738, 214, 1000, 737]\n}\n```"
+  },
+  {
+   "ref_id": 32993,
+   "expression": "hotdog in bottom left corner",
+   "point_0_1000": [
+    210.5,
+    675.0
+   ],
+   "hit": true,
+   "latency_s": 1.528,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [0, 350, 421, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 33133,
+   "expression": "orange shirt botttom right",
+   "point_0_1000": [
+    893.0,
+    714.5
+   ],
+   "hit": true,
+   "latency_s": 1.672,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [788, 429, 998, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 33727,
+   "expression": "wow didnt even see those legs lol but top pie very top",
+   "point_0_1000": null,
+   "hit": false,
+   "latency_s": 5.693,
+   "error": null,
+   "raw": "The text \"wow didnt even see those legs lol but top pie very top\" is not visible in the provided image. The image contains two photographs: the top one shows a pizza and fries, and the bottom one shows a birthday cake, chocolate-covered strawberries, and a person\u2019s arm and torso. There is no text ov"
+  },
+  {
+   "ref_id": 33784,
+   "expression": "bird on left",
+   "point_0_1000": [
+    371.0,
+    396.5
+   ],
+   "hit": true,
+   "latency_s": 1.947,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [264, 152, 478, 641],\n  \"label\": \"bird on left\"\n}\n```"
+  },
+  {
+   "ref_id": 34903,
+   "expression": "leather chair on left",
+   "point_0_1000": [
+    344.0,
+    769.0
+   ],
+   "hit": true,
+   "latency_s": 2.226,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [148, 568, 540, 970],\n  \"label\": \"leather chair on left\"\n}\n```"
+  },
+  {
+   "ref_id": 35053,
+   "expression": "woman top right gray dress not running",
+   "point_0_1000": [
+    916.0,
+    285.0
+   ],
+   "hit": true,
+   "latency_s": 1.544,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [840, 50, 992, 520]\n}\n```"
+  },
+  {
+   "ref_id": 35719,
+   "expression": "blurry person",
+   "point_0_1000": [
+    909.5,
+    557.0
+   ],
+   "hit": true,
+   "latency_s": 1.588,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [819, 117, 1000, 997]\n}\n```"
+  },
+  {
+   "ref_id": 36438,
+   "expression": "teddy that is closest to the girl",
+   "point_0_1000": [
+    337.0,
+    319.0
+   ],
+   "hit": true,
+   "latency_s": 1.556,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [157, 130, 517, 508]\n}\n```"
+  },
+  {
+   "ref_id": 36468,
+   "expression": "person on top with green shirt",
+   "point_0_1000": [
+    229.0,
+    125.0
+   ],
+   "hit": true,
+   "latency_s": 1.551,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [0, 0, 458, 250]\n}\n```"
+  },
+  {
+   "ref_id": 36688,
+   "expression": "man with blue plaid shirt",
+   "point_0_1000": [
+    580.0,
+    541.0
+   ],
+   "hit": true,
+   "latency_s": 1.563,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [425, 357, 735, 725]\n}\n```"
+  },
+  {
+   "ref_id": 36724,
+   "expression": "right horse",
+   "point_0_1000": [
+    741.5,
+    675.5
+   ],
+   "hit": true,
+   "latency_s": 1.551,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [618, 464, 865, 887]\n}\n```"
+  },
+  {
+   "ref_id": 37543,
+   "expression": "second cake layer from left",
+   "point_0_1000": [
+    457.5,
+    498.5
+   ],
+   "hit": true,
+   "latency_s": 1.549,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [300, 177, 615, 820]\n}\n```"
+  },
+  {
+   "ref_id": 37655,
+   "expression": "top",
+   "point_0_1000": [
+    500.0,
+    500.0
+   ],
+   "hit": false,
+   "latency_s": 1.623,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [0, 0, 1000, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 37839,
+   "expression": "guy on left",
+   "point_0_1000": [
+    483.5,
+    612.5
+   ],
+   "hit": true,
+   "latency_s": 1.572,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [250, 227, 717, 998]\n}\n```"
+  },
+  {
+   "ref_id": 37848,
+   "expression": "orange shirt guy",
+   "point_0_1000": [
+    767.5,
+    500.0
+   ],
+   "hit": true,
+   "latency_s": 1.528,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [557, 0, 978, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 37849,
+   "expression": "the woman throwing the frisbee",
+   "point_0_1000": [
+    257.0,
+    771.0
+   ],
+   "hit": true,
+   "latency_s": 1.56,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [177, 544, 337, 998]\n}\n```"
+  },
+  {
+   "ref_id": 37942,
+   "expression": "food left",
+   "point_0_1000": [
+    185.5,
+    692.5
+   ],
+   "hit": true,
+   "latency_s": 1.456,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [0, 440, 371, 945]\n}\n```"
+  },
+  {
+   "ref_id": 38111,
+   "expression": "chair far left",
+   "point_0_1000": [
+    146.0,
+    796.5
+   ],
+   "hit": true,
+   "latency_s": 1.55,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [34, 593, 258, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 38675,
+   "expression": "pillows bottom left pink or white",
+   "point_0_1000": [
+    158.0,
+    901.0
+   ],
+   "hit": true,
+   "latency_s": 1.582,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [0, 802, 316, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 39284,
+   "expression": "man on right",
+   "point_0_1000": [
+    835.0,
+    609.5
+   ],
+   "hit": false,
+   "latency_s": 1.526,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [725, 331, 945, 888]\n}\n```"
+  },
+  {
+   "ref_id": 39320,
+   "expression": "giraffe background",
+   "point_0_1000": [
+    500.0,
+    232.0
+   ],
+   "hit": false,
+   "latency_s": 1.395,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [0, 0, 1000, 464]\n}\n```"
+  },
+  {
+   "ref_id": 39333,
+   "expression": "second person from the left",
+   "point_0_1000": [
+    385.5,
+    436.0
+   ],
+   "hit": true,
+   "latency_s": 1.562,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [328, 112, 443, 760]\n}\n```"
+  },
+  {
+   "ref_id": 40483,
+   "expression": "woman",
+   "point_0_1000": [
+    795.0,
+    235.5
+   ],
+   "hit": true,
+   "latency_s": 3.188,
+   "error": null,
+   "raw": "```json\n[\n\t{\"bbox_2d\": [660, 0, 930, 471], \"label\": \"woman\"},\n\t{\"bbox_2d\": [0, 0, 210, 848], \"label\": \"woman\"}\n]\n```"
+  },
+  {
+   "ref_id": 40680,
+   "expression": "left kitten",
+   "point_0_1000": [
+    624.5,
+    718.5
+   ],
+   "hit": true,
+   "latency_s": 1.602,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [488, 437, 761, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 40681,
+   "expression": "right cat",
+   "point_0_1000": [
+    877.5,
+    638.0
+   ],
+   "hit": true,
+   "latency_s": 1.635,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [755, 276, 1000, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 41976,
+   "expression": "pink donut",
+   "point_0_1000": [
+    547.5,
+    589.5
+   ],
+   "hit": true,
+   "latency_s": 1.598,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [270, 304, 825, 875]\n}\n```"
+  },
+  {
+   "ref_id": 42133,
+   "expression": "arm on right",
+   "point_0_1000": [
+    835.0,
+    678.5
+   ],
+   "hit": true,
+   "latency_s": 1.667,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [670, 357, 1000, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 42500,
+   "expression": "koo koo dog",
+   "point_0_1000": [
+    326.0,
+    272.5
+   ],
+   "hit": true,
+   "latency_s": 1.518,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [138, 14, 514, 531]\n}\n```"
+  },
+  {
+   "ref_id": 42547,
+   "expression": "bottom front boat",
+   "point_0_1000": [
+    769.5,
+    671.0
+   ],
+   "hit": true,
+   "latency_s": 1.707,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [545, 567, 994, 775]\n}\n```"
+  },
+  {
+   "ref_id": 42752,
+   "expression": "right cow",
+   "point_0_1000": [
+    680.0,
+    624.0
+   ],
+   "hit": true,
+   "latency_s": 1.547,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [455, 390, 905, 858]\n}\n```"
+  },
+  {
+   "ref_id": 42762,
+   "expression": "man bottom right red shirt blue scarf on head",
+   "point_0_1000": [
+    672.0,
+    800.0
+   ],
+   "hit": true,
+   "latency_s": 1.568,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [604, 600, 740, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 42883,
+   "expression": "ffarthest snd on front plte",
+   "point_0_1000": [
+    520.0,
+    333.0
+   ],
+   "hit": false,
+   "latency_s": 1.553,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [365, 250, 675, 416]\n}\n```"
+  },
+  {
+   "ref_id": 42884,
+   "expression": "sandwich closest to you",
+   "point_0_1000": [
+    529.0,
+    663.5
+   ],
+   "hit": true,
+   "latency_s": 1.54,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [334, 428, 724, 899]\n}\n```"
+  },
+  {
+   "ref_id": 42956,
+   "expression": "top right ight part of pie",
+   "point_0_1000": [
+    665.0,
+    557.5
+   ],
+   "hit": true,
+   "latency_s": 1.671,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [505, 138, 825, 977]\n}\n```"
+  },
+  {
+   "ref_id": 43077,
+   "expression": "green bottle in center",
+   "point_0_1000": [
+    336.0,
+    594.5
+   ],
+   "hit": true,
+   "latency_s": 2.153,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [284, 360, 388, 829],\n  \"label\": \"green bottle in center\"\n}\n```"
+  },
+  {
+   "ref_id": 43126,
+   "expression": "dude standing behind woman checking her ass out",
+   "point_0_1000": [
+    732.0,
+    426.5
+   ],
+   "hit": false,
+   "latency_s": 1.492,
+   "error": null,
+   "raw": "{\n  \"bbox_2d\": [557, 122, 907, 731]\n}\n"
+  },
+  {
+   "ref_id": 43191,
+   "expression": "third guy from right",
+   "point_0_1000": [
+    754.0,
+    619.5
+   ],
+   "hit": true,
+   "latency_s": 1.514,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [668, 334, 840, 905]\n}\n```"
+  },
+  {
+   "ref_id": 43196,
+   "expression": "fourth guy from right",
+   "point_0_1000": [
+    411.5,
+    656.5
+   ],
+   "hit": false,
+   "latency_s": 1.502,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [348, 408, 475, 905]\n}\n```"
+  },
+  {
+   "ref_id": 43376,
+   "expression": "couch by window",
+   "point_0_1000": [
+    490.5,
+    540.5
+   ],
+   "hit": true,
+   "latency_s": 1.555,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [323, 410, 658, 671]\n}\n```"
+  },
+  {
+   "ref_id": 43543,
+   "expression": "right guy",
+   "point_0_1000": [
+    706.5,
+    536.5
+   ],
+   "hit": true,
+   "latency_s": 1.489,
+   "error": null,
+   "raw": "{\n  \"bbox_2d\": [548, 138, 865, 935]\n}\n"
+  },
+  {
+   "ref_id": 43584,
+   "expression": "red shirt",
+   "point_0_1000": [
+    719.5,
+    546.0
+   ],
+   "hit": true,
+   "latency_s": 1.909,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [554, 342, 885, 750],\n  \"label\": \"red shirt\"\n}\n```"
+  },
+  {
+   "ref_id": 43764,
+   "expression": "left person",
+   "point_0_1000": [
+    161.5,
+    579.0
+   ],
+   "hit": true,
+   "latency_s": 2.018,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [39, 160, 284, 998],\n  \"label\": \"left person\"\n}\n```"
+  },
+  {
+   "ref_id": 43991,
+   "expression": "second person",
+   "point_0_1000": [
+    621.5,
+    714.5
+   ],
+   "hit": true,
+   "latency_s": 1.364,
+   "error": null,
+   "raw": "{\n  \"bbox\": [545, 431, 698, 998]\n}"
+  },
+  {
+   "ref_id": 44036,
+   "expression": "shirtless guy",
+   "point_0_1000": [
+    315.0,
+    637.0
+   ],
+   "hit": true,
+   "latency_s": 1.563,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [197, 434, 433, 840]\n}\n```"
+  },
+  {
+   "ref_id": 44563,
+   "expression": "center wine glass tiny amount of dark wine",
+   "point_0_1000": [
+    536.5,
+    443.5
+   ],
+   "hit": true,
+   "latency_s": 1.55,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [458, 200, 615, 687]\n}\n```"
+  },
+  {
+   "ref_id": 44657,
+   "expression": "crouching",
+   "point_0_1000": [
+    498.0,
+    626.0
+   ],
+   "hit": true,
+   "latency_s": 1.948,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [286, 477, 710, 775],\n  \"label\": \"crouching\"\n}\n```"
+  },
+  {
+   "ref_id": 44960,
+   "expression": "white folded shirt with bees",
+   "point_0_1000": [
+    302.0,
+    394.0
+   ],
+   "hit": true,
+   "latency_s": 1.698,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [156, 240, 448, 548]\n}\n```"
+  },
+  {
+   "ref_id": 45042,
+   "expression": "girl standing",
+   "point_0_1000": [
+    724.5,
+    519.0
+   ],
+   "hit": true,
+   "latency_s": 1.513,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [581, 38, 868, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 45045,
+   "expression": "blue shirt standin",
+   "point_0_1000": [
+    362.5,
+    406.0
+   ],
+   "hit": true,
+   "latency_s": 1.455,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [267, 74, 458, 738]\n}\n```"
+  },
+  {
+   "ref_id": 45258,
+   "expression": "bear middle one",
+   "point_0_1000": [
+    552.0,
+    538.5
+   ],
+   "hit": true,
+   "latency_s": 1.551,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [444, 327, 660, 750]\n}\n```"
+  },
+  {
+   "ref_id": 45373,
+   "expression": "man in green",
+   "point_0_1000": [
+    430.0,
+    553.5
+   ],
+   "hit": true,
+   "latency_s": 1.517,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [334, 276, 526, 831]\n}\n```"
+  },
+  {
+   "ref_id": 46104,
+   "expression": "center person",
+   "point_0_1000": [
+    469.5,
+    698.5
+   ],
+   "hit": true,
+   "latency_s": 1.6,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [385, 397, 554, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 46267,
+   "expression": "full bike on right at front",
+   "point_0_1000": [
+    599.0,
+    640.5
+   ],
+   "hit": true,
+   "latency_s": 1.528,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [380, 393, 818, 888]\n}\n```"
+  },
+  {
+   "ref_id": 46567,
+   "expression": "second from right",
+   "point_0_1000": [
+    657.5,
+    560.0
+   ],
+   "hit": true,
+   "latency_s": 1.597,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [540, 345, 775, 775]\n}\n```"
+  },
+  {
+   "ref_id": 46856,
+   "expression": "sandwich on the right",
+   "point_0_1000": [
+    662.5,
+    280.5
+   ],
+   "hit": true,
+   "latency_s": 2.029,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [538, 124, 787, 437],\n  \"label\": \"sandwich on the right\"\n}\n```"
+  },
+  {
+   "ref_id": 46945,
+   "expression": "man in a tie",
+   "point_0_1000": [
+    702.5,
+    622.5
+   ],
+   "hit": true,
+   "latency_s": 1.586,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [561, 245, 844, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 47832,
+   "expression": "left bird",
+   "point_0_1000": [
+    176.5,
+    449.5
+   ],
+   "hit": true,
+   "latency_s": 1.513,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [78, 233, 275, 666]\n}\n```"
+  },
+  {
+   "ref_id": 47891,
+   "expression": "bald man in background wearing yellow striped shirt and jeans",
+   "point_0_1000": [
+    109.0,
+    303.5
+   ],
+   "hit": true,
+   "latency_s": 1.406,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [0, 0, 218, 607]\n}\n```"
+  },
+  {
+   "ref_id": 48043,
+   "expression": "that was closemiddle plate",
+   "point_0_1000": [
+    538.0,
+    87.5
+   ],
+   "hit": false,
+   "latency_s": 1.444,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [229, 0, 847, 175]\n}\n```"
+  },
+  {
+   "ref_id": 48270,
+   "expression": "wine glass on left",
+   "point_0_1000": [
+    121.0,
+    216.0
+   ],
+   "hit": true,
+   "latency_s": 1.512,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [0, 0, 242, 432]\n}\n```"
+  },
+  {
+   "ref_id": 48387,
+   "expression": "pepperoni pizza",
+   "point_0_1000": [
+    407.0,
+    370.5
+   ],
+   "hit": true,
+   "latency_s": 1.544,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [156, 256, 658, 485]\n}\n```"
+  },
+  {
+   "ref_id": 48452,
+   "expression": "black cat",
+   "point_0_1000": [
+    815.0,
+    461.0
+   ],
+   "hit": true,
+   "latency_s": 2.061,
+   "error": null,
+   "raw": "```json\n[\n  {\"bbox_2d\": [630, 347, 1000, 575], \"label\": \"black cat\"}\n]\n```"
+  },
+  {
+   "ref_id": 48786,
+   "expression": "right giraffe",
+   "point_0_1000": [
+    752.5,
+    620.5
+   ],
+   "hit": true,
+   "latency_s": 1.719,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [505, 252, 1000, 989]\n}\n```"
+  },
+  {
+   "ref_id": 48927,
+   "expression": "flowery bush behind hydrant to our left",
+   "point_0_1000": [
+    114.0,
+    415.5
+   ],
+   "hit": true,
+   "latency_s": 1.438,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [0, 328, 228, 503]\n}\n```"
+  },
+  {
+   "ref_id": 49120,
+   "expression": "cut off person on left",
+   "point_0_1000": [
+    50.0,
+    476.0
+   ],
+   "hit": true,
+   "latency_s": 1.635,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [0, 144, 100, 808]\n}\n```"
+  },
+  {
+   "ref_id": 49260,
+   "expression": "left orange behind the one in the very bottom left",
+   "point_0_1000": [
+    200.5,
+    513.5
+   ],
+   "hit": true,
+   "latency_s": 1.665,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [50, 350, 351, 677]\n}\n```"
+  },
+  {
+   "ref_id": 49264,
+   "expression": "orange below big one left",
+   "point_0_1000": [
+    200.5,
+    513.5
+   ],
+   "hit": true,
+   "latency_s": 1.516,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [50, 350, 351, 677]\n}\n```"
+  },
+  {
+   "ref_id": 49326,
+   "expression": "third person from left",
+   "point_0_1000": [
+    387.5,
+    570.0
+   ],
+   "hit": true,
+   "latency_s": 2.046,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [317, 375, 458, 765],\n  \"label\": \"third person from left\"\n}\n```"
+  },
+  {
+   "ref_id": 49449,
+   "expression": "child",
+   "point_0_1000": [
+    495.0,
+    639.0
+   ],
+   "hit": true,
+   "latency_s": 1.965,
+   "error": null,
+   "raw": "```json\n[\n\t{\"bbox_2d\": [365, 470, 625, 808], \"label\": \"child\"}\n]\n```"
+  },
+  {
+   "ref_id": 49450,
+   "expression": "person blue coat",
+   "point_0_1000": [
+    779.5,
+    566.5
+   ],
+   "hit": true,
+   "latency_s": 1.543,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [653, 258, 906, 875]\n}\n```"
+  },
+  {
+   "ref_id": 49588,
+   "expression": "older male",
+   "point_0_1000": [
+    481.0,
+    500.0
+   ],
+   "hit": true,
+   "latency_s": 1.427,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [0, 0, 962, 1000]\n}\n```"
+  },
+  {
+   "ref_id": 49763,
+   "expression": "man holding a white cord",
+   "point_0_1000": [
+    240.5,
+    592.5
+   ],
+   "hit": true,
+   "latency_s": 2.143,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox_2d\": [0, 185, 481, 1000],\n  \"label\": \"man holding a white cord\"\n}\n```"
+  },
+  {
+   "ref_id": 49767,
+   "expression": "second from right bottle",
+   "point_0_1000": [
+    573.0,
+    495.5
+   ],
+   "hit": true,
+   "latency_s": 1.462,
+   "error": null,
+   "raw": "```json\n{\n  \"bbox\": [505, 27, 641, 964]\n}\n```"
+  }
+ ]
+}
