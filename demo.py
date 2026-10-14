@@ -56,6 +56,17 @@ MARKER_COLORS = {
 }
 TARGET_PALETTE = ["#ff4444", "#44ff44", "#4444ff", "#ff8800", "#00ccff", "#cc44cc", "#ffff00", "#44cccc"]
 DEFAULT_FOV_DEG = 60.0
+DEPTH_MODELS = {
+    "da3": "Depth Anything 3 (DA3METRIC-LARGE)",
+    "moge3-l": "MoGe-3 ViT-L",
+    "moge3-g": "MoGe-3 ViT-G",
+}
+MOGE_REPOS = {"moge3-l": "Ruicheng/moge-3-vitl", "moge3-g": "Ruicheng/moge-3-vitg"}
+# Molmo2 can't follow the JSON prompt, so a multi-target prompt is split into one "Point to ..." query per phrase.
+PROMPT_VERB = re.compile(r"^(?:please\s+)?(?:select|find|locate|mark|show(?:\s+me)?|point\s+to)\s+", re.IGNORECASE)
+TARGET_SEPARATOR = re.compile(r"\s*,\s*(?:and\s+)?|\s+and\s+", re.IGNORECASE)
+LEADING_ARTICLE = re.compile(r"^(?:the|a|an)\s+", re.IGNORECASE)
+MOLMO_COORDS = re.compile(r'coords="([^"]+)')
 DEFAULT_MAX_POINTS = 50000
 MAX_UPLOAD_BYTES = 20 * 1024 * 1024
 # Multipart boundaries, headers and the prompt field on top of the image.
@@ -132,6 +143,61 @@ def normalize_vlm_url(url: str) -> str:
     if cleaned.endswith("/v1"):
         return f"{cleaned}/chat/completions"
     return f"{cleaned}/v1/chat/completions"
+
+
+def parse_vlm_models(spec: str | None, default_url: str, default_model: str) -> dict[str, str]:
+    """VLM_MODELS "name=url,name=url" (name = the served model name) -> {name: chat URL}; else the one default VLM."""
+    if not spec or not spec.strip():
+        return {default_model: normalize_vlm_url(default_url)}
+    models = {}
+    for item in spec.split(","):
+        name, sep, url = item.strip().partition("=")
+        if not sep or not name.strip() or not url.strip():
+            raise ValueError(f"VLM_MODELS entries must be name=url, got {item!r}")
+        models[name.strip()] = normalize_vlm_url(url.strip())
+    return models
+
+
+def is_molmo(vlm: str) -> bool:
+    return "molmo" in vlm.lower()
+
+
+def moge_available(device: str) -> bool:
+    if not device.startswith("cuda"):
+        return False  # MoGe-3 needs Triton (FlexGEMM): Linux + CUDA only.
+    try:
+        import moge.model.v3  # noqa: F401
+    except ImportError:
+        return False
+    return True
+
+
+def split_target_phrases(prompt: str) -> list[str]:
+    text = PROMPT_VERB.sub("", prompt.strip()).rstrip(" .!?")
+    phrases = [LEADING_ARTICLE.sub("", part.strip()) for part in TARGET_SEPARATOR.split(text)]
+    return [p for p in phrases if p][:8]
+
+
+def parse_molmo_points(raw: str) -> list[tuple[float, float]]:
+    """Points from Molmo2's <points coords="..."> (0-1000 grid); a missing closing quote (max_tokens) is fine."""
+    match = MOLMO_COORDS.search(raw)
+    if not match:
+        return []
+    values = match.group(1).split()
+    # Triples "index x y", after a 1-based image index from vLLM ("1 1 770 483"); coordinates are zero-padded
+    # ("018"), so a leading "1 1" can only be image 1, point 1.
+    start = 1 if values[:2] == ["1", "1"] else 0
+    points = []
+    for i in range(start, len(values) - 2, 3):
+        try:
+            points.append((float(values[i + 1]), float(values[i + 2])))
+        except ValueError:
+            break
+    return points
+
+
+def confidence_text(confidence: float | None) -> str:
+    return "" if confidence is None else f" {confidence * 100:.0f}%"
 
 
 def make_point_cloud(
@@ -258,7 +324,7 @@ def annotate_targets(rgb: np.ndarray, targets: list[dict]) -> str:
         r = max(6, min(w, h) // 60)
         draw.ellipse((px - r, py - r, px + r, py + r), outline=color, width=3)
         draw.line((px, py, px, py - (r * 3)), fill=color, width=3)
-        text = f'{target["label"]} {(target["confidence"] * 100):.0f}%'
+        text = f'{target["label"]}{confidence_text(target["confidence"])}'
         tx = min(max(8, px + r + 6), max(8, w - 140))
         ty = max(8, py - (r * 3) - 18)
         draw.rounded_rectangle((tx - 6, ty - 4, tx + 130, ty + 18), radius=6, fill=(0, 0, 0, 190), outline=color)
@@ -294,7 +360,7 @@ def project_target_to_3d(
     return {
         "label": target["label"],
         "color": target["color"],
-        "confidence": float(target["confidence"]),
+        "confidence": target["confidence"],
         "pixel": {"x": int(px), "y": int(py)},
         "position": {
             "x": float(x_cam),
@@ -305,13 +371,21 @@ def project_target_to_3d(
 
 
 class DemoRuntime:
-    def __init__(self, model_dir: str, device: str, process_res: int):
+    def __init__(self, model_dir: str, device: str, process_res: int, default_depth_model: str = "da3"):
         self.model_dir = str(Path(model_dir).expanduser())
         self.device = device
         self.process_res = process_res
-        self.vlm_url = normalize_vlm_url(os.environ.get("QWEN_URL", "http://127.0.0.1:8012/v1"))
-        self.vlm_model = os.environ.get("VLM_MODEL", "Qwen/Qwen3-VL-8B-Instruct")
+        self.vlms = parse_vlm_models(
+            os.environ.get("VLM_MODELS"),
+            os.environ.get("QWEN_URL", "http://127.0.0.1:8012/v1"),
+            os.environ.get("VLM_MODEL", "Qwen/Qwen3-VL-8B-Instruct"),
+        )
+        self.depth_models = ["da3"] + ([m for m in MOGE_REPOS] if moge_available(device) else [])
+        if default_depth_model not in self.depth_models:
+            raise ValueError(f"Depth model {default_depth_model!r} unavailable here; available: {self.depth_models}")
+        self.default_depth_model = default_depth_model
         self._model: DepthAnything3 | None = None
+        self._moge: dict = {}
         self._lock = threading.Lock()
 
     def _is_local_model_ref(self) -> bool:
@@ -336,38 +410,78 @@ class DemoRuntime:
                     self._model = DepthAnything3.from_pretrained(self.model_dir).to(self.device).eval()
             return self._model
 
+    def load_moge(self, name: str):
+        with self._lock:
+            if name not in self._moge:
+                from huggingface_hub import hf_hub_download
+                from moge.model.v3 import MoGeModel
+
+                print(f"Loading model: {MOGE_REPOS[name]} on {self.device}")
+                path = hf_hub_download(MOGE_REPOS[name], "model.pt")
+                self._moge[name] = MoGeModel.from_pretrained(path).to(self.device).eval()
+            return self._moge[name]
+
+    def predict_depth(self, depth_model: str, image: Image.Image, fov_deg: float | None):
+        """-> (rgb, metric depth, invalid mask, focal px, long-side FOV, FOV source) at the processing resolution."""
+        if depth_model == "da3":
+            model = self.load_model()
+            # One GPU forward at a time keeps memory bounded; the slow VLM call stays concurrent.
+            with self._lock:
+                prediction = model.inference(
+                    [np.asarray(image)],
+                    process_res=self.process_res,
+                    process_res_method="upper_bound_resize",
+                )
+            rgb = prediction.processed_images[0]
+            raw_depth = prediction.depth[0].astype(np.float32)
+            invalid = prediction.sky[0].astype(bool) if prediction.sky is not None else np.zeros(raw_depth.shape, bool)
+            height, width = raw_depth.shape
+            used_fov_deg = fov_deg or DEFAULT_FOV_DEG
+            focal_px = estimate_focal_px(width, height, used_fov_deg)
+            return rgb, raw_depth * (focal_px / 300.0), invalid, focal_px, used_fov_deg, "exif" if fov_deg else "assumed"
+
+        model = self.load_moge(depth_model)
+        scale = self.process_res / max(image.size)
+        if scale < 1:
+            image = image.resize((round(image.width * scale), round(image.height * scale)), Image.LANCZOS)
+        rgb = np.asarray(image)
+        height, width = rgb.shape[:2]
+        fov_x = None
+        if fov_deg:
+            # The EXIF FOV spans the long side; MoGe takes the horizontal one.
+            fov_x = math.degrees(2 * math.atan(width / 2 / estimate_focal_px(width, height, fov_deg)))
+        tensor = torch.tensor(rgb / 255.0, dtype=torch.float32, device=self.device).permute(2, 0, 1)
+        with self._lock, torch.no_grad():
+            output = model.infer(tensor, fov_x=fov_x)
+        depth = output["depth"].float().cpu().numpy()
+        valid = output["mask"].bool().cpu().numpy() & np.isfinite(depth)
+        # MoGe intrinsics are normalized by image width/height; square pixels, so one focal length.
+        focal_px = float(output["intrinsics"][0, 0]) * width
+        long_fov_deg = math.degrees(2 * math.atan(max(width, height) / 2 / focal_px))
+        metric_depth_m = np.where(valid, depth, 0.0).astype(np.float32)
+        return rgb, metric_depth_m, ~valid, focal_px, long_fov_deg, "exif" if fov_deg else "estimated"
+
     def infer_image(
         self,
         image: Image.Image,
         prompt: str | None = None,
         fov_deg: float | None = None,
+        depth_model: str | None = None,
+        vlm: str | None = None,
     ) -> dict:
-        model = self.load_model()
-        np_image = np.asarray(image.convert("RGB"))
+        depth_model = depth_model or self.default_depth_model
+        vlm = vlm or next(iter(self.vlms))
+        rgb, metric_depth_m, invalid, focal_px, used_fov_deg, fov_source = self.predict_depth(
+            depth_model, image.convert("RGB"), fov_deg
+        )
 
-        # One GPU forward at a time keeps memory bounded; the slow VLM call below stays concurrent.
-        with self._lock:
-            prediction = model.inference(
-                [np_image],
-                process_res=self.process_res,
-                process_res_method="upper_bound_resize",
-            )
-
-        rgb = prediction.processed_images[0]
-        raw_depth = prediction.depth[0].astype(np.float32)
-        sky = prediction.sky[0] if prediction.sky is not None else None
-
-        height, width = raw_depth.shape
-        used_fov_deg = fov_deg or DEFAULT_FOV_DEG
-        used_focal_px = estimate_focal_px(width, height, used_fov_deg)
-        metric_depth_m = raw_depth * (used_focal_px / 300.0)
-
-        fx = used_focal_px
-        fy = used_focal_px
+        height, width = metric_depth_m.shape
+        fx = focal_px
+        fy = focal_px
         cx = width * 0.5
         cy = height * 0.5
 
-        valid, near, far = valid_depth_mask(metric_depth_m, sky)
+        valid, near, far = valid_depth_mask(metric_depth_m, invalid)
         points, colors = make_point_cloud(
             rgb=rgb,
             depth_m=metric_depth_m,
@@ -379,15 +493,13 @@ class DemoRuntime:
             valid=valid,
         )
 
-        preview_mask = np.isfinite(metric_depth_m) & (metric_depth_m > 0.0)
-        if sky is not None:
-            preview_mask &= ~sky.astype(bool)
+        preview_mask = np.isfinite(metric_depth_m) & (metric_depth_m > 0.0) & ~invalid
 
         targets_2d = []
         targets_3d = []
         overlay_base64 = None
         if prompt and prompt.strip():
-            targets_2d = self.query_vlm_targets(Image.fromarray(rgb, mode="RGB"), prompt.strip())
+            targets_2d = self.query_vlm_targets(Image.fromarray(rgb, mode="RGB"), prompt.strip(), vlm)
             overlay_base64 = annotate_targets(rgb, targets_2d)
             for target in targets_2d:
                 projected = project_target_to_3d(
@@ -412,14 +524,15 @@ class DemoRuntime:
             "targets_2d": targets_2d,
             "targets_3d": targets_3d,
             "meta": {
-                "model_dir": self.model_dir,
+                "depth_model": depth_model,
+                "depth_model_label": DEPTH_MODELS[depth_model],
                 "device": self.device,
-                "vlm_model": self.vlm_model,
+                "vlm_model": vlm if prompt and prompt.strip() else None,
                 "input_size": {"width": int(image.width), "height": int(image.height)},
                 "processed_size": {"width": int(width), "height": int(height)},
-                "focal_px": float(used_focal_px),
+                "focal_px": float(focal_px),
                 "fov_deg": float(used_fov_deg),
-                "fov_source": "exif" if fov_deg else "assumed",
+                "fov_source": fov_source,
                 "is_metric_model_output": True,
                 "prompt_used": prompt.strip() if prompt else None,
                 "target_count": len(targets_3d),
@@ -430,7 +543,7 @@ class DemoRuntime:
             },
         }
 
-    def query_vlm_targets(self, image: Image.Image, prompt: str) -> list[dict]:
+    def query_vlm_targets(self, image: Image.Image, prompt: str, vlm: str) -> list[dict]:
         w, h = image.size
         max_dim = 384
         if max(w, h) > max_dim:
@@ -438,13 +551,30 @@ class DemoRuntime:
             image = image.resize((int(w * scale), int(h * scale)), Image.LANCZOS)
 
         image_b64 = image_base64(image)
+        if not is_molmo(vlm):
+            return parse_vlm_targets(self.ask_vlm(vlm, custom_prompt_template(prompt), image_b64))
+
+        targets = []
+        for phrase in split_target_phrases(prompt):
+            if base_marker_label(phrase.lower()) in SKIP_LABELS:
+                continue
+            for x, y in parse_molmo_points(self.ask_vlm(vlm, f"Point to the {phrase}.", image_b64)):
+                # Molmo2 points carry no confidence.
+                targets.append({"label": phrase.lower(), "x": int(np.clip(x, 0, 1000)), "y": int(np.clip(y, 0, 1000)),
+                                "confidence": None})
+        targets = targets[:8]
+        for index, target in enumerate(targets):
+            target["color"] = marker_color_hex(target["label"], index)
+        return targets
+
+    def ask_vlm(self, vlm: str, text: str, image_b64: str) -> str:
         payload = {
-            "model": self.vlm_model,
+            "model": vlm,
             "messages": [
                 {
                     "role": "user",
                     "content": [
-                        {"type": "text", "text": custom_prompt_template(prompt)},
+                        {"type": "text", "text": text},
                         {
                             "type": "image_url",
                             "image_url": {"url": f"data:image/png;base64,{image_b64}"},
@@ -457,16 +587,18 @@ class DemoRuntime:
             # Qwen3.5/3.6 think by default, which only adds latency here; models without the switch ignore it.
             "chat_template_kwargs": {"enable_thinking": False},
         }
-        response = requests.post(self.vlm_url, json=payload, timeout=45)
+        response = requests.post(self.vlms[vlm], json=payload, timeout=45)
         response.raise_for_status()
-        raw = response.json()["choices"][0]["message"]["content"]
-        return parse_vlm_targets(raw)
+        return response.json()["choices"][0]["message"]["content"] or ""
 
 
 def build_app(runtime: DemoRuntime) -> FastAPI:
     @asynccontextmanager
     async def lifespan(app: FastAPI):
-        runtime.load_model()
+        if runtime.default_depth_model == "da3":
+            runtime.load_model()
+        else:
+            runtime.load_moge(runtime.default_depth_model)
         yield
 
     app = FastAPI(title="Depth Anything 3 Metric Point Cloud Demo", lifespan=lifespan)
@@ -502,16 +634,32 @@ def build_app(runtime: DemoRuntime) -> FastAPI:
             "ok": True,
             "device": runtime.device,
             "model_dir": runtime.model_dir,
-            "vlm_url": runtime.vlm_url,
-            "vlm_model": runtime.vlm_model,
-            "model_loaded": runtime._model is not None,
+            "depth_models": runtime.depth_models,
+            "depth_models_loaded": (["da3"] if runtime._model is not None else []) + list(runtime._moge),
+            "vlms": runtime.vlms,
+            "model_loaded": runtime._model is not None or bool(runtime._moge),
+        }
+
+    @app.get("/api/models")
+    async def models() -> dict:
+        return {
+            "depth": [{"id": m, "label": DEPTH_MODELS[m]} for m in runtime.depth_models],
+            "default_depth": runtime.default_depth_model,
+            "vlm": list(runtime.vlms),
+            "default_vlm": next(iter(runtime.vlms)),
         }
 
     @app.post("/api/infer")
     def infer(
         image: UploadFile = File(...),
         prompt: str | None = Form(default=None),
+        depth_model: str | None = Form(default=None),
+        vlm: str | None = Form(default=None),
     ) -> dict:
+        if depth_model and depth_model not in runtime.depth_models:
+            raise HTTPException(status_code=400, detail=f"Unknown depth model {depth_model!r}; available: {runtime.depth_models}")
+        if vlm and vlm not in runtime.vlms:
+            raise HTTPException(status_code=400, detail=f"Unknown VLM {vlm!r}; available: {list(runtime.vlms)}")
         if image.size is not None and image.size > MAX_UPLOAD_BYTES:
             raise HTTPException(status_code=413, detail=f"Image larger than {MAX_UPLOAD_BYTES // (1024 * 1024)} MB.")
         try:
@@ -527,6 +675,8 @@ def build_app(runtime: DemoRuntime) -> FastAPI:
                 image=pil_image,
                 prompt=prompt,
                 fov_deg=fov_deg,
+                depth_model=depth_model,
+                vlm=vlm,
             )
         except Exception as exc:
             raise HTTPException(status_code=500, detail=str(exc)) from exc
@@ -546,6 +696,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--port", type=int, default=8080)
     parser.add_argument("--model-dir", default="depth-anything/DA3METRIC-LARGE")
     parser.add_argument("--process-res", type=int, default=504)
+    parser.add_argument("--depth-model", choices=list(DEPTH_MODELS), default="da3", help="default for the dropdown")
     parser.add_argument("--device", default=default_device())
     return parser.parse_args()
 
@@ -556,6 +707,7 @@ def main() -> None:
         model_dir=args.model_dir,
         device=args.device,
         process_res=args.process_res,
+        default_depth_model=args.depth_model,
     )
     app = build_app(runtime)
     uvicorn.run(app, host=args.host, port=args.port)

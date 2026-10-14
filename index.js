@@ -21,6 +21,8 @@ const SPLAT_MAX_STRETCH = 10;
   const submitButton = document.getElementById("submit");
   const promptInput = document.getElementById("prompt");
   const splatsInput = document.getElementById("splats");
+  const depthModelInput = document.getElementById("depth-model");
+  const vlmInput = document.getElementById("vlm");
   const busyEl = document.getElementById("busy");
   const busyText = document.getElementById("busy-text");
   const busyElapsed = document.getElementById("busy-elapsed");
@@ -75,6 +77,39 @@ const SPLAT_MAX_STRETCH = 10;
 
   function setStatus(text) {
     statusEl.textContent = text;
+  }
+
+  // Molmo2 points carry no confidence.
+  function confidenceText(confidence) {
+    return confidence == null ? "" : ` ${(confidence * 100).toFixed(0)}%`;
+  }
+
+  // "org/Name", a served name, or a Hugging Face cache path ".../models--org--Name/snapshots/<hash>" -> "Name".
+  function vlmLabel(id) {
+    const cached = id.match(/models--[^/]+--([^/]+)/);
+    return cached ? cached[1] : id.split("/").pop();
+  }
+
+  async function loadModelOptions() {
+    const fill = (select, items, selected) => {
+      select.replaceChildren(
+        ...items.map(({ id, label }) => {
+          const option = document.createElement("option");
+          option.value = id;
+          option.textContent = label;
+          option.selected = id === selected;
+          return option;
+        })
+      );
+    };
+    try {
+      const response = await fetch("/api/models");
+      const models = await response.json();
+      fill(depthModelInput, models.depth, models.default_depth);
+      fill(vlmInput, models.vlm.map((id) => ({ id, label: vlmLabel(id) })), models.default_vlm);
+    } catch (error) {
+      setStatus(`Could not load the model list: ${error}`);
+    }
   }
 
   // Overlay on the viewer with a live seconds counter: the server reports no progress, so elapsed time is the honest signal.
@@ -451,7 +486,7 @@ const SPLAT_MAX_STRETCH = 10;
       const sprite = createTextSprite(
         marker.label,
         color,
-        `${coords} ${(marker.confidence * 100).toFixed(0)}%`
+        `${coords}${confidenceText(marker.confidence)}`
       );
       sprite.position.set(x, y + 0.28, z);
       markerGroup.add(sprite);
@@ -528,6 +563,8 @@ const SPLAT_MAX_STRETCH = 10;
     formData.append("image", file);
     const promptValue = promptInput.value.trim();
     formData.append("prompt", promptValue);
+    formData.append("depth_model", depthModelInput.value);
+    formData.append("vlm", vlmInput.value);
 
     startBusy(promptValue ? "Estimating depth and finding targets" : "Estimating depth");
     setStatus("Uploading image and running Depth Anything 3...");
@@ -566,9 +603,14 @@ const SPLAT_MAX_STRETCH = 10;
       }
       updateMarkers(targets);
       updateCameraContext(targets);
+      const fovSource = { exif: "from EXIF", estimated: "estimated by the model", assumed: "assumed" }[result.meta.fov_source];
+      const unplaced = (result.targets_2d || []).length - targets.length;
       setStatus(
-        `Rendered ${result.meta.point_count} points, ${splatNote} and ${result.meta.target_count || 0} prompt targets. ` +
-          `Field of view ${Math.round(result.meta.fov_deg)}° (${result.meta.fov_source === "exif" ? "from EXIF" : "assumed"}).`
+        `Rendered ${result.meta.point_count} points, ${splatNote} and ${targets.length} prompt targets` +
+          (unplaced > 0 ? ` (${unplaced} more found in 2D but with no depth there)` : "") +
+          `. Field of view ${Math.round(result.meta.fov_deg)}° (${fovSource}). ` +
+          `Depth: ${result.meta.depth_model_label}` +
+          (result.meta.vlm_model ? `, VLM: ${vlmLabel(result.meta.vlm_model)}.` : ".")
       );
     } catch (error) {
       setStatus(String(error));
@@ -598,7 +640,7 @@ const SPLAT_MAX_STRETCH = 10;
     title.textContent = marker.label.toUpperCase();
     tooltip.replaceChildren(
       title,
-      `\nPosition: ${coords}\nConfidence: ${(marker.confidence * 100).toFixed(0)}%\nPixel: (${marker.pixel.x}, ${marker.pixel.y})`
+      `\nPosition: ${coords}${marker.confidence == null ? "" : `\nConfidence:${confidenceText(marker.confidence)}`}\nPixel: (${marker.pixel.x}, ${marker.pixel.y})`
     );
     tooltip.style.display = "block";
     tooltip.style.left = `${event.clientX + 14}px`;
@@ -607,6 +649,7 @@ const SPLAT_MAX_STRETCH = 10;
   });
 
   splatsInput.addEventListener("change", showSplats);
+  loadModelOptions();
   window.addEventListener("resize", resize);
   resize();
   animate();
