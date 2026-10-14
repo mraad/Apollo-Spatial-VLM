@@ -10,7 +10,7 @@ Apollo Spatial VLM, a private fork of [MercuriusTech/Odyseus-Spatial-VLM](https:
 
 ## Two processes
 
-1. **VLM server**: any OpenAI-compatible `/v1/chat/completions` endpoint serving a vision model. Reference is vLLM with `Qwen/Qwen3-VL-8B-Instruct` on port 8012. `demo.py` reads `QWEN_URL` (default `http://127.0.0.1:8012/v1`; `normalize_vlm_url` appends the path) and `VLM_MODEL`.
+1. **VLM server**: any OpenAI-compatible `/v1/chat/completions` endpoint serving a vision model. Reference is vLLM with `Qwen/Qwen3-VL-8B-Instruct` on port 8012. `demo.py` reads `QWEN_URL` (default `http://127.0.0.1:8012/v1`; `normalize_vlm_url` appends the path) and `VLM_MODEL`. On a GPU with room for ~56 GB of weights, `Qwen/Qwen3.6-27B` follows the demo's JSON point format far more reliably than Qwen3-VL (`eval/README.md`). `demo.py` sends `chat_template_kwargs: {"enable_thinking": false}` (Qwen3.5/3.6 think by default; others ignore it) and `run-vlm.sh` passes `--max-num-seqs` (`MAX_NUM_SEQS`, default 32) because Qwen3.6's hybrid cache can't hold vLLM's default 1024.
 2. **Demo server**: `./run.sh` → `.venv/bin/python demo.py --host --port 8080 --model-dir depth-anything/DA3METRIC-LARGE --process-res 504 [--device]` (device defaults to cuda, then mps, then cpu). The DA3 model loads in the FastAPI lifespan, so startup blocks until weights are downloaded/loaded. `--model-dir` can be an HF repo id or a local HF-style directory (paths starting `/`, `.`, `~`).
 
 Endpoints: `GET /` and `/index.js` (served no-cache), `GET /healthz` (device, VLM URL/model, model_loaded), `POST /api/infer` (multipart `image`, optional `prompt`).
