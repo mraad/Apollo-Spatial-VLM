@@ -18,8 +18,8 @@ import numpy as np
 import requests
 import torch
 import uvicorn
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
-from fastapi.responses import FileResponse
+from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
+from fastapi.responses import FileResponse, JSONResponse
 from PIL import Image, ImageDraw, ImageOps
 
 ROOT = Path(__file__).resolve().parent
@@ -58,6 +58,8 @@ TARGET_PALETTE = ["#ff4444", "#44ff44", "#4444ff", "#ff8800", "#00ccff", "#cc44c
 DEFAULT_FOV_DEG = 60.0
 DEFAULT_MAX_POINTS = 15000
 MAX_UPLOAD_BYTES = 20 * 1024 * 1024
+# Multipart boundaries, headers and the prompt field on top of the image.
+MAX_INFER_BODY_BYTES = MAX_UPLOAD_BYTES + 1024 * 1024
 
 
 def estimate_focal_px(width: int, height: int, fov_deg: float) -> float:
@@ -429,6 +431,19 @@ def build_app(runtime: DemoRuntime) -> FastAPI:
         yield
 
     app = FastAPI(title="Depth Anything 3 Metric Point Cloud Demo", lifespan=lifespan)
+
+    @app.middleware("http")
+    async def limit_infer_body(request: Request, call_next):
+        # Reject before multipart parsing spools the body; uvicorn never reads past Content-Length.
+        if request.url.path == "/api/infer":
+            length = request.headers.get("content-length")
+            if length is None:
+                return JSONResponse({"detail": "Content-Length required."}, status_code=411)
+            if not (length.isascii() and length.isdigit()) or int(length) > MAX_INFER_BODY_BYTES:
+                return JSONResponse(
+                    {"detail": f"Image larger than {MAX_UPLOAD_BYTES // (1024 * 1024)} MB."}, status_code=413
+                )
+        return await call_next(request)
 
     @app.get("/")
     async def index() -> FileResponse:
