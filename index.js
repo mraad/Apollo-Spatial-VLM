@@ -1,5 +1,13 @@
 import * as THREE from "three";
-import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/controls/OrbitControls.js";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { SparkRenderer, SplatMesh } from "@sparkjsdev/spark";
+
+// Splat sigma as a fraction of the pixel footprint: neighbours overlap so surfaces look solid.
+const SPLAT_SIGMA = 0.6;
+// A neighbour whose depth differs by more than this fraction is across an edge, not on the same surface.
+const SPLAT_EDGE = 0.12;
+// Grazing surfaces stretch splats; past this many pixel footprints fall back to a camera-facing disc.
+const SPLAT_MAX_STRETCH = 10;
 
 (function () {
   const form = document.getElementById("demo-form");
@@ -12,9 +20,11 @@ import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/cont
   const viewerEl = document.getElementById("viewer");
   const submitButton = document.getElementById("submit");
   const promptInput = document.getElementById("prompt");
+  const splatsInput = document.getElementById("splats");
 
   let previewUrl = null;
   let pointsObject = null;
+  let splatMesh = null;
   let markerSpheres = [];
   let cameraGroup = null;
 
@@ -33,6 +43,9 @@ import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/cont
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(viewerEl.clientWidth, Math.max(viewerEl.clientHeight, 1));
   viewerEl.appendChild(renderer.domElement);
+
+  const spark = new SparkRenderer({ renderer });
+  scene.add(spark);
 
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
@@ -95,7 +108,15 @@ import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/cont
     renderer.setSize(width, height);
   }
 
+  function resetSplats() {
+    if (!splatMesh) return;
+    scene.remove(splatMesh);
+    splatMesh.dispose();
+    splatMesh = null;
+  }
+
   function resetPointCloud() {
+    resetSplats();
     if (!pointsObject) {
       resetMarkers();
       return;
@@ -106,6 +127,116 @@ import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/cont
     pointsObject = null;
     resetMarkers();
     resetCameraContext();
+  }
+
+  function showSplats() {
+    const splats = splatsInput.checked && splatMesh !== null;
+    if (splatMesh) splatMesh.visible = splats;
+    if (pointsObject) pointsObject.visible = !splats;
+  }
+
+  async function decodeRgba(jpegBase64, width, height) {
+    const img = new Image();
+    img.src = `data:image/jpeg;base64,${jpegBase64}`;
+    await img.decode();
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, width, height);
+    return ctx.getImageData(0, 0, width, height).data;
+  }
+
+  // One flat Gaussian per valid depth pixel, oriented to the local surface (same camera model as demo.py).
+  async function loadSplats(depthBase64, rgbBase64, meta) {
+    const { width, height } = meta.processed_size;
+    const focal = meta.focal_px;
+    const depth = decodeFloat32(depthBase64);
+    const rgba = await decodeRgba(rgbBase64, width, height);
+    const cx = width * 0.5;
+    const cy = height * 0.5;
+
+    const unproject = (u, v, d, out) => out.set(((u - cx) * d) / focal, (-(v - cy) * d) / focal, -d);
+    // Depth of a neighbour on the same surface, or 0 when it is invalid or across an edge.
+    const neighbour = (u, v, d) => {
+      if (u < 0 || v < 0 || u >= width || v >= height) return 0;
+      const n = depth[v * width + u];
+      return n > 0 && Math.abs(n - d) <= SPLAT_EDGE * d ? n : 0;
+    };
+    // Surface step for one pixel along (du, dv): central difference, else one-sided, else null.
+    const a = new THREE.Vector3();
+    const b = new THREE.Vector3();
+    const tangent = (u, v, d, du, dv, out) => {
+      const fwd = neighbour(u + du, v + dv, d);
+      const back = neighbour(u - du, v - dv, d);
+      if (fwd && back) {
+        unproject(u + du, v + dv, fwd, a);
+        unproject(u - du, v - dv, back, b);
+        return out.subVectors(a, b).multiplyScalar(0.5);
+      }
+      if (fwd || back) {
+        unproject(u, v, d, b);
+        unproject(fwd ? u + du : u - du, fwd ? v + dv : v - dv, fwd || back, a);
+        return fwd ? out.subVectors(a, b) : out.subVectors(b, a);
+      }
+      return null;
+    };
+
+    const center = new THREE.Vector3();
+    const tx = new THREE.Vector3();
+    const ty = new THREE.Vector3();
+    const normal = new THREE.Vector3();
+    const e2 = new THREE.Vector3();
+    const scales = new THREE.Vector3();
+    const basis = new THREE.Matrix4();
+    const quaternion = new THREE.Quaternion();
+    const color = new THREE.Color();
+    let count = 0;
+    for (let i = 0; i < depth.length; i++) if (depth[i] > 0) count++;
+
+    splatMesh = new SplatMesh({
+      maxSplats: count,
+      constructSplats: (splats) => {
+        for (let v = 0; v < height; v++) {
+          for (let u = 0; u < width; u++) {
+            const i = v * width + u;
+            const d = depth[i];
+            if (!(d > 0)) continue;
+            const footprint = d / focal;
+            unproject(u, v, d, center);
+
+            let oriented = tangent(u, v, d, 1, 0, tx) && tangent(u, v, d, 0, 1, ty);
+            if (oriented) {
+              normal.crossVectors(tx, ty);
+              oriented =
+                normal.lengthSq() > 0 &&
+                tx.length() <= SPLAT_MAX_STRETCH * footprint &&
+                ty.length() <= SPLAT_MAX_STRETCH * footprint;
+            }
+            if (!oriented) {
+              // Edge or grazing angle: a camera-facing disc one pixel wide.
+              tx.set(footprint, 0, 0);
+              ty.set(0, footprint, 0);
+              normal.set(0, 0, 1);
+            }
+            const sx = tx.length() * SPLAT_SIGMA;
+            const sy = ty.length() * SPLAT_SIGMA;
+            tx.normalize();
+            normal.normalize();
+            e2.crossVectors(normal, tx);
+            basis.makeBasis(tx, e2, normal);
+            quaternion.setFromRotationMatrix(basis);
+            scales.set(sx, sy, Math.min(sx, sy) * 0.1);
+            color.setRGB(rgba[i * 4] / 255, rgba[i * 4 + 1] / 255, rgba[i * 4 + 2] / 255);
+            splats.pushSplat(center, scales, quaternion, 1, color);
+          }
+        }
+      },
+    });
+    await splatMesh.initialized;
+    scene.add(splatMesh);
+    showSplats();
+    return count;
   }
 
   function createTextSprite(text, color, subtitle) {
@@ -398,10 +529,21 @@ import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/cont
       const targets = result.targets_3d || [];
       renderTargetList(targets);
       loadPointCloud(result.points, result.colors);
+      let splatNote;
+      try {
+        const started = performance.now();
+        const splatCount = await loadSplats(result.depth, result.rgb, result.meta);
+        splatNote = `${splatCount} splats (built in ${Math.round(performance.now() - started)} ms)`;
+      } catch (error) {
+        // Splats are optional: keep the point cloud and markers when they fail.
+        resetSplats();
+        showSplats();
+        splatNote = `no splats (${error.message || error})`;
+      }
       updateMarkers(targets);
       updateCameraContext(targets);
       setStatus(
-        `Rendered ${result.meta.point_count} points and ${result.meta.target_count || 0} prompt targets.`
+        `Rendered ${result.meta.point_count} points, ${splatNote} and ${result.meta.target_count || 0} prompt targets.`
       );
     } catch (error) {
       setStatus(String(error));
@@ -439,6 +581,7 @@ import { OrbitControls } from "https://unpkg.com/three@0.165.0/examples/jsm/cont
     renderer.domElement.style.cursor = "pointer";
   });
 
+  splatsInput.addEventListener("change", showSplats);
   window.addEventListener("resize", resize);
   resize();
   animate();
