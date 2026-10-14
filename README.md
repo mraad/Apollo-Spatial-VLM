@@ -6,7 +6,7 @@ A VLM picks targets in an image, a depth model (Depth Anything 3 or MoGe-3) esti
 
 ## Origin
 
-Apollo Spatial VLM is inspired by, and continues, [MercuriusTech/Odyseus-Spatial-VLM](https://github.com/MercuriusTech/Odyseus-Spatial-VLM), a demo by Mercurius Technologies for their Odyseus spatial-intelligence product. It started as a fork of that repository and was renamed on 2026-10-14; the `upstream` git remote still points there. Mercurius hosts their own live demo at [app.odyseus.xyz](https://app.odyseus.xyz).
+Apollo Spatial VLM is inspired by, and continues, [MercuriusTech/Odyseus-Spatial-VLM](https://github.com/MercuriusTech/Odyseus-Spatial-VLM), a demo by Mercurius Technologies for their Odyseus spatial-intelligence product. It started as a fork of that repository and was renamed on 2026-10-14 (to track it: `git remote add upstream https://github.com/MercuriusTech/Odyseus-Spatial-VLM.git`). Mercurius hosts their own live demo at [app.odyseus.xyz](https://app.odyseus.xyz).
 
 On top of the original (VLM + Depth Anything 3 + a Three.js point cloud), this continuation adds:
 - Gaussian splats built in the browser from the depth grid (Spark), next to the point cloud.
