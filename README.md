@@ -1,16 +1,24 @@
 # Apollo Spatial VLM
 
-![LLM vs Spatial-VLM](media/SpatialVLM-demo2-low-res.gif)
+![Apollo Spatial VLM: the Sydney Opera House located by Qwen3.6, lifted to 3D with Depth Anything 3 and shown as Gaussian splats](media/apollo-demo.png)
 
-A VLM picks targets in an image, Depth Anything 3 estimates metric depth, and the demo lifts the targets into a 3D point cloud and Gaussian splats you can inspect in the browser.
+A VLM picks targets in an image, a depth model (Depth Anything 3 or MoGe-3) estimates metric depth, and the demo lifts the targets into a 3D point cloud and Gaussian splats you can inspect in the browser. Above: "locate the Sydney Opera House" with Qwen3.6-27B-FP8 and DA3 on an RTX PRO 6000 Blackwell (2 s per request), then the view tilted left and right.
 
 ## Origin
 
-Apollo Spatial VLM started as a fork of [MercuriusTech/Odyseus-Spatial-VLM](https://github.com/MercuriusTech/Odyseus-Spatial-VLM), a demo by Mercurius Technologies for their Odyseus spatial-intelligence product, and was renamed on 2026-10-14. The `upstream` git remote still points to that repository. Mercurius hosts their own live demo at [app.odyseus.xyz](https://app.odyseus.xyz).
+Apollo Spatial VLM is inspired by, and continues, [MercuriusTech/Odyseus-Spatial-VLM](https://github.com/MercuriusTech/Odyseus-Spatial-VLM), a demo by Mercurius Technologies for their Odyseus spatial-intelligence product. It started as a fork of that repository and was renamed on 2026-10-14; the `upstream` git remote still points there. Mercurius hosts their own live demo at [app.odyseus.xyz](https://app.odyseus.xyz).
+
+On top of the original (VLM + Depth Anything 3 + a Three.js point cloud), this continuation adds:
+- Gaussian splats built in the browser from the depth grid (Spark), next to the point cloud.
+- Model options in the page: DA3 or MoGe-3 (ViT-L/G) for depth; Qwen3.6-27B, Qwen3-VL-32B or Molmo2-8B for targets ([evaluation](eval/README.md)).
+- The camera's field of view from the photo's EXIF focal length when present.
+- A smaller response (float16 depth, 0.47 MB instead of 2.44 MB) and a running indicator.
 
 From the original README:
 
 > I've been recently fascinated by the possibilites provided by recent advancements in monocular depth estimation models and decided to expeirment combining them with a capable VLM, so below is an example demo to get 3D outputs from a VLM that can be more useful for a physical AI agent.
+
+![LLM vs Spatial-VLM: the original demo](media/SpatialVLM-demo2-low-res.gif)
 
 ## Setup
 
