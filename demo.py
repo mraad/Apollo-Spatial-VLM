@@ -194,21 +194,30 @@ def parse_vlm_targets(raw: str) -> list[dict]:
         if brace >= 0:
             cleaned = cleaned[brace:]
 
-    data, _ = json.JSONDecoder().raw_decode(cleaned)
-    targets = data.get("targets", [])
+    # Model output is untrusted: malformed JSON or odd values mean "no targets", not a failed request.
+    try:
+        data, _ = json.JSONDecoder().raw_decode(cleaned)
+    except json.JSONDecodeError:
+        return []
+    targets = data.get("targets", []) if isinstance(data, dict) else []
     valid = []
-    for obj in targets:
-        if not all(k in obj for k in ("label", "x", "y")):
+    for obj in targets if isinstance(targets, list) else []:
+        if not isinstance(obj, dict) or not all(k in obj for k in ("label", "x", "y")):
             continue
         label = str(obj["label"]).lower().strip()
         if not label or base_marker_label(label) in SKIP_LABELS:
             continue
+        try:
+            x, y = int(obj["x"]), int(obj["y"])
+            confidence = float(obj.get("confidence", 0.7))
+        except (TypeError, ValueError):
+            continue
         valid.append(
             {
                 "label": label,
-                "x": int(np.clip(int(obj["x"]), 0, 1000)),
-                "y": int(np.clip(int(obj["y"]), 0, 1000)),
-                "confidence": float(obj.get("confidence", 0.7)),
+                "x": int(np.clip(x, 0, 1000)),
+                "y": int(np.clip(y, 0, 1000)),
+                "confidence": confidence,
             }
         )
     valid = valid[:8]
