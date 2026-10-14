@@ -1,9 +1,10 @@
+import asyncio
 import base64
 import unittest
 
 import numpy as np
 
-from demo import float32_base64, parse_vlm_targets
+from demo import MAX_INFER_BODY_BYTES, build_app, float32_base64, parse_vlm_targets
 
 
 class ParseVlmTargetsTest(unittest.TestCase):
@@ -38,6 +39,33 @@ class Float32Base64Test(unittest.TestCase):
         points = np.arange(6, dtype=np.float64).reshape(2, 3) / 3
         decoded = np.frombuffer(base64.b64decode(float32_base64(points)), dtype="<f4")
         np.testing.assert_allclose(decoded, points.ravel(), rtol=1e-6)
+
+
+class InferBodyLimitTest(unittest.TestCase):
+    def status(self, headers):
+        # Drive the ASGI app directly: the limit must answer before the body is read or the model is touched.
+        app = build_app(runtime=None)
+        sent = []
+
+        async def receive():
+            raise AssertionError("body was read")
+
+        async def send(message):
+            sent.append(message)
+
+        scope = {
+            "type": "http", "asgi": {"version": "3.0"}, "http_version": "1.1", "method": "POST",
+            "scheme": "http", "path": "/api/infer", "raw_path": b"/api/infer", "query_string": b"",
+            "root_path": "", "server": ("test", 80), "client": ("test", 1),
+            "headers": [(k.encode(), v.encode()) for k, v in headers.items()],
+        }
+        asyncio.run(app(scope, receive, send))
+        return sent[0]["status"]
+
+    def test_rejects_oversized_and_unsized_bodies_before_reading(self):
+        self.assertEqual(self.status({"content-length": str(MAX_INFER_BODY_BYTES + 1)}), 413)
+        self.assertEqual(self.status({"content-length": "abc"}), 413)
+        self.assertEqual(self.status({"transfer-encoding": "chunked"}), 411)
 
 
 if __name__ == "__main__":
