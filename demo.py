@@ -67,7 +67,6 @@ PROMPT_VERB = re.compile(r"^(?:please\s+)?(?:select|find|locate|mark|show(?:\s+m
 TARGET_SEPARATOR = re.compile(r"\s*,\s*(?:and\s+)?|\s+and\s+", re.IGNORECASE)
 LEADING_ARTICLE = re.compile(r"^(?:the|a|an)\s+", re.IGNORECASE)
 MOLMO_COORDS = re.compile(r'coords="([^"]+)')
-DEFAULT_MAX_POINTS = 50000
 MAX_UPLOAD_BYTES = 20 * 1024 * 1024
 # Per VLM call (Molmo2 makes one per target). A cold first request in eager mode adds 1-3 s (measured on the RTX PRO 6000 server and Orin).
 VLM_TIMEOUT_S = float(os.environ.get("VLM_TIMEOUT", "45"))
@@ -126,8 +125,9 @@ def depth_preview_base64(depth_m: np.ndarray, valid_mask: np.ndarray) -> str:
         return base64.b64encode(buffer.getvalue()).decode("ascii")
 
 
-def float32_base64(values: np.ndarray) -> str:
-    return base64.b64encode(np.ascontiguousarray(values, dtype="<f4").tobytes()).decode("ascii")
+def float16_base64(values: np.ndarray) -> str:
+    # Half precision: ~0.05% relative (4 mm at 5 m, 25 cm at 500 m), half the bytes of float32.
+    return base64.b64encode(np.ascontiguousarray(values, dtype="<f2").tobytes()).decode("ascii")
 
 
 def image_base64(image: Image.Image, format: str = "PNG") -> str:
@@ -206,40 +206,6 @@ def parse_molmo_points(raw: str) -> list[tuple[float, float]]:
 
 def confidence_text(confidence: float | None) -> str:
     return "" if confidence is None else f" {confidence * 100:.0f}%"
-
-
-def make_point_cloud(
-    rgb: np.ndarray,
-    depth_m: np.ndarray,
-    fx: float,
-    fy: float,
-    cx: float,
-    cy: float,
-    max_points: int,
-    valid: np.ndarray,
-) -> tuple[np.ndarray, np.ndarray]:
-    h, w = depth_m.shape
-    yy, xx = np.indices((h, w), dtype=np.float32)
-
-    valid_indices = np.flatnonzero(valid.reshape(-1))
-    if valid_indices.size == 0:
-        raise ValueError("Point cloud filtering removed every pixel.")
-
-    if valid_indices.size > max_points:
-        pick = np.linspace(0, valid_indices.size - 1, num=max_points, dtype=np.int64)
-        valid_indices = valid_indices[pick]
-
-    flat_x = xx.reshape(-1)[valid_indices]
-    flat_y = yy.reshape(-1)[valid_indices]
-    flat_z = depth_m.reshape(-1)[valid_indices]
-
-    x = (flat_x - cx) * flat_z / fx
-    y = -(flat_y - cy) * flat_z / fy
-    z = -flat_z
-
-    points = np.stack([x, y, z], axis=1).astype(np.float32)
-    colors = (rgb.reshape(-1, 3)[valid_indices].astype(np.float32) / 255.0).astype(np.float32)
-    return points, colors
 
 
 def valid_depth_mask(depth_m: np.ndarray, sky_mask: np.ndarray | None = None) -> tuple[np.ndarray, float, float]:
@@ -495,16 +461,6 @@ class DemoRuntime:
         cy = height * 0.5
 
         valid, near, far = valid_depth_mask(metric_depth_m, invalid)
-        points, colors = make_point_cloud(
-            rgb=rgb,
-            depth_m=metric_depth_m,
-            fx=fx,
-            fy=fy,
-            cx=cx,
-            cy=cy,
-            max_points=DEFAULT_MAX_POINTS,
-            valid=valid,
-        )
 
         preview_mask = np.isfinite(metric_depth_m) & (metric_depth_m > 0.0) & ~invalid
 
@@ -527,10 +483,9 @@ class DemoRuntime:
                     targets_3d.append(projected)
 
         return {
-            "points": float32_base64(points),
-            "colors": float32_base64(colors),
-            # Full-resolution grid for client-side splats: depth (0 = invalid) and the image it was predicted on.
-            "depth": float32_base64(np.where(valid, metric_depth_m, 0.0)),
+            # The browser builds the point cloud and the splats from these: full-resolution depth (0 = invalid)
+            # and the image it was predicted on.
+            "depth": float16_base64(np.where(valid, metric_depth_m, 0.0)),
             "rgb": image_base64(Image.fromarray(rgb, mode="RGB"), "JPEG"),
             "depth_preview": depth_preview_base64(metric_depth_m, preview_mask),
             "annotated_preview": overlay_base64,
@@ -551,7 +506,6 @@ class DemoRuntime:
                 "target_count": len(targets_3d),
                 "depth_near_m": near,
                 "depth_far_m": far,
-                "point_count": int(points.shape[0]),
                 "splat_count": int(valid.sum()),
             },
         }

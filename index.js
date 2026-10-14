@@ -8,6 +8,8 @@ const SPLAT_SIGMA = 0.6;
 const SPLAT_EDGE = 0.12;
 // Grazing surfaces stretch splats; past this many pixel footprints fall back to a camera-facing disc.
 const SPLAT_MAX_STRETCH = 10;
+// The point cloud is up to this many evenly spaced valid depth pixels (the splats use every one).
+const MAX_POINTS = 50000;
 
 (function () {
   const form = document.getElementById("demo-form");
@@ -207,11 +209,9 @@ const SPLAT_MAX_STRETCH = 10;
   }
 
   // One flat Gaussian per valid depth pixel, oriented to the local surface (same camera model as demo.py).
-  async function loadSplats(depthBase64, rgbBase64, meta) {
+  async function loadSplats(depth, rgba, meta) {
     const { width, height } = meta.processed_size;
     const focal = meta.focal_px;
-    const depth = decodeFloat32(depthBase64);
-    const rgba = await decodeRgba(rgbBase64, width, height);
     const cx = width * 0.5;
     const cy = height * 0.5;
 
@@ -502,22 +502,54 @@ const SPLAT_MAX_STRETCH = 10;
     }
   }
 
-  function decodeFloat32(base64) {
-    return new Float32Array(Uint8Array.from(atob(base64), (c) => c.charCodeAt(0)).buffer);
+  // Little-endian IEEE half floats (the server's depth grid) -> Float32Array.
+  function decodeFloat16(base64) {
+    const half = new Uint16Array(Uint8Array.from(atob(base64), (c) => c.charCodeAt(0)).buffer);
+    const out = new Float32Array(half.length);
+    for (let i = 0; i < half.length; i++) {
+      const h = half[i];
+      const sign = h & 0x8000 ? -1 : 1;
+      const exponent = (h >> 10) & 0x1f;
+      const fraction = h & 0x3ff;
+      if (exponent === 0) out[i] = sign * fraction * 2 ** -24;
+      else if (exponent === 31) out[i] = fraction ? NaN : sign * Infinity;
+      else out[i] = sign * (1 + fraction / 1024) * 2 ** (exponent - 15);
+    }
+    return out;
   }
 
-  function loadPointCloud(points, colors) {
+  // Same camera model as demo.py and the splats; rgba may be null (image failed to decode), giving grey points.
+  function loadPointCloud(depth, rgba, meta) {
     resetPointCloud();
+    const { width, height } = meta.processed_size;
+    const focal = meta.focal_px;
+    const cx = width * 0.5;
+    const cy = height * 0.5;
+
+    const valid = [];
+    for (let i = 0; i < depth.length; i++) if (depth[i] > 0) valid.push(i);
+    const count = Math.min(valid.length, MAX_POINTS);
+    const positions = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3).fill(0.7);
+    for (let k = 0; k < count; k++) {
+      // Evenly spaced over the valid pixels, like np.linspace(0, n - 1, count).astype(int).
+      const i = valid[count > 1 ? Math.floor((k * (valid.length - 1)) / (count - 1)) : 0];
+      const u = i % width;
+      const v = Math.floor(i / width);
+      const d = depth[i];
+      positions[k * 3] = ((u - cx) * d) / focal;
+      positions[k * 3 + 1] = (-(v - cy) * d) / focal;
+      positions[k * 3 + 2] = -d;
+      if (rgba) {
+        colors[k * 3] = rgba[i * 4] / 255;
+        colors[k * 3 + 1] = rgba[i * 4 + 1] / 255;
+        colors[k * 3 + 2] = rgba[i * 4 + 2] / 255;
+      }
+    }
 
     const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute(
-      "position",
-      new THREE.Float32BufferAttribute(decodeFloat32(points), 3)
-    );
-    geometry.setAttribute(
-      "color",
-      new THREE.Float32BufferAttribute(decodeFloat32(colors), 3)
-    );
+    geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
 
     const material = new THREE.PointsMaterial({
       size: 0.025,
@@ -531,7 +563,7 @@ const SPLAT_MAX_STRETCH = 10;
     geometry.computeBoundingSphere();
     const sphere = geometry.boundingSphere;
     if (!sphere) {
-      return;
+      return count;
     }
 
     controls.target.copy(sphere.center);
@@ -545,6 +577,7 @@ const SPLAT_MAX_STRETCH = 10;
     camera.far = Math.max(radius * 20, 100);
     camera.updateProjectionMatrix();
     controls.update();
+    return count;
   }
 
   imageInput.addEventListener("change", () => {
@@ -598,11 +631,21 @@ const SPLAT_MAX_STRETCH = 10;
       }
       const targets = result.targets_3d || [];
       renderTargetList(targets);
-      loadPointCloud(result.points, result.colors);
+      const { width, height } = result.meta.processed_size;
+      const depth = decodeFloat16(result.depth);
+      let rgba = null;
+      let rgbaError = null;
+      try {
+        rgba = await decodeRgba(result.rgb, width, height);
+      } catch (error) {
+        rgbaError = error;
+      }
+      const pointCount = loadPointCloud(depth, rgba, result.meta);
       let splatNote;
       try {
+        if (!rgba) throw rgbaError;
         const started = performance.now();
-        const splatCount = await loadSplats(result.depth, result.rgb, result.meta);
+        const splatCount = await loadSplats(depth, rgba, result.meta);
         splatNote = `${splatCount} splats (built in ${Math.round(performance.now() - started)} ms)`;
       } catch (error) {
         // Splats are optional: keep the point cloud and markers when they fail.
@@ -615,7 +658,7 @@ const SPLAT_MAX_STRETCH = 10;
       const fovSource = { exif: "from EXIF", estimated: "estimated by the model", assumed: "assumed" }[result.meta.fov_source];
       const unplaced = (result.targets_2d || []).length - targets.length;
       setStatus(
-        `Rendered ${result.meta.point_count} points, ${splatNote} and ${targets.length} prompt targets` +
+        `Rendered ${pointCount} points, ${splatNote} and ${targets.length} prompt targets` +
           (unplaced > 0 ? ` (${unplaced} more found in 2D but with no depth there)` : "") +
           `. Field of view ${Math.round(result.meta.fov_deg)}° (${fovSource}). ` +
           `Depth: ${result.meta.depth_model_label}` +
