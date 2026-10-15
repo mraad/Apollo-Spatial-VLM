@@ -1,0 +1,118 @@
+{
+  "version": "0.2.0",
+  "checked_at_utc": "2026-10-15T10:16:11+00:00",
+  "host": "gc1",
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "baseline_commit": "0a975bf",
+  "branch": "refactor/0.2-simplify-smoke",
+  "unit_tests": {
+    "passed": 16,
+    "failed": 0
+  },
+  "smoke": {
+    "version": "0.2.0",
+    "device": "cuda",
+    "cases": 6,
+    "status": "passed",
+    "records": [
+      {
+        "depth": "da3",
+        "vlm": null,
+        "seconds": 0.747,
+        "bytes": 456500,
+        "targets_3d": 0
+      },
+      {
+        "depth": "da3",
+        "vlm": "qwen3-vl-32b",
+        "seconds": 1.82,
+        "bytes": 720898,
+        "targets_3d": 1
+      },
+      {
+        "depth": "moge3-l",
+        "vlm": null,
+        "seconds": 17.3,
+        "bytes": 460544,
+        "targets_3d": 0
+      },
+      {
+        "depth": "moge3-l",
+        "vlm": "qwen3-vl-32b",
+        "seconds": 1.681,
+        "bytes": 745399,
+        "targets_3d": 1
+      },
+      {
+        "depth": "moge3-g",
+        "vlm": null,
+        "seconds": 57.971,
+        "bytes": 460716,
+        "targets_3d": 0
+      },
+      {
+        "depth": "moge3-g",
+        "vlm": "qwen3-vl-32b",
+        "seconds": 1.693,
+        "bytes": 745570,
+        "targets_3d": 1
+      }
+    ],
+    "invalid_requests_passed": 3
+  },
+  "performance": {
+    "baseline/depth-only": {
+      "median_s": 0.057,
+      "bytes": 466892,
+      "targets": 0,
+      "warm_samples": 5
+    },
+    "baseline/prompt": {
+      "median_s": 1.5581,
+      "bytes": 731290,
+      "targets": 1,
+      "warm_samples": 3
+    },
+    "current/depth-only": {
+      "median_s": 0.0534,
+      "bytes": 456500,
+      "targets": 0,
+      "warm_samples": 5
+    },
+    "current/prompt": {
+      "median_s": 1.5531,
+      "bytes": 720898,
+      "targets": 1,
+      "warm_samples": 3
+    },
+    "baseline/preview": {
+      "ms": 10.334,
+      "bytes": 25182
+    },
+    "current/preview": {
+      "ms": 7.527,
+      "bytes": 17111
+    }
+  },
+  "measurement_notes": [
+    "Smoke timings include first-use depth model loading; benchmark timings exclude the first request.",
+    "Preview timings are medians of five batches of 30 encodes on the same depth grid.",
+    "Valid preview pixels matched exactly; normalized MoGe inputs matched within 1e-7.",
+    "Source hashes on gc1 matched local demo.py, index.js, eval/vlm_eval.py, tests/test_demo.py and tests/smoke.py."
+  ],
+  "test_environment": {
+    "demo_gpu": 1,
+    "vlm_gpu": 0,
+    "vlm": "Qwen/Qwen3-VL-32B-Instruct",
+    "served_model_name": "qwen3-vl-32b",
+    "enforce_eager": true,
+    "ld_library_path_prefix": "/home/ubuntu/Odyseus-Spatial-VLM/.venv/lib/python3.12/site-packages/nvidia/cudnn/lib",
+    "reason": "Both baseline and current code failed with mixed system/venv cuDNN libraries; only isolated test process environments were adjusted."
+  },
+  "not_run": [
+    "Orin: paused at user request after the host was unreachable.",
+    "Browser rendering and full accuracy evaluations.",
+    "CodeRabbit: automatic approval review rejected source upload; review performed locally.",
+    "Local macOS unit suite: duplicate OpenMP runtime aborted import; complete suite passed on gc1."
+  ]
+}

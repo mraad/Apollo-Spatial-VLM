@@ -343,6 +343,8 @@ const MAX_POINTS = 50000;
       sizeAttenuation: true,
     });
     const sprite = new THREE.Sprite(material);
+    // Draw labels after the transparent splats, regardless of camera distance.
+    sprite.renderOrder = 1;
     sprite.scale.set(0.35, subtitle ? 0.14 : 0.1, 1);
     return sprite;
   }
@@ -535,8 +537,8 @@ const MAX_POINTS = 50000;
     }
 
     const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
-    geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
     const material = new THREE.PointsMaterial({
       size: 0.025,
