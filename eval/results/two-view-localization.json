@@ -1,0 +1,198 @@
+{
+  "synthetic": {
+    "seed": 42,
+    "samples_per_case": 10000,
+    "focal_px": 1500.0,
+    "independent_pixel_sigma_px": 0.5,
+    "rows": [
+      {
+        "depth_m": 5.0,
+        "baseline_m": 0.2,
+        "linear_sigma_z_m": 0.05892556509887896,
+        "empirical_sigma_z_m": 0.0588705794669709,
+        "p95_abs_z_error_m": 0.11534948508912765,
+        "geometry_gate_fraction": 0.9943,
+        "finite_front_fraction": 1.0
+      },
+      {
+        "depth_m": 5.0,
+        "baseline_m": 1.0,
+        "linear_sigma_z_m": 0.011785113019775792,
+        "empirical_sigma_z_m": 0.011931806940441379,
+        "p95_abs_z_error_m": 0.023098216804183593,
+        "geometry_gate_fraction": 0.9942,
+        "finite_front_fraction": 1.0
+      },
+      {
+        "depth_m": 5.0,
+        "baseline_m": 5.0,
+        "linear_sigma_z_m": 0.0023570226039551583,
+        "empirical_sigma_z_m": 0.0023410540210670383,
+        "p95_abs_z_error_m": 0.004586419372995287,
+        "geometry_gate_fraction": 0.9956,
+        "finite_front_fraction": 1.0
+      },
+      {
+        "depth_m": 10.0,
+        "baseline_m": 0.2,
+        "linear_sigma_z_m": 0.23570226039551584,
+        "empirical_sigma_z_m": 0.23596579581555763,
+        "p95_abs_z_error_m": 0.46401060441787934,
+        "geometry_gate_fraction": 0.9949,
+        "finite_front_fraction": 1.0
+      },
+      {
+        "depth_m": 10.0,
+        "baseline_m": 1.0,
+        "linear_sigma_z_m": 0.04714045207910317,
+        "empirical_sigma_z_m": 0.04721138044208686,
+        "p95_abs_z_error_m": 0.09329915221762705,
+        "geometry_gate_fraction": 0.9939,
+        "finite_front_fraction": 1.0
+      },
+      {
+        "depth_m": 10.0,
+        "baseline_m": 5.0,
+        "linear_sigma_z_m": 0.009428090415820633,
+        "empirical_sigma_z_m": 0.009383914061162776,
+        "p95_abs_z_error_m": 0.018443404104691467,
+        "geometry_gate_fraction": 0.9965,
+        "finite_front_fraction": 1.0
+      },
+      {
+        "depth_m": 20.0,
+        "baseline_m": 0.2,
+        "linear_sigma_z_m": 0.9428090415820634,
+        "empirical_sigma_z_m": 0.9590143956033554,
+        "p95_abs_z_error_m": 1.8731436586489354,
+        "geometry_gate_fraction": 0.9947,
+        "finite_front_fraction": 1.0
+      },
+      {
+        "depth_m": 20.0,
+        "baseline_m": 1.0,
+        "linear_sigma_z_m": 0.18856180831641267,
+        "empirical_sigma_z_m": 0.18803372561662388,
+        "p95_abs_z_error_m": 0.37161817918639556,
+        "geometry_gate_fraction": 0.9956,
+        "finite_front_fraction": 1.0
+      },
+      {
+        "depth_m": 20.0,
+        "baseline_m": 5.0,
+        "linear_sigma_z_m": 0.03771236166328253,
+        "empirical_sigma_z_m": 0.037519952320211436,
+        "p95_abs_z_error_m": 0.07374016738866639,
+        "geometry_gate_fraction": 0.9942,
+        "finite_front_fraction": 1.0
+      },
+      {
+        "depth_m": 50.0,
+        "baseline_m": 0.2,
+        "linear_sigma_z_m": 5.892556509887896,
+        "empirical_sigma_z_m": 6.201128981305643,
+        "p95_abs_z_error_m": 12.223409609932189,
+        "geometry_gate_fraction": 0.9953,
+        "finite_front_fraction": 1.0
+      },
+      {
+        "depth_m": 50.0,
+        "baseline_m": 1.0,
+        "linear_sigma_z_m": 1.1785113019775793,
+        "empirical_sigma_z_m": 1.1863784000849023,
+        "p95_abs_z_error_m": 2.3219514001271735,
+        "geometry_gate_fraction": 0.995,
+        "finite_front_fraction": 1.0
+      },
+      {
+        "depth_m": 50.0,
+        "baseline_m": 5.0,
+        "linear_sigma_z_m": 0.23570226039551587,
+        "empirical_sigma_z_m": 0.23583402002192363,
+        "p95_abs_z_error_m": 0.45734212864442675,
+        "geometry_gate_fraction": 0.9948,
+        "finite_front_fraction": 1.0
+      },
+      {
+        "depth_m": 100.0,
+        "baseline_m": 0.2,
+        "linear_sigma_z_m": 23.570226039551585,
+        "empirical_sigma_z_m": 33.10363438049479,
+        "p95_abs_z_error_m": 62.85707161323374,
+        "geometry_gate_fraction": 0.7472,
+        "finite_front_fraction": 1.0
+      },
+      {
+        "depth_m": 100.0,
+        "baseline_m": 1.0,
+        "linear_sigma_z_m": 4.714045207910317,
+        "empirical_sigma_z_m": 4.75640206926994,
+        "p95_abs_z_error_m": 9.283517679565477,
+        "geometry_gate_fraction": 0.9953,
+        "finite_front_fraction": 1.0
+      },
+      {
+        "depth_m": 100.0,
+        "baseline_m": 5.0,
+        "linear_sigma_z_m": 0.9428090415820635,
+        "empirical_sigma_z_m": 0.9446193098315346,
+        "p95_abs_z_error_m": 1.8699650646699026,
+        "geometry_gate_fraction": 0.995,
+        "finite_front_fraction": 1.0
+      }
+    ],
+    "pose_budget_100m_range_5m_baseline": {
+      "pixel_matching_sigma_z_m": 0.9428090415820635,
+      "relative_yaw_0.05deg_sigma_z_m": 1.7453292519943298,
+      "baseline_0.01m_sigma_z_m": 0.2,
+      "global_attitude_0.1deg_lateral_sigma_m": 0.17453292519943295
+    },
+    "note": "Synthetic noise assumptions, not measured model or GNSS accuracy. Monte Carlo depth errors are before the geometry gate."
+  },
+  "middlebury": {
+    "source": "https://vision.middlebury.edu/stereo/data/scenes2014/",
+    "scene": "Motorcycle-perfect",
+    "method": "OpenCV StereoSGBM + left-right consistency + calibrated triangulation",
+    "numpy": "1.26.4",
+    "opencv": "4.11.0",
+    "stride": 4,
+    "processed_width": 741,
+    "processed_height": 500,
+    "focal_px": 994.97775,
+    "baseline_m": 0.193001,
+    "doffs_px": 31.08575,
+    "sgbm": {
+      "numDisparities": 80,
+      "blockSize": 5,
+      "P1": 200,
+      "P2": 800,
+      "disp12MaxDiff": 1,
+      "uniquenessRatio": 10,
+      "speckleWindowSize": 100,
+      "speckleRange": 2,
+      "preFilterCap": 31,
+      "mode": 2
+    },
+    "sha256": {
+      "calib.txt": "04ad21246ac7beb81fd7d8d9ad908da855f89c0818dcd90461d6d3a50f96d48b",
+      "disp0.pfm": "e380ceec77374a25ab0632c5cefe9c5f431aff545f8397157d3915566a77c2fd",
+      "im0.png": "caed0f8d075dd962c3720b134c6684f3b8e0cbd621c608c626093c6427b08edf",
+      "im1.png": "3202c23bdab212b31f4f6505607f0d539a8bdf59fc20ea85cc2b5a43012ac3c0"
+    },
+    "gt_valid_pixels": 360024,
+    "scored_pixels": 271232,
+    "accepted_fraction_of_gt": 0.753371997422394,
+    "gt_depth_p05_p95_m": [
+      2.21713650226593,
+      4.655436110496521
+    ],
+    "median_abs_depth_error_m": 0.007162773057918681,
+    "p95_abs_depth_error_m": 0.11608255090778302,
+    "median_xyz_error_m": 0.0073585292141791405,
+    "p95_xyz_error_m": 0.11897812491645149,
+    "fraction_xyz_error_le_0.1m_on_accepted": 0.9464333117036338,
+    "fraction_gt_localized_within_0.1m": 0.7130163544652579,
+    "bad_disparity_gt1px_fraction_on_accepted": 0.07373023831996224,
+    "note": "GT used only for scoring, never acceptance. One calibrated static scene; accepted-pixel metrics omit rejected/occluded pixels. No learned depth model was run."
+  }
+}
