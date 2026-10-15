@@ -135,3 +135,13 @@ flowchart LR
 
 - Runs on Linux + NVIDIA (tested on Jetson AGX Orin) and macOS on Apple Silicon.
 - PowerShell / Windows setup help is welcome. Contributions for improving `setup-vlm.ps1` or adding fuller Windows support are encouraged.
+
+## A personal note
+
+What drew me to this project was its name and the vision language model at its heart. As a kid I was fascinated by Greek mythology, and seeing the name of Odysseus, the wanderer who spent ten years finding his way home, brought back a lot of childhood memories.
+
+I wanted to build a sister project with a few enhancements, and at first I meant to call it Calypso. Not after the nymph who kept Odysseus on her island for seven years, but after the *Calypso*, Jacques Cousteau's research ship, the boat that took so many of us underwater from our living rooms. That name brought back childhood memories too.
+
+In the end I chose Apollo, because of the bond between Hermes and Apollo, or, as the Romans knew them, Mercury and Apollo. Mercury, the Roman Hermes, is the messenger of the gods, the patron of travellers and the swiftest of the Olympians. The Homeric Hymn to Hermes tells how, on the day he was born, he made the first lyre from a tortoise shell and then stole his big brother Apollo's cattle. When Apollo caught up with him, Hermes played the lyre, and Apollo was so enchanted that he forgave him and traded the herd for the instrument. Apollo went on to become the god of music. Hermes received a golden staff, and the two brothers stayed friends ever after.
+
+That story is why the name fits. This project began as a gift from Mercury: Mercurius Technologies built Odyseus and shared it with the world, the way Hermes handed Apollo the lyre. Apollo is also the god of light, and light is what this project works with: a single photograph, light caught by a camera, turned back into the space it came from. Here the lyre gained a few new strings: Gaussian splats, a choice of models, and the camera's own focal length. If it plays well, the credit for the instrument still goes to the messenger who made it.
