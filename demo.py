@@ -23,7 +23,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from PIL import ExifTags, Image, ImageDraw, ImageOps
 
 ROOT = Path(__file__).resolve().parent
-VERSION = "0.2.0"
+VERSION = "0.2.1"
 DEPTH_ANYTHING_SRC = ROOT / "Depth-Anything-3" / "src"
 
 if str(DEPTH_ANYTHING_SRC) not in sys.path:

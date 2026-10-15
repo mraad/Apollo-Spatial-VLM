@@ -1,6 +1,6 @@
 # Apollo Spatial VLM
 
-Version **0.2.0** (also reported by `/healthz` and `/openapi.json`).
+Version **0.2.1** (also reported by `/healthz` and `/openapi.json`).
 
 ![Apollo Spatial VLM: the Sydney Opera House located by Qwen3.6, lifted to 3D with Depth Anything 3 and shown as Gaussian splats](media/apollo-demo.png)
 

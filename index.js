@@ -343,6 +343,8 @@ const MAX_POINTS = 50000;
       sizeAttenuation: true,
     });
     const sprite = new THREE.Sprite(material);
+    // Draw labels after the transparent splats, regardless of camera distance.
+    sprite.renderOrder = 1;
     sprite.scale.set(0.35, subtitle ? 0.14 : 0.1, 1);
     return sprite;
   }

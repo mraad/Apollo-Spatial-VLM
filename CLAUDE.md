@@ -15,7 +15,7 @@ Apollo Spatial VLM, a public continuation of [MercuriusTech/Odyseus-Spatial-VLM]
 
 Endpoints: `GET /` and `/index.js` (served no-cache), `GET /healthz` (device, depth models available/loaded, VLM endpoints), `GET /api/models` (dropdown choices and defaults), `POST /api/infer` (multipart `image`, optional `prompt`, `depth_model`, `vlm`).
 
-Release version: `demo.VERSION` (0.2.0), exposed in `/healthz` and OpenAPI.
+Release version: `demo.VERSION` (0.2.1), exposed in `/healthz` and OpenAPI.
 
 ## Pipeline in `DemoRuntime.infer_image`
 
