@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Apollo Spatial VLM, a private fork of [MercuriusTech/Odyseus-Spatial-VLM](https://github.com/MercuriusTech/Odyseus-Spatial-VLM) (renamed 2026-10-14; `upstream` remote still points there). A single-page demo: user uploads an image and a prompt, a VLM picks 2D targets, Depth Anything 3 (DA3) produces metric depth, and targets are lifted to 3D and shown in a Three.js point-cloud viewer. All app code is three files: `demo.py` (FastAPI backend), `index.html` + `index.js` (frontend, no build step; Three.js 0.186.1 and Spark 2.3.1 loaded from unpkg via import map; Spark needs Three.js >= 0.180).
+Apollo Spatial VLM, a public continuation of [MercuriusTech/Odyseus-Spatial-VLM](https://github.com/MercuriusTech/Odyseus-Spatial-VLM) at [mraad/Apollo-Spatial-VLM](https://github.com/mraad/Apollo-Spatial-VLM) (forked, renamed 2026-10-14; a fresh clone has no `upstream` remote: `git remote add upstream https://github.com/MercuriusTech/Odyseus-Spatial-VLM.git`). A single-page demo: user uploads an image and a prompt, a VLM picks 2D targets, Depth Anything 3 (DA3) produces metric depth, and targets are lifted to 3D and shown in a Three.js point-cloud viewer. All app code is three files: `demo.py` (FastAPI backend), `index.html` + `index.js` (frontend, no build step; Three.js 0.186.1 and Spark 2.3.1 loaded from unpkg via import map; Spark needs Three.js >= 0.180).
 
 `Depth-Anything-3/` is a git submodule of upstream ByteDance-Seed/Depth-Anything-3. Don't edit it; `demo.py` puts `Depth-Anything-3/src` on `sys.path` and imports `depth_anything_3.api.DepthAnything3`. After cloning: `git submodule update --init --recursive`.
 

@@ -2,7 +2,7 @@
 
 ![Apollo Spatial VLM: the Sydney Opera House located by Qwen3.6, lifted to 3D with Depth Anything 3 and shown as Gaussian splats](media/apollo-demo.png)
 
-A VLM picks targets in an image, a depth model (Depth Anything 3 or MoGe-3) estimates metric depth, and the demo lifts the targets into a 3D point cloud and Gaussian splats you can inspect in the browser. Above: "locate the Sydney Opera House" with Qwen3.6-27B-FP8 and DA3 on an RTX PRO 6000 Blackwell (2 s per request), then the view tilted left and right.
+A VLM picks targets in an image, a depth model (Depth Anything 3 or MoGe-3) estimates metric depth, and the demo lifts the targets into a 3D point cloud and Gaussian splats you can inspect in the browser. Above: "locate the Sydney Opera House" with Qwen3.6-27B-FP8 and DA3 on an RTX PRO 6000 Blackwell (2 s per request), then the view tilted left and right. The same app also runs entirely on an NVIDIA Jetson AGX Orin 64 GB (about 5 s per request with Molmo2-8B and DA3).
 
 ## Origin
 
@@ -13,6 +13,7 @@ On top of the original (VLM + Depth Anything 3 + a Three.js point cloud), this c
 - Model options in the page: DA3 or MoGe-3 (ViT-L/G) for depth; Qwen3.6-27B, Qwen3-VL-32B or Molmo2-8B for targets ([evaluation](eval/README.md)).
 - The camera's field of view from the photo's EXIF focal length when present.
 - A smaller response (float16 depth, 0.47 MB instead of 2.44 MB) and a running indicator.
+- Runs at the edge: the VLM, the depth model and the web app all on one NVIDIA Jetson AGX Orin 64 GB (Molmo2-8B: ~5 s per request with DA3, ~9 s with MoGe-3; [what runs where](#choosing-models)).
 
 From the original README:
 
