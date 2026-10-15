@@ -52,3 +52,17 @@ and check `targets_2d`/`targets_3d` and the decoded `annotated_preview`.
 Automated API smoke test: `.venv/bin/python tests/smoke.py --url http://127.0.0.1:8080` exercises every advertised depth/VLM choice with the Sydney sample, with and without a prompt, and checks decoded outputs and invalid requests.
 
 Release 0.2.1 passed 16 unit tests and six inference cases plus three invalid-request checks on gc1 and Orin; see [validation details](eval/README.md#release-021-validation-2026-10-15). A WebGL check confirmed labels draw after splats from front and side views. The local macOS unit-test import currently aborts on duplicate OpenMP runtimes in the installed dependencies; GPU validation was run remotely.
+
+## Two-view localization research
+
+The [research proposal](docs/two-view-localization.md) targets 10 cm positional accuracy at 5–20 m and requires **one fused Gaussian-splat scene** from both images, with measured targets and labels in the same frame. The application still accepts one image; paired inference, surface fusion and Gaussian refinement are proposed work.
+
+Preserve these findings when implementing it:
+
+- Use high-resolution correspondences of the same physical surface point and calibrated relative camera poses for metric localization. Two GPS camera centres leave rotation about their baseline unresolved; record attitude/control geometry and explicit height datums.
+- The current `DA3METRIC-LARGE` is monocular. In the pinned DA3 API, supplied-pose alignment fails with exactly two centres; `align_to_input_ext_scale=False` does not bypass the alignment call. A tested two-view adapter is required.
+- Fuse compatible surfaces in a shared metric frame before constructing/refining Gaussians. Keep Gaussian footprint/opacity separate from positional uncertainty, and preserve measured anchors during appearance optimization. Retain the existing labels-after-splats render order.
+- Depth/geometry fusion is required. Generative diffusion is optional completion: generated views are not independent geometric evidence and do not automatically become an exportable Gaussian scene.
+- Compare explicit fusion using Spark with DA3 Giant/Nested Gaussian output, DepthSplat, MVSplat and ReSplat; the proposal links primary sources. None has been benchmarked for fused-scene accuracy here.
+
+The CPU-only experiment is `eval/two_view_localization.py`; run its 10 focused tests with `.venv/bin/python -m unittest discover -s tests -p 'test_two_view_localization.py' -v`. It avoids importing the live demo or torch. Saved [results](eval/results/two-view-localization.json) are point-localization measurements, not Gaussian-fusion results, and do not establish the 10 cm requirement.

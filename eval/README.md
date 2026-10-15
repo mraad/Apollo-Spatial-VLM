@@ -142,3 +142,20 @@ Orin's latest individual request times (the first MoGe calls include lazy model 
 These are single smoke measurements, not benchmark medians, and use a different prompt/configuration from the historical three-target timings in the root README. This release did not rerun the RefCOCO or DIODE accuracy benchmarks. A separate WebGL check confirmed that labels draw after Gaussian splats and remain visible from front and side views.
 
 The committed [gc1 0.2.0](results/smoke-gc1-0.2.0.json) and [Orin 0.2.0](results/smoke-orin-0.2.0.json) records remain historical. The gc1 record also measures the grayscale preview optimization: median preview encoding fell from 10.334 to 7.527 ms and the PNG from 25,182 to 17,111 bytes, with identical valid-pixel values. Warm depth-only latency changed from 57.0 to 53.4 ms; prompted latency was effectively unchanged (1.5581 to 1.5531 s).
+
+## Two-view localization and Gaussian fusion research (2026-10-15)
+
+The [proposal](../docs/two-view-localization.md) combines calibrated two-view measurement with a required final output of **one fused Gaussian-splat scene**. It covers camera/GPS observability, height references, model choices, the bundled DA3 two-pose alignment failure, surface fusion, and the separate role of generative diffusion.
+
+The [CPU experiment](two_view_localization.py) ran 150,000 synthetic trials and a calibrated Middlebury `Motorcycle-perfect` stereo pair. Its [saved results](results/two-view-localization.json) include parameters, input hashes and software versions. On the public pair, 75.34% of GT-valid pixels were accepted; accepted-point median 3D error was 0.74 cm and the 95th percentile was 11.90 cm. Thus the baseline misses the proposed 95% within 10 cm criterion. The scene's depth 5th–95th percentile was 2.22–4.66 m, so it also does not validate the requested 5–20 m range.
+
+Run synthetic geometry without downloading data or starting services:
+
+```bash
+.venv/bin/python -m unittest discover -s tests -p 'test_two_view_localization.py' -v
+.venv/bin/python eval/two_view_localization.py --output /tmp/two-view-synthetic.json
+```
+
+For the public pair, follow the proposal's [reproduction instructions](../docs/two-view-localization.md#reproduce). All 10 geometry tests passed and an independent rerun reproduced the combined JSON exactly.
+
+Gaussian fusion, learned multi-view/stereo inference, generative completion and surveyed GPS/AGL accuracy have **not** been evaluated. Future fusion evaluation must report both metric error before/after splat refinement and rendering quality, including held-out views where available. Splat shape covariance and opacity must not be reported as position uncertainty or confidence; generated observations must retain synthetic provenance.

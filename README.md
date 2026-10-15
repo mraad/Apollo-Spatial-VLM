@@ -207,6 +207,10 @@ The historical 0.2.0 validation results for [gc1](eval/results/smoke-gc1-0.2.0.j
 - Runs on Linux + NVIDIA (tested on Jetson AGX Orin) and macOS on Apple Silicon.
 - PowerShell / Windows setup help is welcome. Contributions for improving `setup-vlm.ps1` or adding fuller Windows support are encouraged.
 
+## Research: two-image localization
+
+[Two-view localization proposal](docs/two-view-localization.md): calibrated stereo, fusion into one Gaussian-splat scene, DA3/alternative model choices, EXIF/GPS limitations, and reproducible public/synthetic experiments toward 10 cm accuracy at 5–20 m. This is research; the app still accepts one image per inference.
+
 ## A personal note
 
 What drew me to this project was its name and the vision language model at its heart. As a kid I was fascinated by Greek mythology, and seeing the name of Odysseus, the wanderer who spent ten years finding his way home, brought back a lot of childhood memories.
