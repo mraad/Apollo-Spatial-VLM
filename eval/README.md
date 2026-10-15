@@ -90,30 +90,55 @@ The full demo request (three targets, 77 output tokens) went from 3.85 to 2.85 s
 
 No accuracy cost at this sample size (±4%), 31 GB of weights instead of 56 GB. On a Jetson AGX Orin (no native FP8) vLLM falls back to Marlin weight-only FP8: ~16 s per demo request, so Molmo2-8B is the better VLM there.
 
-## Recommendations
+## Model choices in the current demo
 
-1. **VLM:** switch the demo to Qwen3.6-27B (smallest change: send `enable_thinking: false`). Or adopt each model's native output format, which also fixes Qwen3-VL-32B. For speed, Molmo2-8B, with its own prompt and parser path.
-2. **Depth:** offer MoGe-3 ViT-L as the default on Linux/CUDA. It has better metric depth, a field-of-view estimate instead of the 60° guess, normals for splat orientation, and an MIT license, for about 160 ms per image. Keep DA3 on macOS, where MoGe-3 doesn't run (it needs Triton), and as the fast path.
-3. Use EXIF focal length whenever it's present, whichever model runs.
+1. **VLM:** Qwen3.6-27B follows the demo format more reliably; the demo already sends `enable_thinking: false`. FP8 is faster on Blackwell. Molmo2-8B has a dedicated prompt/parser path and is the tested choice on Orin. Configure endpoints explicitly; the setup default remains Qwen3-VL-8B.
+2. **Depth:** MoGe-3 ViT-L is available on Linux/CUDA with `WITH_MOGE=1 ./setup.sh`; select it in the page or set `DEPTH_MODEL=moge3-l`. DA3 remains the default and the macOS path. ViT-G is also available but did not improve these aggregate accuracy scores.
+3. **Field of view:** the demo uses EXIF focal length when available for either depth model. The benchmark above did not test passing EXIF FOV into MoGe.
 
 ## Caveats
 
 - One depth dataset (DIODE), 200 RefCOCO samples, one run each. vLLM isn't fully deterministic even at temperature 0.
 - RefCOCO asks for one referred object; the demo usually asks for several targets per prompt.
-- Latency is in eager mode (as `run-vlm.sh` runs it), one request at a time, on Blackwell GPUs.
+- The baseline tables use eager mode, one request at a time, on Blackwell GPUs. The CUDA-graph and FP8 sections state their different settings; current launch scripts default to CUDA graphs unless `ENFORCE_EAGER=1`.
 - The native Qwen runs were re-scored from their stored raw answers after the parser learned the `"bbox"` key Qwen3-VL-32B uses. This is identical to re-running with the fixed parser.
 
 ## Reproduce (RTX PRO 6000 server)
 
+Cache the model weights before using `eval/serve.sh` (it runs offline). These commands reproduce the eager baseline; omit `ENFORCE_EAGER=1` for the CUDA-graph comparison.
+
 ```bash
 uv run eval/prepare_refcoco.py                    # 200 RefCOCO refs + their COCO images -> eval/data/
 curl -O http://diode-dataset.s3.amazonaws.com/val.tar.gz && tar xzf val.tar.gz -C eval/data   # DIODE val
-eval/serve.sh 0 8012 qwen3-vl-32b <Qwen3-VL-32B path or id>
-eval/serve.sh 1 8014 qwen3.6-27b Qwen/Qwen3.6-27B
-eval/serve.sh 2 8013 molmo2-8b allenai/Molmo2-8B --max-num-batched-tokens 16384
-.venv/bin/python eval/vlm_eval.py --url http://127.0.0.1:8014/v1 --model qwen3.6-27b --name qwen3.6-27b --no-think [--prompt native] [--max-dim 1024]
+ENFORCE_EAGER=1 eval/serve.sh 0 8012 qwen3-vl-32b Qwen/Qwen3-VL-32B-Instruct
+ENFORCE_EAGER=1 eval/serve.sh 1 8014 qwen3.6-27b Qwen/Qwen3.6-27B
+ENFORCE_EAGER=1 eval/serve.sh 2 8013 molmo2-8b allenai/Molmo2-8B --max-num-batched-tokens 16384
+.venv/bin/python eval/vlm_eval.py --url http://127.0.0.1:8014/v1 --model qwen3.6-27b --name qwen3.6-27b --no-think  # optionally add --prompt native and/or --max-dim 1024
 .venv/bin/python eval/vlm_eval.py --url http://127.0.0.1:8013/v1 --model molmo2-8b --name molmo2-8b --kind molmo
 CUDA_VISIBLE_DEVICES=3 .venv/bin/python eval/depth_eval.py --model da3        # or da3-gt-focal
 uv venv --python 3.12 eval/.venv-moge && uv pip install --python eval/.venv-moge --torch-backend auto torch torchvision git+https://github.com/microsoft/MoGe.git
 CUDA_VISIBLE_DEVICES=3 eval/.venv-moge/bin/python eval/depth_eval.py --model moge3-l   # or moge3-g
 ```
+
+## Release 0.2.1 validation (2026-10-15)
+
+Both gc1 (RTX PRO 6000 Blackwell) and Jetson AGX Orin 64 GB passed **16 unit tests**, **six API inference cases** and **three invalid requests**. The API run covered DA3, MoGe-3 L and G, each with and without the single-target prompt `locate the Sydney Opera House`. gc1 used Qwen3-VL-32B; Orin used Molmo2-8B with the [tested launch settings](../README.md#jetson-agx-orin-64-gb).
+
+The smoke test verifies the advertised version/models, decoded image dimensions, a finite nonnegative float16 depth grid with valid pixels, the presence of prompted 2D/3D targets, finite 3D coordinates and 400 responses for invalid model names/image data. Run it against an already running demo and VLM:
+
+```bash
+.venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python tests/smoke.py --url http://127.0.0.1:8080
+```
+
+Orin's latest individual request times (the first MoGe calls include lazy model loading; DA3 loads at server startup):
+
+| Depth model | No prompt, first call | Single-target prompt, warm model |
+|---|---|---|
+| DA3 | 1.331 s | 3.343 s |
+| MoGe-3 L | 14.390 s | 4.249 s |
+| MoGe-3 G | 42.724 s | 4.486 s |
+
+These are single smoke measurements, not benchmark medians, and use a different prompt/configuration from the historical three-target timings in the root README. This release did not rerun the RefCOCO or DIODE accuracy benchmarks. A separate WebGL check confirmed that labels draw after Gaussian splats and remain visible from front and side views.
+
+The committed [gc1 0.2.0](results/smoke-gc1-0.2.0.json) and [Orin 0.2.0](results/smoke-orin-0.2.0.json) records remain historical. The gc1 record also measures the grayscale preview optimization: median preview encoding fell from 10.334 to 7.527 ms and the PNG from 25,182 to 17,111 bytes, with identical valid-pixel values. Warm depth-only latency changed from 57.0 to 53.4 ms; prompted latency was effectively unchanged (1.5581 to 1.5531 s).
