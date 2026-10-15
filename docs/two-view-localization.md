@@ -6,7 +6,7 @@ Research branch: `research/two-view-localization`. Investigated 2026-10-15 again
 
 ## Recommendation
 
-Build a two-image measurement mode: use DA3 or MoGe to understand the scene and suggest a second viewpoint, match the **same physical surface point** at high resolution, then triangulate with calibrated cameras. Return a position, an uncertainty ellipsoid and the observations that support it. Add GPS georeferencing only when the world-frame position and orientation are sufficiently constrained.
+Build a two-image measurement mode: use DA3 or MoGe to understand the scene and suggest a second viewpoint, match the **same physical surface point** at high resolution, then triangulate with calibrated cameras. Fuse the reconstructed surfaces into **one Gaussian-splat scene** and return measured target positions, uncertainty ellipsoids and supporting observations in that same frame. Add GPS georeferencing only when the world-frame position and orientation are sufficiently constrained.
 
 For a calibrated stereo pair, compare **FoundationStereo** against the inexpensive OpenCV baseline implemented here. For arbitrary viewpoints, evaluate **DA3's any-view models** and **MapAnything**. A larger single-image model alone cannot establish a 10 cm accuracy guarantee.
 
@@ -138,6 +138,11 @@ flowchart LR
     G -->|Yes| H[Local position and supported voxels]
     G -->|No| I[Explain ambiguity or request better viewpoint]
     H --> J[Optional ENU and geographic position with world uncertainty]
+    D --> K[Dense geometry from both views in the same frame]
+    K --> L[Visibility checks and surface fusion]
+    L --> M[One Gaussian-splat scene]
+    H --> M
+    M --> N[Render scene with measured targets and labels]
 ```
 
 1. **Choose the measurement.** A VLM finds the object; the user or a feature matcher pins a repeatable visible surface anchor. Two independent VLM "object centres" may refer to different surfaces and must not be treated as a stereo correspondence. An object's hidden volume centre cannot be inferred accurately from two visible points.
@@ -148,6 +153,46 @@ flowchart LR
 6. **Assign voxels only after measurement.** Keep a floating-point point estimate and 3×3 covariance in the local frame. For a fixed origin and cell width `s`, use `floor((X-origin)/s)`. A 10 cm cell is a storage choice, not a 10 cm accuracy claim. Report neighbouring cells/unknown if the confidence region crosses boundaries; do not fill unseen interiors. A Gaussian 95% 3D ellipsoid uses `δᵀΣ⁻¹δ <= 7.815`; a conservative bounding radius is `2.795 sqrt(λmax(Σ))`, not `1.96σ`.
 
 The output should distinguish **local measured**, **world georeferenced**, **prior-only estimate**, and **unresolved**. Show the paired image patches, reprojection/parallax diagnostics, an ellipsoid and local/world error bounds alongside a target label. A failed world-accuracy requirement should not discard a useful local measurement.
+
+## Required final output: one fused Gaussian-splat scene
+
+The final deliverable is a shared 3D Gaussian scene reconstructed from **both images**, with target positions, camera frusta and uncertainty overlays registered to it. The current `loadSplats` in [index.js](../index.js) builds one flattened Gaussian per valid pixel from **one** depth map, with colour from that image and orientation from neighbouring depths. It does not yet align or fuse two reconstructions, estimate joint appearance, or optimize against both photographs.
+
+### Geometry and Gaussian fusion
+
+1. **Reconstruct dense surfaces.** Target triangulation supplies accurate anchors, but a scene needs dense correspondences/depth. Use calibrated stereo or joint multi-view inference to obtain both views' geometry, visibility and reliability. Keep the calibrated high-resolution anchor measurements even if dense reconstruction runs at lower resolution. Distinguish measured overlap, single-view estimates and unresolved regions.
+2. **Transform to a shared metric frame.** Unproject each view with its own intrinsics and map its points/normals into the same local world frame using camera-to-world transforms. For a Gaussian, transform its centre as `μw = R μc + t` and its shape covariance as `Σw = R Σc Rᵀ`; a similarity scale additionally multiplies the covariance by `s²`. Apply the OpenCV-to-Three.js axis convention consistently to cameras, points, Gaussian orientations and target overlays. Retain the ENU/geographic transform separately.
+3. **Associate compatible surfaces.** Use cross-view matches, reprojected depth agreement, normals and visibility to identify observations of the same surface. Fuse those observations with weights calibrated to their errors, including shared pose/model correlations. Keep distinct foreground/background surfaces separate, retain complementary visible surfaces, and flag contradictions. A voxel grid can accelerate association; it must not merge everything in a cell or snap precise centres to cell centres. Avoid duplicate opaque splats for the same observed patch.
+4. **Construct the fused Gaussians.** Initialize centre, orientation and tangential footprint from the fused surface patch; use a small normal thickness. Combine observed colours after exposure compensation and initialize opacity from supported coverage. Store source-view support and measurement uncertainty alongside each patch/anchor. Opacity is a rendering parameter, not a localization confidence. The existing Spark construction path can render these fused attributes instead of independently unprojecting each depth image in the browser.
+5. **Refine against both real images.** First keep accepted geometry/camera calibration fixed while optimizing appearance. If later optimizing centres or poses, constrain them with the calibrated geometry, depth/reprojection terms and measurement uncertainty, and rerun the positional checks. Rendering loss alone can favour a visually plausible but displaced surface; target anchors must not silently move to improve image appearance. Independent optimized Gaussians need not correspond one-to-one with physical voxels.
+6. **Render one registered scene.** The viewer receives the fused Gaussian attributes in one local metric frame, plus target anchors, camera poses and the geographic transform. Both input-camera renders should align with their photographs. Keep target labels drawn after splats, preserving the existing `renderOrder` behaviour.
+
+The Gaussian's **shape covariance** describes its spatial rendering footprint. A measurement's **position covariance** describes uncertainty in where its centre belongs. Keep both: making an uncertain Gaussian larger can hide misalignment, but does not establish more accurate geometry. Likewise, many correlated splats cannot average away a shared GPS offset.
+
+### Which reconstruction route?
+
+Start with explicit geometric fusion plus the existing Spark renderer: it reuses the calibrated localization experiment and makes failure modes inspectable. Compare the resulting scene with models that directly predict Gaussians:
+
+- **DA3 Giant/Nested Gaussian head:** the bundled API supports `infer_gs=True` and Gaussian exports for these models, not the currently integrated metric-only model. Check that any scale/pose correction also transforms Gaussian centres and shape covariances, not just depth maps. The documented two-pose alignment issue must be resolved before relying on supplied-pose pair inference. [Bundled DA3 API](../Depth-Anything-3/docs/API.md).
+- **DepthSplat:** directly connects multi-view/monocular depth features with Gaussian prediction and can export reconstructed Gaussians. It is especially relevant to the requested depth-to-splat path. Its camera inputs use normalized intrinsics and OpenCV camera-to-world poses. [DepthSplat](https://github.com/cvg/depthsplat).
+- **MVSplat:** an established sparse-view Gaussian reconstruction baseline with two-view evaluations. [MVSplat](https://github.com/donydchen/mvsplat).
+- **ReSplat:** a newer candidate from the DepthSplat authors, explicitly targeting compact, robust Gaussian representations; evaluate it rather than assuming the older model is still the best choice. [ReSplat](https://haofeixu.github.io/resplat/).
+
+The original 3DGS implementation also supports depth regularization during appearance/geometry optimization; its authors report that the benefit varies by scene. These methods supply useful rendering baselines, but their image-quality results do not demonstrate our 10 cm positional requirement. [3DGS depth regularization](https://github.com/graphdeco-inria/gaussian-splatting#depth-regularization).
+
+### Fusion versus generative diffusion
+
+**Depth/geometry fusion** is part of the required reconstruction path. A generative diffusion model is a different, optional operation: it can synthesize views or complete appearance where the two photographs provide little evidence. Such content must retain synthetic provenance and must not count as a new independent observation for metric uncertainty, voxel occupancy, or the 10 cm acceptance test. Two images leave unseen surfaces unconstrained even when a renderer can produce a plausible picture of them.
+
+For example, MVSplat360 renders Gaussian features into a video-diffusion model to synthesize views; its described setup uses as few as five input views. Those generated images are not automatically a standalone, improved Gaussian scene. A diffusion-assisted route that must end in an exportable splat scene would additionally need multi-view-consistent generated observations and a constrained reconstruction/distillation step, while preserving their synthetic provenance. This is a separate experiment from the two-image measured reconstruction. [MVSplat360](https://donydchen.github.io/mvsplat360/).
+
+If generative completion is desired, train/refine it around the measured geometry, protect measured anchors, and label completed regions in the viewer. Evaluate its visual contribution separately from geometric accuracy. The geometric fusion pipeline itself does not require a diffusion model.
+
+### Additional validation before calling fusion complete
+
+Alongside the target-coordinate tests, check duplicate surfaces/ghosting, occlusion boundaries, density and Gaussian count, source-view reprojection, opacity/exposure consistency and target-to-surface alignment. Measure point/surface error before and after splat refinement to detect geometry drift. Render both input cameras and, when evaluation data permits, a held-out third camera that was not used in reconstruction. Report image quality, scene completeness and metric error separately. Two training-view renders alone cannot validate unseen geometry.
+
+No Gaussian fusion or rendering benchmark has been implemented in this branch yet. The saved stereo results evaluate point localization only; they must not be presented as results for a fused Gaussian scene.
 
 ## Public stereo experiment: what actually worked
 
@@ -208,6 +253,6 @@ Compare SGBM, FoundationStereo, DA3 any-view with the two-view adapter, and MapA
 
 Promote a method only when at least 95% of accepted targets are within 10 cm on held-out data, while reporting how many targets it rejects and confidence intervals for the success rate. Test uncertainty calibration separately: an ellipsoid labelled 95% should contain ground truth at the advertised rate. A second objective is whether guided second-view selection achieves the same accuracy with fewer rejected captures than unguided pairs.
 
-Production work would touch `demo.py` (a separate paired-image endpoint and calibration validation), `index.html`/`index.js` (paired observations, capture guidance and uncertainty display), configuration/model loading, and integration tests. Keep raw geometry in float32/64; the current float16 display payload must not become the precision triangulation input. The current `project_target_to_3d` median 11×11 single-depth patch is not the paired-point measurement path.
+Production work would touch `demo.py` (a separate paired-image endpoint and calibration validation), `index.html`/`index.js` (paired observations, capture guidance, fused Gaussian loading and uncertainty display), dense surface/Gaussian fusion, configuration/model loading, and integration tests. Keep raw geometry in float32/64; the current float16 display payload must not become the precision triangulation input. The current `project_target_to_3d` median 11×11 single-depth patch is not the paired-point measurement path.
 
 This research branch adds the experiment, focused tests, saved results and this proposal. It does not change application behaviour, run learned stereo/multi-view models, validate GNSS/AGL sensors, or start local/gc1/Orin services.

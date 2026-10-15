@@ -209,7 +209,7 @@ The historical 0.2.0 validation results for [gc1](eval/results/smoke-gc1-0.2.0.j
 
 ## Research: two-image localization
 
-[Two-view localization proposal](docs/two-view-localization.md): calibrated stereo, DA3/alternative model choices, EXIF/GPS limitations, and reproducible public/synthetic experiments toward 10 cm accuracy at 5–20 m. This is research; the app still accepts one image per inference.
+[Two-view localization proposal](docs/two-view-localization.md): calibrated stereo, fusion into one Gaussian-splat scene, DA3/alternative model choices, EXIF/GPS limitations, and reproducible public/synthetic experiments toward 10 cm accuracy at 5–20 m. This is research; the app still accepts one image per inference.
 
 ## A personal note
 
