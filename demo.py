@@ -23,6 +23,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from PIL import ExifTags, Image, ImageDraw, ImageOps
 
 ROOT = Path(__file__).resolve().parent
+VERSION = "0.2.0"
 DEPTH_ANYTHING_SRC = ROOT / "Depth-Anything-3" / "src"
 
 if str(DEPTH_ANYTHING_SRC) not in sys.path:
@@ -81,7 +82,7 @@ def exif_fov_deg(image: Image.Image) -> float | None:
         focal_35mm = float(exif.get(ExifTags.Base.FocalLengthIn35mmFilm, 0))
     except (TypeError, ValueError):
         return None
-    if not focal_35mm > 0:
+    if not math.isfinite(focal_35mm) or focal_35mm <= 0:
         return None
     width, height = image.size
     # A resize keeps the equivalence, a crop doesn't: skip when the pixels' aspect differs from the original's.
@@ -91,7 +92,9 @@ def exif_fov_deg(image: Image.Image) -> float | None:
             exif_w, exif_h = (float(v) for v in exif_size)  # type: ignore[arg-type]
         except (TypeError, ValueError):
             return None  # malformed EXIF: can't tell a crop from a resize, so don't trust the focal length
-        if exif_w > 0 and exif_h > 0 and abs(
+        if not all(math.isfinite(v) and v > 0 for v in (exif_w, exif_h)):
+            return None
+        if abs(
             max(exif_w, exif_h) / min(exif_w, exif_h) - max(width, height) / min(width, height)
         ) > 0.02:
             return None
@@ -102,7 +105,7 @@ def exif_fov_deg(image: Image.Image) -> float | None:
 
 def estimate_focal_px(width: int, height: int, fov_deg: float) -> float:
     fov_rad = math.radians(fov_deg)
-    if fov_rad <= 0 or fov_rad >= math.pi:
+    if not 0 < fov_rad < math.pi:
         raise ValueError("fov_deg must be between 0 and 180.")
     sensor_span = float(max(width, height))
     return 0.5 * sensor_span / math.tan(fov_rad / 2.0)
@@ -116,13 +119,9 @@ def depth_preview_base64(depth_m: np.ndarray, valid_mask: np.ndarray) -> str:
     if hi <= lo:
         hi = lo + 1e-6
 
-    scaled = np.clip((depth_m - lo) / (hi - lo), 0.0, 1.0)
+    scaled = np.clip((np.where(valid_mask, depth_m, lo) - lo) / (hi - lo), 0.0, 1.0)
     preview = (scaled * 255.0).astype(np.uint8)
-    preview_rgb = np.stack([preview, preview, preview], axis=-1)
-
-    with io.BytesIO() as buffer:
-        Image.fromarray(preview_rgb, mode="RGB").save(buffer, format="PNG")
-        return base64.b64encode(buffer.getvalue()).decode("ascii")
+    return image_base64(Image.fromarray(preview))
 
 
 def float16_base64(values: np.ndarray) -> str:
@@ -198,9 +197,11 @@ def parse_molmo_points(raw: str) -> list[tuple[float, float]]:
     points = []
     for i in range(start, len(values) - 2, 3):
         try:
-            points.append((float(values[i + 1]), float(values[i + 2])))
+            x, y = float(values[i + 1]), float(values[i + 2])
         except ValueError:
             break
+        if math.isfinite(x) and math.isfinite(y):
+            points.append((x, y))
     return points
 
 
@@ -270,17 +271,20 @@ def parse_vlm_targets(raw: str) -> list[dict]:
         try:
             x, y = int(obj["x"]), int(obj["y"])
             confidence = float(obj.get("confidence", 0.7))
-        except (TypeError, ValueError):
+        except (TypeError, ValueError, OverflowError):
+            continue
+        if not math.isfinite(confidence):
             continue
         valid.append(
             {
                 "label": label,
-                "x": int(np.clip(x, 0, 1000)),
-                "y": int(np.clip(y, 0, 1000)),
-                "confidence": confidence,
+                "x": min(1000, max(0, x)),
+                "y": min(1000, max(0, y)),
+                "confidence": min(1.0, max(0.0, confidence)),
             }
         )
-    valid = valid[:8]
+        if len(valid) == 8:
+            break
     for index, target in enumerate(valid):
         target["color"] = marker_color_hex(target["label"], index)
     return valid
@@ -346,7 +350,7 @@ def project_target_to_3d(
 
 class DemoRuntime:
     def __init__(self, model_dir: str, device: str, process_res: int, default_depth_model: str = "da3"):
-        self.model_dir = str(Path(model_dir).expanduser())
+        self.model_dir = os.path.expanduser(model_dir)
         self.device = device
         self.process_res = process_res
         self.vlms = parse_vlm_models(
@@ -362,26 +366,17 @@ class DemoRuntime:
         self._moge: dict = {}
         self._lock = threading.Lock()
 
-    def _is_local_model_ref(self) -> bool:
-        raw = self.model_dir
-        return raw.startswith("/") or raw.startswith(".") or raw.startswith("~")
-
     def load_model(self) -> DepthAnything3:
         with self._lock:
             if self._model is None:
                 print(f"Loading model: {self.model_dir} on {self.device}")
                 model_path = Path(self.model_dir)
-                if self._is_local_model_ref() and not model_path.is_dir():
+                if self.model_dir.startswith(("/", ".", "~")) and not model_path.is_dir():
                     raise FileNotFoundError(
                         "Local DA3 model path must be a directory containing Hugging Face-style "
                         f"weights; got: {model_path}"
                     )
-                if model_path.is_dir():
-                    self._model = DepthAnything3.from_pretrained(str(model_path)).to(self.device).eval()
-                elif self._is_local_model_ref():
-                    raise FileNotFoundError(f"Local model directory does not exist: {model_path}")
-                else:
-                    self._model = DepthAnything3.from_pretrained(self.model_dir).to(self.device).eval()
+                self._model = DepthAnything3.from_pretrained(self.model_dir).to(self.device).eval()
             return self._model
 
     def load_moge(self, name: str):
@@ -421,14 +416,14 @@ class DemoRuntime:
         model = self.load_moge(depth_model)
         scale = self.process_res / max(image.size)
         if scale < 1:
-            image = image.resize((round(image.width * scale), round(image.height * scale)), Image.LANCZOS)
+            image = image.resize((max(1, round(image.width * scale)), max(1, round(image.height * scale))), Image.LANCZOS)
         rgb = np.asarray(image)
         height, width = rgb.shape[:2]
         fov_x = None
         if fov_deg:
             # The EXIF FOV spans the long side; MoGe takes the horizontal one.
             fov_x = math.degrees(2 * math.atan(width / 2 / estimate_focal_px(width, height, fov_deg)))
-        tensor = torch.tensor(rgb / 255.0, dtype=torch.float32, device=self.device).permute(2, 0, 1)
+        tensor = torch.tensor(rgb, dtype=torch.float32, device=self.device).permute(2, 0, 1).div_(255.0)
         with self._lock, torch.no_grad():
             # fp16: 1.8x (ViT-L) / 2.7x (ViT-G) faster on the RTX PRO 6000 server, 2.2x on Orin; depth within 0.04% median, same masks/FOV.
             output = model.infer(tensor, fov_x=fov_x, use_fp16=True)
@@ -450,21 +445,22 @@ class DemoRuntime:
     ) -> dict:
         depth_model = depth_model or self.default_depth_model
         vlm = vlm or next(iter(self.vlms))
+        prompt = prompt.strip() if prompt else None
         rgb, metric_depth_m, invalid, focal_px, used_fov_deg, fov_source = self.predict_depth(
             depth_model, image.convert("RGB"), fov_deg
         )
 
         height, width = metric_depth_m.shape
-
-        valid, near, far = valid_depth_mask(metric_depth_m, invalid)
-
-        preview_mask = np.isfinite(metric_depth_m) & (metric_depth_m > 0.0) & ~invalid
+        # Apply model validity to previews and target patches too; float16 cannot represent depths beyond 65 km.
+        preview_mask = ~invalid & np.isfinite(metric_depth_m) & (metric_depth_m > 0) & (metric_depth_m <= 65504)
+        metric_depth_m = np.where(preview_mask, metric_depth_m, 0.0)
+        valid, near, far = valid_depth_mask(metric_depth_m)
 
         targets_2d = []
         targets_3d = []
         overlay_base64 = None
-        if prompt and prompt.strip():
-            targets_2d = self.query_vlm_targets(Image.fromarray(rgb, mode="RGB"), prompt.strip(), vlm)
+        if prompt:
+            targets_2d = self.query_vlm_targets(Image.fromarray(rgb, mode="RGB"), prompt, vlm)
             overlay_base64 = annotate_targets(rgb, targets_2d)
             for target in targets_2d:
                 projected = project_target_to_3d(
@@ -491,14 +487,14 @@ class DemoRuntime:
                 "depth_model": depth_model,
                 "depth_model_label": DEPTH_MODELS[depth_model],
                 "device": self.device,
-                "vlm_model": vlm if prompt and prompt.strip() else None,
+                "vlm_model": vlm if prompt else None,
                 "input_size": {"width": int(image.width), "height": int(image.height)},
                 "processed_size": {"width": int(width), "height": int(height)},
                 "focal_px": float(focal_px),
                 "fov_deg": float(used_fov_deg),
                 "fov_source": fov_source,
                 "is_metric_model_output": True,
-                "prompt_used": prompt.strip() if prompt else None,
+                "prompt_used": prompt,
                 "target_count": len(targets_3d),
                 "depth_near_m": near,
                 "depth_far_m": far,
@@ -510,7 +506,7 @@ class DemoRuntime:
         max_dim = 384
         if max(w, h) > max_dim:
             scale = max_dim / max(w, h)
-            image = image.resize((int(w * scale), int(h * scale)), Image.LANCZOS)
+            image = image.resize((max(1, int(w * scale)), max(1, int(h * scale))), Image.LANCZOS)
 
         image_b64 = image_base64(image)
         if not is_molmo(vlm):
@@ -518,13 +514,15 @@ class DemoRuntime:
 
         targets = []
         for phrase in split_target_phrases(prompt):
+            if len(targets) == 8:
+                break
             if base_marker_label(phrase.lower()) in SKIP_LABELS:
                 continue
-            for x, y in parse_molmo_points(self.ask_vlm(vlm, f"Point to the {phrase}.", image_b64)):
+            points = parse_molmo_points(self.ask_vlm(vlm, f"Point to the {phrase}.", image_b64))
+            for x, y in points[:8 - len(targets)]:
                 # Molmo2 points carry no confidence.
                 targets.append({"label": phrase.lower(), "x": int(np.clip(x, 0, 1000)), "y": int(np.clip(y, 0, 1000)),
                                 "confidence": None})
-        targets = targets[:8]
         for index, target in enumerate(targets):
             target["color"] = marker_color_hex(target["label"], index)
         return targets
@@ -563,7 +561,7 @@ def build_app(runtime: DemoRuntime) -> FastAPI:
             runtime.load_moge(runtime.default_depth_model)
         yield
 
-    app = FastAPI(title="Depth Anything 3 Metric Point Cloud Demo", lifespan=lifespan)
+    app = FastAPI(title="Apollo Spatial VLM", version=VERSION, lifespan=lifespan)
 
     @app.middleware("http")
     async def limit_infer_body(request: Request, call_next):
@@ -594,6 +592,7 @@ def build_app(runtime: DemoRuntime) -> FastAPI:
     async def healthz() -> dict:
         return {
             "ok": True,
+            "version": VERSION,
             "device": runtime.device,
             "model_dir": runtime.model_dir,
             "depth_models": runtime.depth_models,

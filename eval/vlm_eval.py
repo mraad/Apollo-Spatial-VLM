@@ -34,7 +34,7 @@ def resize(image: Image.Image, max_dim: int) -> Image.Image:
     if max(w, h) <= max_dim:
         return image
     scale = max_dim / max(w, h)
-    return image.resize((int(w * scale), int(h * scale)), Image.LANCZOS)
+    return image.resize((max(1, int(w * scale)), max(1, int(h * scale))), Image.LANCZOS)
 
 
 def ask(url: str, model: str, text: str, image: Image.Image, no_think: bool) -> str:

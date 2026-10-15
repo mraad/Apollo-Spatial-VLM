@@ -1,5 +1,7 @@
 # Apollo Spatial VLM
 
+Version **0.2.0** (also reported by `/healthz` and `/openapi.json`).
+
 ![Apollo Spatial VLM: the Sydney Opera House located by Qwen3.6, lifted to 3D with Depth Anything 3 and shown as Gaussian splats](media/apollo-demo.png)
 
 A VLM picks targets in an image, a depth model (Depth Anything 3 or MoGe-3) estimates metric depth, and the demo lifts the targets into a 3D point cloud and Gaussian splats you can inspect in the browser. Above: "locate the Sydney Opera House" with Qwen3.6-27B-FP8 and DA3 on an RTX PRO 6000 Blackwell (2 s per request), then the view tilted left and right. The same app also runs entirely on an NVIDIA Jetson AGX Orin 64 GB (about 5 s per request with Molmo2-8B and DA3).
@@ -133,6 +135,10 @@ flowchart LR
 ```
 
 ## Notes
+
+Run the unit tests with `.venv/bin/python -m unittest discover -s tests -v`. With the demo and VLM running,
+`.venv/bin/python tests/smoke.py --url http://127.0.0.1:8080` checks inference with and without a prompt for every advertised depth/VLM choice, the encoded images and depth grid, and invalid requests.
+The [0.2.0 gc1 validation results](eval/results/smoke-gc1-0.2.0.json) include timings and the test environment.
 
 - Runs on Linux + NVIDIA (tested on Jetson AGX Orin) and macOS on Apple Silicon.
 - PowerShell / Windows setup help is welcome. Contributions for improving `setup-vlm.ps1` or adding fuller Windows support are encouraged.

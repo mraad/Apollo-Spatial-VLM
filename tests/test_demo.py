@@ -3,6 +3,7 @@ import base64
 import io
 import json
 import unittest
+from unittest.mock import patch
 
 import numpy as np
 from PIL import ExifTags, Image
@@ -11,6 +12,8 @@ from demo import (
     MAX_INFER_BODY_BYTES,
     DemoRuntime,
     build_app,
+    depth_preview_base64,
+    estimate_focal_px,
     exif_fov_deg,
     float16_base64,
     parse_molmo_points,
@@ -21,6 +24,18 @@ from demo import (
 
 
 class ParseVlmTargetsTest(unittest.TestCase):
+    def test_nonfinite_numbers_are_skipped_and_confidence_is_bounded(self):
+        targets = parse_vlm_targets(json.dumps({"targets": [
+            {"label": "bad x", "x": float("inf"), "y": 2},
+            {"label": "bad confidence", "x": 1, "y": 2, "confidence": float("nan")},
+            {"label": "cup", "x": 10**100, "y": -(10**100), "confidence": 4},
+            {"label": "bowl", "x": 1, "y": 2, "confidence": -1},
+        ]}))
+        self.assertEqual([t["label"] for t in targets], ["cup", "bowl"])
+        self.assertEqual([t["confidence"] for t in targets], [1, 0])
+        self.assertEqual((targets[0]["x"], targets[0]["y"]), (1000, 0))
+        self.assertEqual(parse_molmo_points('<points coords="1 NaN 2 2 3 inf 3 4 5">'), [(4, 5)])
+
     def test_tolerates_think_fences_and_trailing_prose(self):
         raw = (
             "<think>looking</think>```json\n"
@@ -99,6 +114,15 @@ def jpeg_with_exif(size: tuple[int, int], **tags) -> Image.Image:
 
 
 class ExifFovTest(unittest.TestCase):
+    def test_rejects_nonfinite_focal_lengths_and_invalid_dimensions(self):
+        for focal in (float("inf"), float("nan")):
+            with self.assertRaises(ValueError):
+                estimate_focal_px(300, 400, focal)
+            self.assertIsNone(exif_fov_deg(jpeg_with_exif((300, 400), FocalLengthIn35mmFilm=str(focal))))
+        for width in (0, -1, "nan", "inf"):
+            image = jpeg_with_exif((300, 400), FocalLengthIn35mmFilm=26, ExifImageWidth=width, ExifImageHeight=3024)
+            self.assertIsNone(exif_fov_deg(image))
+
     def test_35mm_equivalent_gives_long_side_fov(self):
         # iPhone 13 main camera: 26 mm equivalent, 4:3 -> 2 * atan(200 / (26 * 500 / 43.27)) = 67.3 deg.
         image = jpeg_with_exif((300, 400), FocalLengthIn35mmFilm=26, ExifImageWidth=4032, ExifImageHeight=3024)
@@ -117,6 +141,24 @@ class ExifFovTest(unittest.TestCase):
 
 
 class ModelChoiceTest(unittest.TestCase):
+    def test_relative_local_model_path_is_not_sent_to_hugging_face(self):
+        runtime = DemoRuntime(model_dir="./missing-model-for-test", device="cpu", process_res=504)
+        with patch("demo.DepthAnything3.from_pretrained") as load:
+            with self.assertRaises(FileNotFoundError):
+                runtime.load_model()
+            load.assert_not_called()
+
+    def test_molmo_stops_querying_when_eight_targets_are_found(self):
+        runtime = DemoRuntime(model_dir="x", device="cpu", process_res=504)
+        raw = '<points coords="' + " ".join(f"{i} 200 300" for i in range(1, 11)) + '">'
+        with patch.object(runtime, "ask_vlm", return_value=raw) as ask:
+            targets = runtime.query_vlm_targets(Image.new("RGB", (1, 1000)), "find cups and bowls", "molmo")
+        self.assertEqual(len(targets), 8)
+        self.assertTrue(all(t["color"] for t in targets))
+        ask.assert_called_once()
+        encoded = Image.open(io.BytesIO(base64.b64decode(ask.call_args.args[2])))
+        self.assertEqual(encoded.size, (1, 384))
+
     def test_vlm_models_from_env_or_single_default(self):
         models = parse_vlm_models("a=http://h:1/v1, molmo2-8b=http://h:2/v1", "u", "m")
         self.assertEqual(models, {"a": "http://h:1/v1/chat/completions", "molmo2-8b": "http://h:2/v1/chat/completions"})
@@ -159,6 +201,36 @@ class ModelChoiceTest(unittest.TestCase):
         self.assertEqual([m["id"] for m in body["depth"]], ["da3"])
         self.assertEqual(body["default_depth"], "da3")
         self.assertEqual(len(body["vlm"]), 1)
+
+
+class DepthOutputTest(unittest.TestCase):
+    def test_preview_is_grayscale_with_invalid_pixels_black(self):
+        depth = np.array([[float("nan"), float("inf"), 100], [1, 2, 3]], dtype=np.float32)
+        valid = np.array([[False, False, False], [True, True, True]])
+        with np.errstate(all="raise"):
+            preview = Image.open(io.BytesIO(base64.b64decode(depth_preview_base64(depth, valid))))
+        self.assertEqual(preview.mode, "L")
+        self.assertEqual(np.asarray(preview)[0].tolist(), [0, 0, 0])
+
+    def test_invalid_depth_is_excluded_from_targets_and_encoded_grid(self):
+        runtime = DemoRuntime(model_dir="x", device="cpu", process_res=504)
+        rgb = np.zeros((32, 32, 3), dtype=np.uint8)
+        depth = np.full((32, 32), 2.0, dtype=np.float32)
+        depth[0, :3] = [float("nan"), float("inf"), 70000]
+        invalid = np.zeros((32, 32), dtype=bool)
+        invalid[10:23, 10:23] = True
+        target = {"label": "cup", "x": 500, "y": 500, "confidence": 0.9, "color": "#ffaa44"}
+        with patch.object(runtime, "predict_depth", return_value=(rgb, depth, invalid, 28, 60, "assumed")), \
+             patch.object(runtime, "query_vlm_targets", return_value=[target]):
+            result = runtime.infer_image(Image.fromarray(rgb), " find a cup ")
+        self.assertEqual(result["targets_2d"], [target])
+        self.assertEqual(result["targets_3d"], [])
+        self.assertEqual(result["meta"]["prompt_used"], "find a cup")
+        decoded = np.frombuffer(base64.b64decode(result["depth"]), dtype="<f2").reshape(32, 32)
+        self.assertTrue(np.isfinite(decoded).all())
+        self.assertTrue((decoded[invalid] == 0).all())
+        self.assertEqual(decoded[0, :3].tolist(), [0, 0, 0])
+        self.assertEqual(decoded[-1, -1], 2)
 
 
 if __name__ == "__main__":
