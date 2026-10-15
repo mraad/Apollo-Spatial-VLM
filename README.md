@@ -138,7 +138,7 @@ flowchart LR
 
 Run the unit tests with `.venv/bin/python -m unittest discover -s tests -v`. With the demo and VLM running,
 `.venv/bin/python tests/smoke.py --url http://127.0.0.1:8080` checks inference with and without a prompt for every advertised depth/VLM choice, the encoded images and depth grid, and invalid requests.
-The [0.2.0 gc1 validation results](eval/results/smoke-gc1-0.2.0.json) include timings and the test environment.
+The 0.2.0 validation results for [gc1](eval/results/smoke-gc1-0.2.0.json) and [Orin](eval/results/smoke-orin-0.2.0.json) include timings and the test environments.
 
 - Runs on Linux + NVIDIA (tested on Jetson AGX Orin) and macOS on Apple Silicon.
 - PowerShell / Windows setup help is welcome. Contributions for improving `setup-vlm.ps1` or adding fuller Windows support are encouraged.

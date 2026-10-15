@@ -1,0 +1,105 @@
+{
+  "version": "0.2.0",
+  "checked_at_utc": "2026-10-15T10:25:25+00:00",
+  "host": "orin",
+  "hardware": "NVIDIA Jetson AGX Orin Developer Kit, 64 GB unified memory",
+  "architecture": "aarch64",
+  "tested_commit": "5808874",
+  "branch": "refactor/0.2-simplify-smoke",
+  "unit_tests": {
+    "passed": 16,
+    "failed": 0
+  },
+  "smoke": {
+    "version": "0.2.0",
+    "device": "cuda",
+    "cases": 6,
+    "status": "passed",
+    "records": [
+      {
+        "depth": "da3",
+        "vlm": null,
+        "seconds": 0.38,
+        "bytes": 456448,
+        "targets_3d": 0
+      },
+      {
+        "depth": "da3",
+        "vlm": "molmo2-8b",
+        "seconds": 3.441,
+        "bytes": 720326,
+        "targets_3d": 1
+      },
+      {
+        "depth": "moge3-l",
+        "vlm": null,
+        "seconds": 13.166,
+        "bytes": 460542,
+        "targets_3d": 0
+      },
+      {
+        "depth": "moge3-l",
+        "vlm": "molmo2-8b",
+        "seconds": 4.265,
+        "bytes": 745185,
+        "targets_3d": 1
+      },
+      {
+        "depth": "moge3-g",
+        "vlm": null,
+        "seconds": 43.499,
+        "bytes": 460795,
+        "targets_3d": 0
+      },
+      {
+        "depth": "moge3-g",
+        "vlm": "molmo2-8b",
+        "seconds": 4.434,
+        "bytes": 745474,
+        "targets_3d": 1
+      }
+    ],
+    "invalid_requests_passed": 3
+  },
+  "test_environment": {
+    "torch": "2.14.1+cu132",
+    "numpy": "2.5.4",
+    "vllm": "0.31.0",
+    "vlm": "allenai/Molmo2-8B",
+    "served_model_name": "molmo2-8b",
+    "gpu_memory_utilization": 0.55,
+    "max_model_len": 8192,
+    "max_num_seqs": 4,
+    "max_num_batched_tokens": 16384,
+    "enforce_eager": true,
+    "hf_hub_cache": "/data/hf-hub",
+    "process_res": 504,
+    "cuda_library_override_required": false
+  },
+  "startup_adjustment": {
+    "initial_configuration": {
+      "gpu_memory_utilization": 0.5,
+      "max_model_len": 16384,
+      "max_num_seqs": 32
+    },
+    "initial_failure": "vLLM required 2.25 GiB KV cache, but only 0.79 GiB was available.",
+    "resolution": "The 8K context, four-sequence, 0.55-memory configuration started and passed every smoke case."
+  },
+  "source_sha256_verified_on_host": {
+    "demo.py": "f5eee14d10d7081103a831a8b8d23d9176f2357d65e6dbcade75a24ade96d628",
+    "index.js": "0a7f8b68855da4b578262f3ca5f972e9bf3661512d056aca32ddf639cddf0ff7",
+    "eval/vlm_eval.py": "5899d142c52670fa1ad370cb67bbabc1fc10ab6414a0790041f0ea12fc0dfc36",
+    "tests/test_demo.py": "317151e1e8936ea064057f9b67764e5e1f39f3e6b54085d94dd4877ca3f0ff20",
+    "tests/smoke.py": "4cb7a890b5466a082b7d7ad5afff73dd0ba5f4325088147398afdee4f7fd2ac7"
+  },
+  "measurement_notes": [
+    "One Sydney Opera House target was requested; prompt timings are individual smoke measurements, not benchmark medians.",
+    "MoGe depth-only timings include lazy model loading; prompt cases reused loaded depth models.",
+    "DA3 was warmed once before the full smoke suite.",
+    "Inference returned finite depth grids, decodable images and valid 3D targets for all three prompted cases.",
+    "No application changes or global environment changes were needed."
+  ],
+  "not_run": [
+    "Browser rendering and full accuracy evaluations."
+  ]
+}
