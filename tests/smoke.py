@@ -52,11 +52,14 @@ def main():
                 for target in result["targets_3d"]:
                     assert all(math.isfinite(v) for v in target["position"].values())
                     assert target["position"]["z"] < 0
-                for field in ("rgb", "depth_preview", "annotated_preview"):
-                    if result[field]:
-                        with Image.open(io.BytesIO(base64.b64decode(result[field]))) as decoded:
-                            decoded.load()
-                            assert decoded.size == (size["width"], size["height"])
+                fields = ["rgb", "depth_preview"]
+                if prompt:
+                    fields.append("annotated_preview")
+                for field in fields:
+                    assert result[field], f"Missing {field}"
+                    with Image.open(io.BytesIO(base64.b64decode(result[field]))) as decoded:
+                        decoded.load()
+                        assert decoded.size == (size["width"], size["height"])
                 row = {"depth": depth["id"], "vlm": vlm if prompt else None,
                        "seconds": round(time.perf_counter() - started, 3), "bytes": len(response.content),
                        "targets_3d": len(result["targets_3d"])}
